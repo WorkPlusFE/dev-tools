@@ -1,5 +1,5 @@
 module.exports = {
-  root: true,
+  root: false,
   parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module'
@@ -16,6 +16,12 @@ module.exports = {
     'html'
   ],
   'rules': {
+    'no-console': 'off',
+    "singleQuote": 0,
+    "quotes": 0,
+    'semi': 0, // 关闭结尾分好检查
+    "indent": ["off", 2], // 关闭空格检查
+    "linebreak-style": [0, "error", "windows"], // windows上换行问题
     'global-require': 0,
     'import/no-unresolved': 0,
     'no-param-reassign': 0,
