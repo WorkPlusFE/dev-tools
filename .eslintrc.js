@@ -16,6 +16,8 @@ module.exports = {
     'html'
   ],
   'rules': {
+    'arrow-parens': 'off',
+    "comma-dangle": [0, "never"], // 对象最后结尾逗号
     'no-console': 'off',
     "singleQuote": 0,
     "quotes": 0,
