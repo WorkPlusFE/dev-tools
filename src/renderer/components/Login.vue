@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import BaseRequest from '@/server/BaseRequest.js';
 export default {
   name: 'login',
   data() {
@@ -133,12 +134,30 @@ export default {
     handleLand() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.$message('这是一条消息提示true');
+          const url = this.ruleForm.selectValue;
+          const param = {
+            grant_type: 'password',
+            scope: 'user',
+            domain_id: 'workplus',
+            client_id: this.ruleForm.user,
+            client_secret: this.ruleForm.pwd,
+            client_secret_encrypt: false,
+            device_id: '123456789',
+            device_platform: 'PC'
+          };
+
+          const baseRequest = new BaseRequest();
+          baseRequest.requestForPost(url, param).then(data => {
+            console.log(data);
+          });
         } else {
           this.$message('这是一条消息提示false');
         }
       });
     }
+  },
+  mounted() {
+    console.log(this.$store.state.Login.token);
   }
 };
 </script>
