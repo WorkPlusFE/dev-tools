@@ -55,11 +55,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.13.2",
+    "lodash": "^4.17.20",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.0"
+    "vuex-electron": "^1.0.0",
+    "electron": "^2.0.4"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
@@ -78,7 +80,6 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "^2.0.4",
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",

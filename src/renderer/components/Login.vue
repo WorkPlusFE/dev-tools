@@ -76,6 +76,9 @@
 
 <script>
 import BaseRequest from '@/server/BaseRequest.js';
+import _ from 'lodash';
+import { ipcRenderer } from 'electron';
+import { Loading } from 'element-ui';
 export default {
   name: 'login',
   data() {
@@ -147,11 +150,17 @@ export default {
           };
 
           const baseRequest = new BaseRequest();
+          const loadingInstance = Loading.service({ text: '正在登陆' });
           baseRequest.requestForPost(url, param).then(data => {
-            console.log(data);
+            const token = _.get(data, `data.result.access_token`, '');
+            this.$store.dispatch('someAsyncTask');
+            this.$store.dispatch('settoken', token);
+            ipcRenderer.send('resize-window', 1000, 600);
+            this.$router.push('/home');
+            loadingInstance.close();
           });
         } else {
-          this.$message('这是一条消息提示false');
+          this.$message('请填写相关信息');
         }
       });
     }

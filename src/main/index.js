@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron' // eslint-disable-line
+import { app, BrowserWindow, ipcMain } from 'electron' // eslint-disable-line
 
 /**
  * Set `__static` path to static files in production
@@ -29,8 +29,16 @@ function createWindow() {
     mainWindow = null;
   });
 }
+function listen() {
+  ipcMain.on(`resize-window`, (eveny, x, y) => {
+    mainWindow.setSize(x, y);
+  });
+}
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  listen();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
