@@ -27,7 +27,12 @@
 
         <el-form-item prop="user">
           <div class="input">
-            <el-input style="width:240px" v-model="ruleForm.user" placeholder="账号"></el-input>
+            <el-input
+              style="width:240px"
+              v-model="ruleForm.user"
+              @blur="handleBlur"
+              placeholder="账号"
+            ></el-input>
           </div>
         </el-form-item>
 
@@ -135,6 +140,10 @@ export default {
       this.selectValue = e;
     },
     handleLand() {
+      localStorage.setItem(
+        `${this.ruleForm.user}`,
+        JSON.stringify(this.selectOption)
+      );
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           const url = this.ruleForm.selectValue;
@@ -163,6 +172,11 @@ export default {
           this.$message('请填写相关信息');
         }
       });
+    },
+    handleBlur() {
+      const userKey = this.ruleForm.user;
+      const option = JSON.parse(localStorage.getItem(userKey));
+      this.selectOption = this.selectOption.concat(option);
     }
   },
   mounted() {
