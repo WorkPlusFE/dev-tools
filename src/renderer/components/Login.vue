@@ -166,6 +166,7 @@ export default {
             this.$store.dispatch('settoken', token);
             ipcRenderer.send('resize-window', 1000, 600);
             this.$router.push('/home');
+            ipcRenderer.send('CENTER');
             loadingInstance.close();
           });
         } else {

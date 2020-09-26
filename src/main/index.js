@@ -21,6 +21,8 @@ function createWindow() {
     height: 400,
     useContentSize: true,
     width: 300,
+    frame: false, // 无边框窗口
+    movable: true, // 可拖动
   });
 
   mainWindow.loadURL(winURL);
@@ -32,6 +34,13 @@ function createWindow() {
 function listen() {
   ipcMain.on(`resize-window`, (eveny, x, y) => {
     mainWindow.setSize(x, y);
+  });
+  ipcMain.on('CLOSEAPP', () => {
+    console.log('closeapp');
+    mainWindow.close()
+  })
+  ipcMain.on('CENTER', () => {
+    mainWindow.center()
   });
 }
 
