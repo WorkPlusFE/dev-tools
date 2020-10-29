@@ -18,14 +18,18 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 400,
+    height: 500,
     useContentSize: true,
-    width: 300,
+    width: 800,
     frame: false, // 无边框窗口
     movable: true, // 可拖动
   });
 
   mainWindow.loadURL(winURL);
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
+  });
+
 
   mainWindow.on('closed', () => {
     mainWindow = null;

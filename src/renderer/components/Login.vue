@@ -1,215 +1,173 @@
 <template>
+<div class="full_div defalut_bg content">
+  <div class="top drag"></div>
   <div class="login">
-    <div v-if="!showAdd">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
-        <el-form-item prop="selectValue">
-          <div class="select">
-            <div class="left">
-              <el-select
-                v-model="ruleForm.selectValue"
-                @change="handleSelect"
-                clearable
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in selectOption"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </div>
-            <div class="right">
-              <el-button @click="handleAdd" title="添加环境" type="primary" icon="el-icon-plus" circle></el-button>
-            </div>
-          </div>
-        </el-form-item>
-
-        <el-form-item prop="user">
-          <div class="input">
-            <el-input
-              style="width:240px"
-              v-model="ruleForm.user"
-              @blur="handleBlur"
-              placeholder="账号"
-            ></el-input>
-          </div>
-        </el-form-item>
-
-        <el-form-item prop="pwd">
-          <div class="input">
-            <el-input style="width:240px" v-model="ruleForm.pwd" placeholder="密码"></el-input>
-          </div>
-        </el-form-item>
-
-        <el-form-item>
-          <div class="input btm">
-            <el-button round @click="handleLand">登陆</el-button>
-          </div>
-        </el-form-item>
-      </el-form>
+    <div class="login-top">
+      <div :class="{topitem:true,'active':active=='login'}" @click="handleTop('login')">登录服务</div>
+      <div :class="{topitem:true,'active':active=='register'}" @click="handleTop('register')">注册接口</div>
     </div>
-    <div v-else>
-      <el-form :model="addForm" :rules="addrules" ref="addForm" class="demo-ruleForm">
-        <el-form-item prop="name">
-          <div class="input">
-            <span class="span">名称：</span>
-            <el-input v-model="addForm.name" style="width:180px" placeholder="名称"></el-input>
-          </div>
-        </el-form-item>
-        <el-form-item prop="api">
-          <div class="input">
-            <span class="span">API：</span>
-            <el-input v-model="addForm.api" style="width:180px" placeholder="API"></el-input>
-          </div>
-        </el-form-item>
-        <el-form-item prop="field">
-          <div class="input">
-            <span class="span">域：</span>
-            <el-input v-model="addForm.field" style="width:180px" placeholder="域"></el-input>
-          </div>
-        </el-form-item>
-        <el-form-item>
-          <div class="input btm">
-            <el-button round @click="addEnvironmental">添加</el-button>
-          </div>
-        </el-form-item>
-      </el-form>
+    <div class="login_content">
+      <div v-if="active == 'login'" class="content">
+        <div class="input_item" style="display:flex">
+          <span class="item_span">选择接口</span>
+          <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in selectOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="input_item">
+          <el-input placeholder="请输入账号" v-model="input1">
+            <template slot="prepend">账 &nbsp;&nbsp;&nbsp;&nbsp;   号</template>
+          </el-input>
+        </div>
+        <div class="input_item">
+          <el-input placeholder="请输入密码" v-model="input1">
+            <template slot="prepend">密  &nbsp;&nbsp;&nbsp;&nbsp;  码</template>
+          </el-input>
+        </div>
+        <div class="input_item">
+          <div class="register_btn">登录</div>
+        </div>
+      </div>
+      <div v-if="active == 'register'" class="content">
+        <div class="input_item">
+          <el-input placeholder="请输入内容" v-model="input1">
+            <template slot="prepend">接口名称</template>
+          </el-input>
+        </div>
+        <div class="input_item">
+          <el-input placeholder="请输入内容" v-model="input1">
+            <template slot="prepend">接口地址</template>
+          </el-input>
+        </div>
+        <div class="input_item">
+          <el-input placeholder="请输入内容" v-model="input1">
+            <template slot="prepend">接口域名</template>
+          </el-input>
+        </div>
+        <div class="input_item">
+          <div class="register_btn">添加接口</div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+  
 </template>
 
 <script>
-import BaseRequest from '@/server/BaseRequest.js';
-import _ from 'lodash';
-import { ipcRenderer } from 'electron';
-import { Loading } from 'element-ui';
+// import BaseRequest from '@/server/BaseRequest.js';
+// import _ from 'lodash';
+// import { ipcRenderer } from 'electron';
+// import { Loading } from 'element-ui';
 export default {
   name: 'login',
   data() {
     return {
-      ruleForm: {
-        user: '',
-        pwd: '',
-        selectValue: ''
-      },
-      addForm: {
-        name: '',
-        api: '',
-        field: ''
-      },
-      message: '登陆页',
-      showAdd: false,
-      selectOption: [],
-      rules: {
-        selectValue: [{ required: true, message: '请选择', trigger: 'change' }],
-        user: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-      },
-      addrules: {
-        name: [{ required: true, message: '请输入环境名称', trigger: 'blur' }],
-        api: [{ required: true, message: '请输入api', trigger: 'blur' }],
-        field: [{ required: true, message: '请输入域', trigger: 'blur' }]
-      }
-    };
-  },
-  methods: {
-    handleAdd() {
-      this.showAdd = true;
-    },
-    addEnvironmental() {
-      this.$refs.addForm.validate(valid => {
-        if (valid) {
-          this.selectOption.push({
-            value: this.addForm.field + this.addForm.api,
-            label: this.addForm.name
-          });
-          this.showAdd = false;
-          this.addForm = {
-            api: '',
-            field: '',
-            name: ''
-          };
-        } else {
-          this.$message('请填写完整');
-        }
-      });
-    },
-    handleSelect(e) {
-      console.log(e);
-      this.selectValue = e;
-    },
-    handleLand() {
-      localStorage.setItem(
-        `${this.ruleForm.user}`,
-        JSON.stringify(this.selectOption)
-      );
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          const url = this.ruleForm.selectValue;
-          const param = {
-            grant_type: 'password',
-            scope: 'user',
-            domain_id: 'workplus',
-            client_id: this.ruleForm.user,
-            client_secret: this.ruleForm.pwd,
-            client_secret_encrypt: false,
-            device_id: '123456789',
-            device_platform: 'PC'
-          };
-
-          const baseRequest = new BaseRequest();
-          const loadingInstance = Loading.service({ text: '正在登陆' });
-          baseRequest.requestForPost(url, param).then(data => {
-            const token = _.get(data, `data.result.access_token`, '');
-            this.$store.dispatch('someAsyncTask');
-            this.$store.dispatch('settoken', token);
-            ipcRenderer.send('resize-window', 1000, 600);
-            this.$router.push('/home');
-            ipcRenderer.send('CENTER');
-            loadingInstance.close();
-          });
-        } else {
-          this.$message('请填写相关信息');
-        }
-      });
-    },
-    handleBlur() {
-      const userKey = this.ruleForm.user;
-      const option = JSON.parse(localStorage.getItem(userKey));
-      this.selectOption = this.selectOption.concat(option);
+      active: 'login',
+      selectOptions:[]  
     }
   },
-  mounted() {
-    console.log(this.$store.state.Login.token);
+  methods: {
+    handleTop(topState) {
+      this.active = topState;
+    }
   }
 };
 </script>
 
 <style lang="less">
+.content{
+  position: relative;    
+}
+.top{
+  width: 100%;
+  height: 30px;
+  // background: #ccc; 
+}
 .login {
-  padding: 20px;
-  .select {
-    display: flex;
+  // elmentUI
+  .el-input-group__prepend{
+    background-color: rgb(64,64,64);
+    border:none;
+  }
+  .el-input__inner{
+    background-color: rgb(40,40,40);
+    border:1px solid;
+    border-radius: 0px;
+  }
+  .el-input__inner:focus{
+    border-color:rgb(195, 183, 183)
+  }
+  .el-select .el-input.is-focus .el-input__inner{
+    border-color:rgb(195, 183, 183)
+  }
+  .el-select{
+    flex: 1;
+  }
+  background:rgb(40,40,40);
+  width: 400px;
+  height: 340px;
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  .login-top{
+    height: 50px;
     width: 100%;
-    margin: 20px 0px;
-    .left {
-      margin-right: 10px;
+    display: flex;
+    background: rgb(48,48,48);
+    .topitem{
+      width: 50%;
+      height: 100%;
+      text-align: center;
+      line-height: 50px;
+      color: #6c757d;
+      cursor: pointer;
+    }
+    .active{
+      font-size:24px;
     }
   }
-  .input {
+  .login_content{
     width: 100%;
-    margin: 20px 0px;
-  }
-  .btm {
-    text-align: center;
-  }
-  .span {
-    display: inline-block;
-    width: 50px;
-  }
-  .el-form-item {
-    margin-bottom: 0px;
+    height: calc(100% - 50px);
+    .content{
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      .input_item{
+        width: 80%;
+        margin-top:20px;
+        .item_span{
+          width:90px;
+          line-height: 38px;
+          text-align: center;
+          background: #404040;
+          color:#909399;
+          font-size: 14px;
+        }
+      }
+      .register_btn{
+        width: 100%;
+        height: 40px;
+        background: #404040;
+        line-height: 40px;
+        text-align: center;
+        color: #9c9595;
+        font-size: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>
