@@ -10,7 +10,7 @@
       <div v-if="active == 'login'" class="content">
         <div class="input_item" style="display:flex">
           <span class="item_span">选择接口</span>
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="loginDate.selectValue" placeholder="请选择">
             <el-option
               v-for="item in selectOptions"
               :key="item.value"
@@ -20,37 +20,37 @@
           </el-select>
         </div>
         <div class="input_item">
-          <el-input placeholder="请输入账号" v-model="input1">
+          <el-input placeholder="账号" v-model="loginDate.user">
             <template slot="prepend">账 &nbsp;&nbsp;&nbsp;&nbsp;   号</template>
           </el-input>
         </div>
         <div class="input_item">
-          <el-input placeholder="请输入密码" v-model="input1">
+          <el-input placeholder="密码" v-model="loginDate.pwd" type="password">
             <template slot="prepend">密  &nbsp;&nbsp;&nbsp;&nbsp;  码</template>
-          </el-input>
+          </el-input >
         </div>
         <div class="input_item">
-          <div class="register_btn">登录</div>
+          <div class="register_btn" @click="loginHandle">登录</div>
         </div>
       </div>
       <div v-if="active == 'register'" class="content">
         <div class="input_item">
-          <el-input placeholder="请输入内容" v-model="input1">
+          <el-input placeholder="名称" v-model="registerDate.name">
             <template slot="prepend">接口名称</template>
           </el-input>
         </div>
         <div class="input_item">
-          <el-input placeholder="请输入内容" v-model="input1">
+          <el-input placeholder="api" v-model="registerDate.api">
             <template slot="prepend">接口地址</template>
           </el-input>
         </div>
         <div class="input_item">
-          <el-input placeholder="请输入内容" v-model="input1">
+          <el-input placeholder="域名" v-model="registerDate.field">
             <template slot="prepend">接口域名</template>
           </el-input>
         </div>
         <div class="input_item">
-          <div class="register_btn">添加接口</div>
+          <div class="register_btn" @click="registerApi">添加接口</div>
         </div>
       </div>
     </div>
@@ -60,21 +60,70 @@
 </template>
 
 <script>
-// import BaseRequest from '@/server/BaseRequest.js';
-// import _ from 'lodash';
-// import { ipcRenderer } from 'electron';
-// import { Loading } from 'element-ui';
+import BaseRequest from '@/server/BaseRequest.js';
+import _ from 'lodash';
+import { ipcRenderer } from 'electron';
+import { Loading } from 'element-ui';
 export default {
   name: 'login',
   data() {
     return {
       active: 'login',
-      selectOptions:[]  
+      selectOptions:[],
+      registerDate:{
+        name:'',
+        api:'',
+        field:''
+      },
+      loginDate:{
+        user:'',
+        pwd:'',
+        selectValue:''
+      }
     }
+  },
+  beforeMount(){
+    const option = JSON.parse(localStorage.getItem('devtoolLoginApi'));
+    this.selectOptions = this.selectOptions.concat(option);
   },
   methods: {
     handleTop(topState) {
       this.active = topState;
+    },
+    registerApi(){
+      this.selectOptions.push({
+        value: this.registerDate.field + this.registerDate.api,
+        label: this.registerDate.name
+      });
+      localStorage.setItem(
+        `devtoolLoginApi`,
+        JSON.stringify(this.selectOptions)
+      );
+      this.active = 'register'
+    },
+    loginHandle(){
+      const url = this.loginDate.selectValue;
+      const param = {
+        grant_type: 'password',
+        scope: 'user',
+        domain_id: 'workplus',
+        client_id: this.loginDate.user,
+        client_secret: this.loginDate.pwd,
+        client_secret_encrypt: false,
+        device_id: '123456789',
+        device_platform: 'PC'
+      };
+      const baseRequest = new BaseRequest();
+      const loadingInstance = Loading.service({ text: '正在登陆' });
+      baseRequest.requestForPost(url, param).then(data => {
+        const token = _.get(data, `data.result.access_token`, '');
+        this.$store.dispatch('someAsyncTask');
+        this.$store.dispatch('settoken', token);
+        ipcRenderer.send('resize-window', 1000, 600);
+        this.$router.push('/home');
+        ipcRenderer.send('CENTER');
+        loadingInstance.close();
+      });
     }
   }
 };
@@ -97,8 +146,9 @@ export default {
   }
   .el-input__inner{
     background-color: rgb(40,40,40);
-    border:1px solid;
+    border:1px solid #7f7a7a;
     border-radius: 0px;
+    color:#fff;
   }
   .el-input__inner:focus{
     border-color:rgb(195, 183, 183)
