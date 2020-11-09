@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
 
-let mainWindow;
+let mainWindow,appWin;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
@@ -20,7 +20,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 500,
     useContentSize: true,
-    width: 800,
+    width: 520,
     frame: false, // 无边框窗口
     movable: true, // 可拖动
   });
@@ -46,6 +46,9 @@ function listen() {
   ipcMain.on('CENTER', () => {
     mainWindow.center()
   });
+  ipcMain.on('OPEM_APP_WIN',(event,url)=>{
+    appWin.show(url);
+  })
 }
 
 app.on('ready', () => {
@@ -65,22 +68,80 @@ app.on('activate', () => {
   }
 });
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
+const initAppWin = () => {
+  appWin = new appWindow();
+  appWin.startAppView();
+}
 
-/*
-import { autoUpdater } from 'electron-updater'
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
+class appWindow {
+  // 浏览图片窗口对象
+  appWin = null;
+  url = null;
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
+  width = 960;
+  heiht = 800;
+
+  show(url) {
+      // this.appWin.loadURL(url);
+      if (this.appWin) {
+          this.appWin.show();
+      } else {
+          this.createappWindow();
+      }
+      this.appWin.show();
+      this.appWin.focus();
+      // this.appWin.webContents.openDevTools({ mode: 'detach' });
+  }
+
+  constructor() {
+    
+  }
+
+  startAppView() {
+      if (!this.appWin) {
+          this.createappWindow();
+      }
+
+  }
+
+  /**
+* 初始化窗口
+*/
+ createappWindow() {
+      this.appWin = new BrowserWindow({
+          width: this.width, height: this.heiht, webPreferences: {
+              nodeIntegration: true,
+              nodeIntegrationInSubFrames: true,
+              preload:"./preload.js"
+              // webSecurity: false
+          },
+          resizable: false,
+          show: false,
+          frame: false,
+          // fullscreenable: false,
+      })
+
+      this.appWin.on('closed', () => {
+          this.appWin = null;
+      });
+
+      this.loadAppView();
+  }
+
+  loadAppView = () => {
+      // const loadUrl = url.format({
+      //     pathname: path.resolve(app.getAppPath(), 'index.html'),
+      //     protocol: 'file:',
+      //     slashes: true
+      // });
+      this.appWin.loadURL("http://localhost:2003/video_group");
+      this.appWin.once('ready-to-show', () => {
+          this.appWin.hide();
+          this.appWin.center();
+          // this.show();
+      })
+  }
+
+}
+
