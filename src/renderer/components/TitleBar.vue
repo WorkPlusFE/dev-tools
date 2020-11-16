@@ -1,7 +1,7 @@
 <template>
-<div class='title_bar'>
+<div class='title_bar drag'>
     <div class="title">{{titleText}}</div>
-    <div class="btn">{{btnText}}</div>
+    <div class="btn no_dray" @click="handleClick">{{btnText}}</div>
 </div>
 </template>
 
@@ -34,7 +34,9 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-
+    handleClick() {
+        this.$emit('handleClick')
+    }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {

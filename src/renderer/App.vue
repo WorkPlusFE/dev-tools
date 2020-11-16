@@ -30,4 +30,29 @@
   .no_dray {
       -webkit-app-region: no-drag;
   }
+  .noselect{
+
+    -webkit-user-select:none;
+
+     -moz-user-select:none;
+
+     -ms-user-select:none;
+
+     user-select:none;
+
+}
+::-webkit-scrollbar{
+        width: 4px;
+        background-color:transparent;
+        display: block;
+    }
+
+::-webkit-scrollbar-thumb{
+        border-radius: 4px;
+        background-color: #9e9b9b;
+  }
+
+::-webkit-scrollbar-track{
+        background-color: transparent;
+}
 </style>

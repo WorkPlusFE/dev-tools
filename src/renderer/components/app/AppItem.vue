@@ -11,6 +11,7 @@
         <div class="describe">角色：{{role}}</div>
         <div class="describe">启动方式：{{startMode}}</div>
     </div>
+    
 </div>
 </template>
 
@@ -74,6 +75,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     border: 1px solid #f0e2e2;
     border-radius: 4px;
     margin-bottom: 20px;
+    cursor: pointer;
     .top{
         height: 50px;
         line-height: 50px;

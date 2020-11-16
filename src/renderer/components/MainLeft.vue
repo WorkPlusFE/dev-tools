@@ -3,12 +3,12 @@
     <div class="logo el-icon-box drag"></div>
     <div class="content">
         <div class="icon_content">
-            <div class="icon el-icon-menu" title="应用"></div>
-            <div class="icon el-icon-s-custom" title="角色"></div>
+            <div :class="{icon:true,'el-icon-menu':true,tab:currentTab=='app'}" title="应用" @click="handleTab('app')"></div>
+            <div :class="{icon:true, 'el-icon-s-custom':true,tab:currentTab=='role'}" title="角色" @click="handleTab('role')"></div>
         </div>
         <div class="icon_content">
-            <div class="icon el-icon-s-tools" title="设置"></div>
-            <div class="icon el-icon-remove" title="关闭"></div>
+            <div :class="{icon:true, 'el-icon-s-tools':true,tab:currentTab=='setting'}" title="设置" @click="handleTab('setting')"></div>
+            <div class="icon el-icon-remove"  title="关闭"></div>
         </div>
     </div>
     
@@ -16,13 +16,18 @@
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
+import eventBus from '@/eventBus.js';
 
 export default {
 
 //import引入的组件需要注入到对象中才能使用
 components: {},
+props:{
+    currentTab:{
+        type:String,
+        required:true
+    }
+},
 data() {
     //这里存放数据
     return {
@@ -35,7 +40,9 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-
+    handleTab(key) {
+        eventBus.$emit('CHANGE_TAB',key)
+    },
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
@@ -43,7 +50,7 @@ created() {
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
-
+    
 },
 beforeCreate() {}, //生命周期 - 创建之前
 beforeMount() {}, //生命周期 - 挂载之前
@@ -86,9 +93,12 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 font-size: 22px;
                 cursor: pointer; 
             }
-            .icon:hover{
-                    color:rgb(5, 95, 247);
+            .tab{
+                background: cornflowerblue;
             }
+            // .icon:hover{
+            //         color:rgb(5, 95, 247);
+            // }
         }
     }
 }
