@@ -1,6 +1,6 @@
 <template>
 <div class='main_view'>
-    <TitleBar titleText='角色管理' btnText='添加角色' />
+    <TitleBar titleText='角色管理' btnText='添加角色' @handleClick="addRole"/>
     <div class="main_content">
         <div class="item_list_content">
             <AppItem appName='角色人员' role='测试环境-陈工' startMode='外部启动'/>
@@ -19,38 +19,52 @@
 //例如：import 《组件名称》 from '《组件路径》';
 import TitleBar from '@/components/TitleBar.vue';
 import AppItem from '@/components/app/AppItem.vue';
+import AddRole from '@/components/role/AddRole.vue';
 export default {
-name: 'MainRole',
-components: {TitleBar,AppItem},
-data() {
-    //这里存放数据
-    return {
-        searchValue:""
-    };
-},
-//监听属性 类似于data概念
-computed: {},
-//监控data中的数据变化
-watch: {},
-//方法集合
-methods: {
+    name: 'MainRole',
+    components: {TitleBar,AppItem,AddRole},
+    data() {
+        //这里存放数据
+        return {
+            searchValue:""
+        };
+    },
+    //监听属性 类似于data概念
+    computed: {},
+    //监控data中的数据变化
+    watch: {},
+    //方法集合
+    methods: {
+        addRole() {
+            const h = this.$createElement;
+            this.$msgbox({
+                title:'添加角色',
+                customClass: 'no_dray',
+                message:h(AddRole),
+                showCancelButton:false,
+                showConfirmButton:false,
+            }).then(()=>{
 
-},
-//生命周期 - 创建完成（可以访问当前this实例）
-created() {
+            }).catch((err)=>{
+                console.error(err);
+            })
+        }
+    },
+    //生命周期 - 创建完成（可以访问当前this实例）
+    created() {
 
-},
-//生命周期 - 挂载完成（可以访问DOM元素）
-mounted() {
+    },
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted() {
 
-},
-beforeCreate() {}, //生命周期 - 创建之前
-beforeMount() {}, //生命周期 - 挂载之前
-beforeUpdate() {}, //生命周期 - 更新之前
-updated() {}, //生命周期 - 更新之后
-beforeDestroy() {}, //生命周期 - 销毁之前
-destroyed() {}, //生命周期 - 销毁完成
-activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+    },
+    beforeCreate() {}, //生命周期 - 创建之前
+    beforeMount() {}, //生命周期 - 挂载之前
+    beforeUpdate() {}, //生命周期 - 更新之前
+    updated() {}, //生命周期 - 更新之后
+    beforeDestroy() {}, //生命周期 - 销毁之前
+    destroyed() {}, //生命周期 - 销毁完成
+    activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
 <style lang='less' scoped>
