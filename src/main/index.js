@@ -23,6 +23,7 @@ function createWindow() {
     width: 520,
     frame: false, // 无边框窗口
     movable: true, // 可拖动
+    resizable: false // 
   });
 
   mainWindow.loadURL(winURL);

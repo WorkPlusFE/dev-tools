@@ -18,7 +18,8 @@
         </el-form-item>
          <el-form-item>
             <el-button type="primary" @click="handleValidation">服务验证</el-button>
-            <el-button type="primary" @click="handleAddRole">添加</el-button>
+            <el-button v-if="isAdd" type="primary" @click="handleAddRole">添加</el-button>
+            <el-button v-else type="primary" @click="handleEditRole">修改</el-button>
         </el-form-item>
     </el-form>
    
@@ -30,11 +31,18 @@ import BaseRequest from '@/server/BaseRequest.js';
 import DetailRequest from '@/server/DetailRequest.js';
 import _ from 'lodash';
 import { Loading } from 'element-ui';
+import { v4 as uuidv4 } from 'uuid';
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {},
     props:{
-
+        status:{
+            type:String,
+            required:true
+        },
+        roleId:{
+            type:String
+        }
     },
     data() {
         //这里存放数据
@@ -51,7 +59,11 @@ export default {
         };
     },
     //监听属性 类似于data概念
-    computed: {},
+    computed: {
+        isAdd() {
+            return this.status == 'add' ? true : false;
+        }
+    },
     //监控data中的数据变化
     watch: {},
     //方法集合
@@ -82,13 +94,15 @@ export default {
             if(this.validation){
                 const options = localStorage.getItem('role_');
                 let parseOption = options?JSON.parse(options):[];
-                parseOption.push({
+                const obj = {
                     roleName: this.formRole.roleName,
                     user: this.formRole.user,
                     pwd: this.formRole.pwd,
                     api: this.formRole.api,
-                    domain: this.formRole.domain
-                })
+                    domain: this.formRole.domain,
+                    id:uuidv4()
+                }
+                parseOption.push(obj)
                 const apiStr = JSON.stringify(parseOption);
                 console.log(apiStr);
                 localStorage.setItem(
@@ -97,8 +111,31 @@ export default {
                 );
                 this.validation = false;
                 this.$msgbox.close();
+                this.$emit('addRoleHandle',obj);
+                this.formRole = {
+                    roleName: '',
+                    user: '',
+                    pwd: '',
+                    api: '',
+                    domain: ''
+                }
+            
             }else{
                 this.$message.error('请先验证服务是否正确');
+            }
+        },
+        handleEditRole () {
+            const options = localStorage.getItem('role_');
+            let parseOption = options?JSON.parse(options):[];
+            const index = _.findIndex(parseOption,(o)=o.id == roleId);
+            if(index != -1){
+                _.set(parseOption,`${index}`,this.formRole);
+                const apiStr = JSON.stringify(parseOption);
+                localStorage.setItem(
+                    `role_`,
+                    apiStr
+                );
+                this.$emit('handleEditRole',parseOption);
             }
         }
         
@@ -106,8 +143,21 @@ export default {
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-
+        if(this.status == 'edit'){
+            const options = localStorage.getItem('role_');
+            let parseOption = options?JSON.parse(options):[];
+            const roleItem = _.find(parseOption,(o)=>o.id == this.roleId);
+            this.formRole = roleItem;
+        }
     },
+     beforeUpdate() {
+         if(this.status == 'edit'){
+            const options = localStorage.getItem('role_');
+            let parseOption = options?JSON.parse(options):[];
+            const roleItem = _.find(parseOption,(o)=>o.id == this.roleId);
+            this.formRole = roleItem;
+        }
+     }, //生命周期 - 更新之前
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
 
