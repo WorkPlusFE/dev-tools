@@ -51,7 +51,7 @@ export default {
             this.$msgbox({
                 title:'添加角色',
                 customClass: 'no_dray',
-                message:h(AddRole,{status:"add",on:{addRoleHandle:_this.addRoleHandle}}), //(<AddRole status="add"></AddRole>)
+                message:h(AddRole,{props:{status:"add"},on:{addRoleHandle:_this.addRoleHandle}}), //(<AddRole status="add"></AddRole>)
                 showCancelButton:false,
                 showConfirmButton:false,
             }).then(()=>{

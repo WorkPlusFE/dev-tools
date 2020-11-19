@@ -65,7 +65,27 @@ export default {
         }
     },
     //监控data中的数据变化
-    watch: {},
+    watch: {
+        roleId(){
+            if(this.status == 'edit'){
+                const options = localStorage.getItem('role_');
+                let parseOption = options?JSON.parse(options):[];
+                const roleItem = _.find(parseOption,(o)=>o.id == this.roleId);
+                this.formRole = {...roleItem};
+            }
+        },
+        status(){
+            if(this.status == 'add'){
+                this.formRole = {
+                    roleName: '',
+                    user: '',
+                    pwd: '',
+                    api: '',
+                    domain: ''
+                }
+            }
+        }
+    },
     //方法集合
     methods: {
         handleValidation() {
@@ -103,64 +123,62 @@ export default {
                     id:uuidv4()
                 }
                 parseOption.push(obj)
-                const apiStr = JSON.stringify(parseOption);
-                console.log(apiStr);
-                localStorage.setItem(
-                    `role_`,
-                    apiStr
-                );
-                this.validation = false;
-                this.$msgbox.close();
-                this.$emit('addRoleHandle',obj);
-                this.formRole = {
-                    roleName: '',
-                    user: '',
-                    pwd: '',
-                    api: '',
-                    domain: ''
-                }
+                this.resetOption(parseOption);
             
             }else{
                 this.$message.error('请先验证服务是否正确');
             }
         },
         handleEditRole () {
-            const options = localStorage.getItem('role_');
-            let parseOption = options?JSON.parse(options):[];
-            const index = _.findIndex(parseOption,(o)=o.id == roleId);
-            if(index != -1){
-                _.set(parseOption,`${index}`,this.formRole);
-                const apiStr = JSON.stringify(parseOption);
-                localStorage.setItem(
-                    `role_`,
-                    apiStr
-                );
-                this.$emit('handleEditRole',parseOption);
+            if(this.validation){
+                const options = localStorage.getItem('role_');
+                let parseOption = options?JSON.parse(options):[];
+                const index = _.findIndex(parseOption,(o)=>o.id == this.roleId);
+                if(index != -1){
+                    _.set(parseOption,`${index}`,this.formRole);
+                    this.resetOption(parseOption);
+                }
+                
+            }else{
+                this.$message.error('请先验证服务是否正确');
             }
+            
+        },
+        resetOption(parseOption){
+            const apiStr = JSON.stringify(parseOption);
+            localStorage.setItem(
+                `role_`,
+                apiStr
+            );
+            this.$emit('handleEditRole',parseOption);
+            this.validation = false;
+            this.formRole = {
+                roleName: '',
+                user: '',
+                pwd: '',
+                api: '',
+                domain: ''
+            }
+            this.$msgbox.close();
         }
         
         
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
+       
+    },
+     beforeUpdate() {
+        
+     }, //生命周期 - 更新之前
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted() {
         if(this.status == 'edit'){
             const options = localStorage.getItem('role_');
             let parseOption = options?JSON.parse(options):[];
             const roleItem = _.find(parseOption,(o)=>o.id == this.roleId);
-            this.formRole = roleItem;
+            this.formRole = {...roleItem};
         }
-    },
-     beforeUpdate() {
-         if(this.status == 'edit'){
-            const options = localStorage.getItem('role_');
-            let parseOption = options?JSON.parse(options):[];
-            const roleItem = _.find(parseOption,(o)=>o.id == this.roleId);
-            this.formRole = roleItem;
-        }
-     }, //生命周期 - 更新之前
-    //生命周期 - 挂载完成（可以访问DOM元素）
-    mounted() {
-
     },
     beforeCreate() {}, //生命周期 - 创建之前
 

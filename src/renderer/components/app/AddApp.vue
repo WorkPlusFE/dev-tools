@@ -8,9 +8,19 @@
             <el-input v-model="formLabel.address"></el-input>
         </el-form-item>
          <el-form-item label="角色">
-            <el-select v-model="formLabel.role" placeholder="请选择角色">
+            <el-select v-model="formLabel.role"  @change="getOrganiOptions" placeholder="请选择角色">
                 <el-option
                     v-for="item in roleOptions"
+                    :key="item.id"
+                    :label="getRole(item)"
+                    :value="item.id">
+                </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item  label="组织架构">
+            <el-select v-model="formLabel.organizational" placeholder="请选择组织架构">
+                <el-option
+                    v-for="item in organiOptions"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -23,13 +33,13 @@
                     v-for="item in startModeOptions"
                     :key="item.value"
                     :label="item.label"
-                    :value="item.value">
+                    :value="item.label">
                 </el-option>
             </el-select>
         </el-form-item>
          <el-form-item>
-            <el-button type="primary" @click="submitForm('formLabel')">立即创建</el-button>
-            <el-button @click="resetForm('formLabel')">重置</el-button>
+            <el-button type="primary" @click="openApp">立即打开</el-button>
+            <el-button type="primary" @click="saveApp">保存</el-button>
         </el-form-item>
     </el-form>
    
@@ -37,50 +47,127 @@
 </template>
 
 <script>
+import BaseRequest from '@/server/BaseRequest.js';
+import DetailRequest from '@/server/DetailRequest.js';
+import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
+import {LocalStore} from '@/application/LocalStore';
 export default {
-//import引入的组件需要注入到对象中才能使用
-components: {},
-props:{
+    //import引入的组件需要注入到对象中才能使用
+    components: {},
+    props:{
 
-},
-data() {
-    //这里存放数据
-    return {
-        formLabel: {
-          name: '',
-          address: '',
-          role: '',
-          startMode: ''
-        },
-        roleOptions:[],
-        startModeOptions:[]
-        
-    };
-},
-//监听属性 类似于data概念
-computed: {},
-//监控data中的数据变化
-watch: {},
-//方法集合
-methods: {
-    resetForm(formName){
-        // this.$refs[formName].resetFields();
     },
-    submitForm(){
+    data() {
+        //这里存放数据
+        return {
+            formLabel: {
+                name: '',
+                address: '',
+                role: '',
+                organizational: '',
+                startMode: ''
+            },
+            roleOptions:[],
+            organiOptions:[],
+            startModeOptions:[
+                {
+                    value: 'externalOpen',
+                    label: '外部浏览器打开'
+                },
+                {
+                    value: 'newBrowserWindow',
+                    label: '新窗口打开'
+                },
+                {
+                    value: 'H5DevTool',
+                    label: 'H5模拟器'
+                }
+            ]
+            
+        };
+    },
+    //监听属性 类似于data概念
+    computed: {
+       
+    },
+    //监控data中的数据变化
+    watch: {
+        
+    },
+    //方法集合
+    methods: {
+        saveApp(formName){
+            let parseOption = LocalStore.getLocalStoreArr('app_')
+            const obj = {
+                name: this.formLabel.name,
+                address: this.formLabel.address,
+                role: this.formLabel.role,
+                api: this.formLabel.api,
+                organizational: this.formLabel.organizational,
+                startMode: this.formLabel.startMode,
+                id:uuidv4()
+            }
+            parseOption.push(obj);
+            LocalStore.setLocalStoreArr('app_',parseOption);
+            this.formLabel = {
+                name: '',
+                address: '',
+                role: '',
+                organizational: '',
+                startMode: ''
+            }
+            this.$msgbox.close();
+            this.$emit('handleAddApp',parseOption);
+        },
+        openApp(){
 
-    }
-    
-    
-},
-//生命周期 - 创建完成（可以访问当前this实例）
-created() {
+        },
+        getRole(item){
+            return item.roleName + '_' + item.user;
+        },
+        async getOrganiOptions (value){
+            const role = _.find(this.roleOptions,(o)=>o.id == value);
+            const _this = this;
+            if(role){
+                // DetailRequest.getToken(role).then(data=>{
+                //     const token = _.get(data, `data.result.access_token`, '');
+                //     const api = 'https://api4.workplus.io/v1';
+                //     DetailRequest.getOrganization(token,api).then(data=>{
+                //         console.log(data);
+                //         const orgs =  _.map(data,(o)=>{
+                //             return { value:o.org_code,label:o.name}
+                //         })
+                //         _tihs.organiOptions = orgs;
+                //     })
+                // })
 
-},
-//生命周期 - 挂载完成（可以访问DOM元素）
-mounted() {
+                const data = await DetailRequest.getToken(role);
+                const token = _.get(data, `data.result.access_token`, '');
+                const api = 'https://api4.workplus.io/v1';
+                const orgs = await DetailRequest.getOrganization(token,api);
+                const neworgs =  _.map(orgs,(o)=>{
+                                return { value:o.org_code,label:o.name}
+                            })
+                this.organiOptions = neworgs;
+            }else{
+                this.$$message.error('错误');
+            }
+        }
+        
+        
+    },
+    //生命周期 - 创建完成（可以访问当前this实例）
+    created() {
+         const options = localStorage.getItem('role_');
+         let parseOption = options?JSON.parse(options):[];
+         this.roleOptions = parseOption;
+    },
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted() {
 
-},
-beforeCreate() {}, //生命周期 - 创建之前
+    },
+    beforeCreate() {}, //生命周期 - 创建之前
 
 }
 </script>

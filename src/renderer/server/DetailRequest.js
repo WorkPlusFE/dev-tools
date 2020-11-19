@@ -28,4 +28,16 @@ export default class DetailRequest{
          })
         
      }
+
+     /**
+      * 获取组织架构
+      */
+     static getOrganization(token,api){
+
+        const url = api + '/organizations?access_token=' + token;
+        return DetailRequest.baseRequest.requestForGet(url).then(data=>{
+            const results = _.get(data, `data.result`, []);
+            return results
+        })
+     }
 }
