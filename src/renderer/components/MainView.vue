@@ -98,9 +98,9 @@ export default {
       flex-shrink: 0;
       padding-bottom: 15px;
       background: var(--sidebar-bg-color);
-      border-bottom: 1px solid var(--border-color);
     }
     .item_list_content {
+      border-top: 1px solid var(--border-color);
       width: 100%;
       flex: 1;
       overflow: auto;
