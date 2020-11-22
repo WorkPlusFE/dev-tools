@@ -84,7 +84,7 @@ export default {
 .main_view {
   flex: 1;
   height: 100vh;
-  background: #21252c;
+  background: var(--bg-color);
   display: flex;
   flex-direction: column;
   .main_content {
@@ -97,8 +97,8 @@ export default {
       padding: 0 15px;
       flex-shrink: 0;
       padding-bottom: 15px;
-      background: #282C34;
-      border-bottom: 1px solid #1d1f23;
+      background: var(--sidebar-bg-color);
+      border-bottom: 1px solid var(--border-color);
     }
     .item_list_content {
       width: 100%;
@@ -110,7 +110,7 @@ export default {
       align-content: flex-start;
     }
     .item_list_empty {
-      color: #ccc;
+      color: var(--text-color);
       width: 100%;
       display: flex;
       justify-content: center;
@@ -121,11 +121,11 @@ export default {
 }
 
 .el-input--prefix .el-input__inner {
-  background-color: #1d1f23;
+  background-color: var(--search-bg-color);
   border: 0;
   font-size: 12px;
   height: 30px;
-  color: #fff;
+  color: var(--text-color);
 }
 .el-input__icon {
   line-height: 31px;

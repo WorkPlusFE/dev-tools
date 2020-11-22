@@ -60,26 +60,23 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-
-@icon-color: #6E7179;
-@icon-color-actived: #D7DAE0;
 @sidebar-width: 50px;
 
 .main_left {
   width: @sidebar-width;
   height: 100vh;
-  background: #282C34;
+  background: var(--sidebar-bg-color);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #1d1f23;
+  border-right: 1px solid var(--border-color);
   .logo {
     width: 100%;
     height: 72px;
     line-height: 62px;
     text-align: center;
     font-size: 28px;
-    color: rgb(5, 95, 247);
+    color: var(--icon-color-actived);
     flex-shrink: 0;
   }
   .content {
@@ -94,7 +91,7 @@ export default {
       .icon {
         width: 100%;
         height: @sidebar-width - 10px;
-        color: @icon-color;
+        color: var(--icon-color);
         line-height: @sidebar-width - 10px;
         text-align: center;
         font-size: 24px;
@@ -102,12 +99,12 @@ export default {
         margin: 5px 0;
         box-sizing: border-box;
         &:hover {
-          color: @icon-color-actived;
+          color: var(--icon-color-actived);
         }
       }
       .tab {
-        color: @icon-color-actived;
-        border-left: 2px solid @icon-color-actived;
+        color: var(--icon-color-actived);
+        border-left: 2px solid var(--icon-color-actived);
         text-indent: -2px;
       }
     }

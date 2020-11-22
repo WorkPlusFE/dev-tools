@@ -33,8 +33,6 @@ export default {
 
 <style lang='less'>
 @height: 50px;
-@icon-color: #6E7179;
-@icon-color-actived: #D7DAE0;
 
 .title_bar {
   display: flex;
@@ -42,8 +40,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 15px;
-  color: #ffffff;
-  background: #282C34;
+  color: var(--text-color);
+  background: var(--sidebar-bg-color);
   .title {
     line-height: 50px;
     font-size: 14px;
@@ -53,10 +51,10 @@ export default {
     line-height: @height;
     text-align: right;
     cursor: pointer;
-    color: @icon-color-actived;
+    color: var(--icon-color-actived);
     font-size: 20px;
     &:hover {
-      color: @icon-color-actived;
+      color: var(--icon-color-actived);
     }
   }
 }

@@ -29,23 +29,13 @@ export default {
       type: Object,
       required: true,
     },
-    //监听属性 类似于data概念
-    computed: {},
-    //监控data中的数据变化
-    watch: {},
-    //方法集合
-    methods: {
-      appDel() {
-        this.$emit('appDel', this.appId);
-      },
-      appEdit() {
-        this.$emit('appEdit', this.appId);
-      },
-      roleName(role) {
-        const appOptions = LocalStore.getLocalStoreArr('app_');
-        const appItem = _.find(appOptions, (o) => o.id == role);
-        return appItem.name + '_' + appItem.user;
-      },
+  },
+  methods: {
+    appDel() {
+      this.$emit('appDel', this.app.id);
+    },
+    appEdit() {
+      this.$emit('appEdit', this.app.id);
     },
   },
 };
@@ -65,10 +55,10 @@ p {
   width: 100%;
   cursor: pointer;
   padding: 10px 15px;
-  color: @font-color;
-  border-bottom: 1px solid #1d1f23;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
   &:hover {
-    background: #2c313a;
+    background: var(--hover-bg-color);
   }
   &__container {
     padding-bottom: 10px;
@@ -81,7 +71,7 @@ p {
       }
       i {
         padding-right: 5px;
-        font-size: 14px;
+        font-size: 13px;
       }
     }
     .app-description {
@@ -91,10 +81,11 @@ p {
   &__footer {
     display: flex;
     .icon {
+      font-size: 16px;
       margin-right: 20px;
-      color: @icon-color;
+      color: var(--icon-color);
       &:hover {
-        color: @icon-color-actived;
+        color: var(--icon-color-actived);
       }
     }
   }
