@@ -42,15 +42,6 @@ export default {
 </script>
 
 <style lang='less' scoped>
-@font-color: #d7dae0;
-@icon-color: #6e7179;
-@icon-color-actived: #d7dae0;
-
-h3,
-p {
-  margin: 0;
-}
-
 .app-item {
   width: 100%;
   cursor: pointer;

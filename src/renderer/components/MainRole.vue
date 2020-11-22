@@ -6,12 +6,7 @@
         <RoleItem
           v-for="item of roleOptions"
           :key="item.id"
-          :roleName="item.roleName"
-          :user="item.user"
-          :api="item.api"
-          :roleItemId="item.id"
-          @roleEdit="roleEdit"
-          @roleDel="roleDel"
+          :role="item"
         />
       </div>
       <div v-else class="item_list_empty">请添加角色</div>
@@ -117,35 +112,6 @@ export default {
   activated() {}, // 如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style lang='less' scoped>
-//@import url(); 引入公共css类
+<style lang='less'>
 
-.main_view {
-  width: calc(100% - 68px);
-  height: 100vh;
-  .main_content {
-    height: calc(100% - 61px);
-    .item_list_content {
-      width: 100%;
-      height: calc(100% - 40px);
-      overflow: auto;
-      // background: #ccc;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 20px 0;
-      align-content: flex-start;
-    }
-    .item_list_empty {
-      color: #ccc;
-      width: 100%;
-      /* height: 100%; */
-      display: flex;
-      /* align-items: center; */
-      justify-content: center;
-      font-size: 28px;
-      padding: 20px 0;
-    }
-  }
-}
 </style>

@@ -20,6 +20,11 @@ body {
   padding: 0;
   background: var(--bg-color);
 }
+h3,
+p {
+  margin: 0;
+}
+
 #app {
   width: 100%;
   height: 100vh;

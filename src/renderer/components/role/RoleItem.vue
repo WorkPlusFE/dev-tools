@@ -1,114 +1,83 @@
 <template>
-<div class='app_item'>
-    <div class="top">
-        <div class="app_name">{{roleName}}</div>
-        <div>
-            <span @click="roleEdit">编辑</span>
-            <span @click="roleDel">删除</span>
-        </div>
+  <div class="role-item">
+    <div class="role-item__container">
+      <div class="role-name">
+        <h3>{{ role.roleName }}</h3>
+      </div>
+      <p class="role-description">域: <i>{{ role.domain }}</i></p>
+      <p class="role-description">组织: <i>测试-恒拓高科技术</i></p>
+      <p class="role-description">账号: <i>{{ role.user }}</i></p>
+      <p class="role-description">Api: <i>{{ role.api }}</i></p>
     </div>
-    <div class="content">
-        <div class="describe">账号：{{user}}</div>
-        <div class="describe">api地址：{{api}}</div>
+    <div class="role-item__footer">
+      <i class="icon el-icon-delete" @click="roleDel"></i>
+      <i class="icon el-icon-edit" @click="roleEdit"></i>
     </div>
-    
-</div>
+  </div>
 </template>
 
 <script>
-// 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-// 例如：import 《组件名称》 from '《组件路径》';
-
 export default {
-    // import引入的组件需要注入到对象中才能使用
-    components: {},
-    props: {
-        roleName: {
-            type: String,
-            required: true
-        },
-        user: {
-            type: String,
-            required: true
-        },
-        api: {
-            type: String,
-            required: true
-        },
-        roleItemId: {
-            type: String,
-            required: true
-        }
+  props: {
+    role: {
+      type: Object,
+      required: true,
     },
-    data() {
-    // 这里存放数据
-        return {
-
-        };
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    roleEdit() {
+      this.$emit('roleEdit', this.roleItemId);
     },
-    // 监听属性 类似于data概念
-    computed: {},
-    // 监控data中的数据变化
-    watch: {},
-    // 方法集合
-    methods: {
-        roleEdit() {
-            this.$emit('roleEdit', this.roleItemId)
-        },
-        roleDel() {
-            this.$emit('roleDel', this.roleItemId);
-        }
+    roleDel() {
+      this.$emit('roleDel', this.roleItemId);
     },
-    // 生命周期 - 创建完成（可以访问当前this实例）
-    created() {
-
-    },
-    // 生命周期 - 挂载完成（可以访问DOM元素）
-    mounted() {
-
-    },
-    beforeCreate() {}, // 生命周期 - 创建之前
-    beforeMount() {}, // 生命周期 - 挂载之前
-    beforeUpdate() {}, // 生命周期 - 更新之前
-    updated() {}, // 生命周期 - 更新之后
-    beforeDestroy() {}, // 生命周期 - 销毁之前
-    destroyed() {}, // 生命周期 - 销毁完成
-    activated() {}, // 如果页面有keep-alive缓存功能，这个函数会触发
-}
+  },
+};
 </script>
-<style lang='less' scoped>
-//@import url(); 引入公共css类
-.app_item{
-    width: 414px;
-    height: 120px;
-    border: 1px solid #f0e2e2;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    .top{
-        height: 50px;
-        line-height: 50px;
-        display: flex;
-        padding: 0 10px;
-        justify-content: space-between;
-        .app_name{
-            font-weight: 600;
-        }
-        span{
-            &:hover{
-                color:rgb(60, 60, 235);
-            }
-            margin-left:10px;
-            cursor: pointer;
-        }
 
+<style lang='less' scoped>
+.role-item {
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+  &:hover {
+    background: var(--hover-bg-color);
+  }
+  &__container {
+    padding-bottom: 10px;
+    .role-name {
+      display: flex;
+      align-items: center;
+      padding-bottom: 6px;
+      h3 {
+        font-size: 12px;
+      }
     }
-    .content{
-        .describe{
-            height: 30px;
-            line-height: 30px;
-            padding: 0 10px;
-        }
+    .role-description {
+      font-size: 10px;
+      line-height: 16px;
+      i {
+        padding-left: 5px;
+        color: var(--text-primary-color);
+        font-style: normal;
+      }
     }
+  }
+  &__footer {
+    display: flex;
+    .icon {
+      font-size: 16px;
+      margin-right: 20px;
+      color: var(--icon-color);
+      &:hover {
+        color: var(--icon-color-actived);
+      }
+    }
+  }
 }
 </style>
