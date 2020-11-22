@@ -69,20 +69,20 @@ export default {
   data() {
     return {
       active: 'login',
-      selectOptions:[],
-      registerDate:{
-        name:'',
-        api:'',
-        field:''
+      selectOptions: [],
+      registerDate: {
+        name: '',
+        api: '',
+        field: ''
       },
-      loginDate:{
-        user:'',
-        pwd:'',
-        selectValue:''
+      loginDate: {
+        user: '',
+        pwd: '',
+        selectValue: ''
       }
     }
   },
-  beforeMount(){
+  beforeMount() {
     const option = JSON.parse(localStorage.getItem('devtoolLoginApi'));
     this.selectOptions = this.selectOptions.concat(option);
   },
@@ -90,7 +90,7 @@ export default {
     handleTop(topState) {
       this.active = topState;
     },
-    registerApi(){
+    registerApi() {
       this.selectOptions.push({
         value: this.registerDate.field + this.registerDate.api,
         label: this.registerDate.name
@@ -101,7 +101,7 @@ export default {
       );
       this.active = 'register'
     },
-    loginHandle(){
+    loginHandle() {
       const url = this.loginDate.selectValue;
       const param = {
         grant_type: 'password',

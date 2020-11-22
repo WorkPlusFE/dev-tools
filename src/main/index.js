@@ -8,7 +8,8 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
 
-let mainWindow,appWin;
+let mainWindow,
+appWin;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
@@ -18,12 +19,16 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 500,
+    height: 620,
     useContentSize: true,
-    width: 520,
+    width: 400,
     frame: false, // 无边框窗口
     movable: true, // 可拖动
-    resizable: false // 
+    resizable: false, //
+    webPreferences: {
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true
+    },
   });
 
   mainWindow.loadURL(winURL);
@@ -47,7 +52,7 @@ function listen() {
   ipcMain.on('CENTER', () => {
     mainWindow.center()
   });
-  ipcMain.on('OPEM_APP_WIN',(event,url)=>{
+  ipcMain.on('OPEM_APP_WIN', (event, url) => {
     appWin.show(url);
   })
 }
@@ -96,14 +101,13 @@ class appWindow {
   }
 
   constructor() {
-    
+
   }
 
   startAppView() {
       if (!this.appWin) {
           this.createappWindow();
       }
-
   }
 
   /**
@@ -111,10 +115,12 @@ class appWindow {
 */
  createappWindow() {
       this.appWin = new BrowserWindow({
-          width: this.width, height: this.heiht, webPreferences: {
+          width: this.width,
+height: this.heiht,
+webPreferences: {
               nodeIntegration: true,
               nodeIntegrationInSubFrames: true,
-              preload:"./preload.js"
+              preload: "./preload.js"
               // webSecurity: false
           },
           resizable: false,
@@ -143,6 +149,5 @@ class appWindow {
           // this.show();
       })
   }
-
 }
 

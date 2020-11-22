@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "hejianxian <531601727@qq.com>",
   "description": "WorkPlus ligh-webapp dev tools",
-  "license": null,
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "electron": "^2.0.4",
+    "electron": "^11.0.2",
     "element-ui": "^2.13.2",
     "lodash": "^4.17.20",
     "uuid": "^8.3.1",

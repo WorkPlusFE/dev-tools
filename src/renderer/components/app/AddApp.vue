@@ -33,7 +33,7 @@
                     v-for="item in startModeOptions"
                     :key="item.value"
                     :label="item.label"
-                    :value="item.label">
+                    :value="item.value">
                 </el-option>
             </el-select>
         </el-form-item>
@@ -51,15 +51,15 @@ import BaseRequest from '@/server/BaseRequest.js';
 import DetailRequest from '@/server/DetailRequest.js';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import {LocalStore} from '@/application/LocalStore';
+import { LocalStore } from '@/application/LocalStore';
 export default {
-    //import引入的组件需要注入到对象中才能使用
+    // import引入的组件需要注入到对象中才能使用
     components: {},
-    props:{
+    props: {
 
     },
     data() {
-        //这里存放数据
+        // 这里存放数据
         return {
             formLabel: {
                 name: '',
@@ -68,9 +68,9 @@ export default {
                 organizational: '',
                 startMode: ''
             },
-            roleOptions:[],
-            organiOptions:[],
-            startModeOptions:[
+            roleOptions: [],
+            organiOptions: [],
+            startModeOptions: [
                 {
                     value: 'externalOpen',
                     label: '外部浏览器打开'
@@ -84,21 +84,21 @@ export default {
                     label: 'H5模拟器'
                 }
             ]
-            
+
         };
     },
-    //监听属性 类似于data概念
+    // 监听属性 类似于data概念
     computed: {
-       
+
     },
-    //监控data中的数据变化
+    // 监控data中的数据变化
     watch: {
-        
+
     },
-    //方法集合
+    // 方法集合
     methods: {
-        saveApp(formName){
-            let parseOption = LocalStore.getLocalStoreArr('app_')
+        saveApp(formName) {
+            const parseOption = LocalStore.getLocalStoreArr('app_')
             const obj = {
                 name: this.formLabel.name,
                 address: this.formLabel.address,
@@ -106,10 +106,10 @@ export default {
                 api: this.formLabel.api,
                 organizational: this.formLabel.organizational,
                 startMode: this.formLabel.startMode,
-                id:uuidv4()
+                id: uuidv4()
             }
             parseOption.push(obj);
-            LocalStore.setLocalStoreArr('app_',parseOption);
+            LocalStore.setLocalStoreArr('app_', parseOption);
             this.formLabel = {
                 name: '',
                 address: '',
@@ -118,18 +118,18 @@ export default {
                 startMode: ''
             }
             this.$msgbox.close();
-            this.$emit('handleAddApp',parseOption);
+            this.$emit('handleAddApp', parseOption);
         },
-        openApp(){
+        openApp() {
 
         },
-        getRole(item){
-            return item.roleName + '_' + item.user;
+        getRole(item) {
+            return `${item.roleName}_${item.user}`;
         },
-        async getOrganiOptions (value){
-            const role = _.find(this.roleOptions,(o)=>o.id == value);
+        async getOrganiOptions(value) {
+            const role = _.find(this.roleOptions, (o) => o.id == value);
             const _this = this;
-            if(role){
+            if (role) {
                 // DetailRequest.getToken(role).then(data=>{
                 //     const token = _.get(data, `data.result.access_token`, '');
                 //     const api = 'https://api4.workplus.io/v1';
@@ -145,29 +145,27 @@ export default {
                 const data = await DetailRequest.getToken(role);
                 const token = _.get(data, `data.result.access_token`, '');
                 const api = 'https://api4.workplus.io/v1';
-                const orgs = await DetailRequest.getOrganization(token,api);
-                const neworgs =  _.map(orgs,(o)=>{
-                                return { value:o.org_code,label:o.name}
-                            })
+                const orgs = await DetailRequest.getOrganization(token, api);
+                const neworgs = _.map(orgs, (o) => ({ value: o.org_code, label: o.name }))
                 this.organiOptions = neworgs;
-            }else{
+            } else {
                 this.$$message.error('错误');
             }
         }
-        
-        
+
+
     },
-    //生命周期 - 创建完成（可以访问当前this实例）
+    // 生命周期 - 创建完成（可以访问当前this实例）
     created() {
          const options = localStorage.getItem('role_');
-         let parseOption = options?JSON.parse(options):[];
+         const parseOption = options ? JSON.parse(options) : [];
          this.roleOptions = parseOption;
     },
-    //生命周期 - 挂载完成（可以访问DOM元素）
+    // 生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
 
     },
-    beforeCreate() {}, //生命周期 - 创建之前
+    beforeCreate() {}, // 生命周期 - 创建之前
 
 }
 </script>
