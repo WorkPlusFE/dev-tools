@@ -4,11 +4,10 @@ import BaseRequest from '@/server/BaseRequest.js';
 import { v4 as uuidv4 } from 'uuid';
 export default class DetailRequest{
      static  baseRequest = new BaseRequest();
-
      /**
       * 登录获取token
       */
-     static  getToken(obj){
+      static getToken(obj){
          return new Promise((relove,reject)=>{
             const param = {
                 grant_type: 'password',
@@ -20,7 +19,8 @@ export default class DetailRequest{
                 device_id: uuidv4(),
                 device_platform: 'PC'
             };
-            DetailRequest.baseRequest.requestForPost(obj.api, param).then(data => {
+            const api = obj.api + '/token';
+            DetailRequest.baseRequest.requestForPost(api, param).then(data => {
                 relove(data);
             }).catch(err=>{
                 reject(err);

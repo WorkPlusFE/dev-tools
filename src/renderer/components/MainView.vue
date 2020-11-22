@@ -1,6 +1,6 @@
 <template>
 <div class='main_view'>
-    <TitleBar titleText='应用列表' btnText='添加应用' @handleClick="addApp"/>
+    <TitleBar titleText='应用列表' btnText='添加应用' @handleClick="titleAddApp"/>
     <div class="main_content">
         <div class="search">
              <el-input
@@ -11,11 +11,12 @@
         </div>
         
         <div class="item_list_content" v-if="appOptionsVisible">
-            <AppItem v-for="item of appOptions" :key="item.id"
+            <AppItem v-for="item of filterAppOptions" :key="item.id"
                 :appName='item.name' :role='item.role' 
                 :startMode='item.startMode'
                 :appId='item.id'
-                @appDel='handleAppDel'
+                @appDel='itemAppDel'
+                @appEdit='itemAppEdit'
                 />
             
         </div>
@@ -47,20 +48,33 @@ export default {
     computed: {
         appOptionsVisible(){
             return this.appOptions.length == 0 ? false : true;
+        },
+        filterAppOptions() {
+            if(this.searchValue == '') {
+                return this.appOptions;
+            }else{
+                const newAppOptions = _.filter(this.appOptions,(o)=>{
+                    const index = o.name.indexOf(this.searchValue);
+                    return index == -1 ? false : true ;
+                })
+                return newAppOptions;
+            }
         }
     },
     //监控data中的数据变化
-    watch: {},
+    watch: {
+
+    },
     //方法集合
     methods: {
         /**打开添加浮层 */
-        addApp() {
+        titleAddApp() {
             console.log(22);
             const h = this.$createElement;
             const _this = this;
             this.$msgbox({
                 title:'创建应用',
-                message:h(AddApp,{props:{},on:{handleAddApp:_this.handleAddApp}}),
+                message:h(AddApp,{props:{status:'add'},on:{handleAddApp:_this.AddApp}}),
                 showCancelButton:false,
                 showConfirmButton:false,
             }).then(()=>{
@@ -70,15 +84,37 @@ export default {
             })
             
         },
-        /**添加应用 */
-        handleAddApp(options) {
-            this.appOptions = options;
-        },
         /**删除应用 */
-        handleAppDel(appId) {
+        itemAppDel(appId) {
             const newAppOptions =  _.filter(this.appOptions,(o)=>o.id != appId);
             this.appOptions = newAppOptions;
             LocalStore.setLocalStoreArr('app_',newAppOptions);
+        },
+        /**打开编辑应用浮层 */
+        itemAppEdit(appId) {
+            const h = this.$createElement;
+            const _this = this;
+            this.$msgbox({
+                title:'创建应用',
+                message:h(AddApp,{props:{status:'edit',appId:appId},on:{handleEditApp:_this.editApp}}),
+                showCancelButton:false,
+                showConfirmButton:false,
+            }).then(()=>{
+
+            }).catch((err)=>{
+                console.error(err);
+            })
+        },
+        /**添加浮层里的修改应用 */
+        editApp(appOptions){
+            this.appOptions = appOptions;
+        },
+        /**添加浮层里的添加应用 */
+        AddApp(options) {
+            this.appOptions = options;
+        },
+        getItemRole(role) {
+
         }
     },
     //生命周期 - 创建完成（可以访问当前this实例）

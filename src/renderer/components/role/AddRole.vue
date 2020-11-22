@@ -123,6 +123,7 @@ export default {
                     id:uuidv4()
                 }
                 parseOption.push(obj)
+                this.$emit('addRoleHandle',obj)
                 this.resetOption(parseOption);
             
             }else{
@@ -136,6 +137,7 @@ export default {
                 const index = _.findIndex(parseOption,(o)=>o.id == this.roleId);
                 if(index != -1){
                     _.set(parseOption,`${index}`,this.formRole);
+                    this.$emit('handleEditRole',parseOption)
                     this.resetOption(parseOption);
                 }
                 
