@@ -25,7 +25,6 @@ import _ from 'lodash';
 
 export default {
   components: { TitleBar, AppItem, AddApp },
-
   data() {
     // 这里存放数据
     return {
