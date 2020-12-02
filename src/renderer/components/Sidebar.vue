@@ -1,40 +1,42 @@
 <template>
-  <div class="main_left">
+  <div class="sidebar">
     <div class="logo drag">
-      <img class="dark-logo" src="../assets/images/w-logo.jpg" alt="logo">
-      <img class="light-logo" src="../assets/images/w-logo-light.jpg" alt="logo">
+      <img class="dark-logo" src="../assets/images/w-logo.jpg" alt="logo" />
+      <img
+        class="light-logo"
+        src="../assets/images/w-logo-light.jpg"
+        alt="logo"
+      />
     </div>
-    <div class="content">
-      <div class="icon_content">
-        <div
+    <div class="menus">
+      <div class="menus__base">
+        <router-link
           :class="{
             icon: true,
             'el-icon-menu': true,
-            tab: currentTab == 'app',
           }"
+          exact
           title="应用"
-          @click="handleTab('app')"
-        ></div>
-        <div
+          to="/"
+        ></router-link>
+        <router-link
           :class="{
             icon: true,
             'el-icon-s-custom': true,
-            tab: currentTab == 'role',
           }"
           title="角色"
-          @click="handleTab('role')"
-        ></div>
-        <div
+          :to="'role'"
+        ></router-link>
+        <router-link
           :class="{
             icon: true,
             'el-icon-s-tools': true,
-            tab: currentTab == 'setting',
           }"
           title="设置"
-          @click="handleTab('setting')"
-        ></div>
+          :to="'setting'"
+        ></router-link>
       </div>
-      <div class="icon_content">
+      <div class="menus__base">
         <div class="icon el-icon-switch-button logout" title="退出"></div>
       </div>
     </div>
@@ -42,31 +44,16 @@
 </template>
 
 <script>
-import eventBus from '@/eventBus.js';
-
 export default {
-  components: {},
-  props: {
-    currentTab: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {};
-  },
-  methods: {
-    handleTab(key) {
-      eventBus.$emit('CHANGE_TAB', key);
-    },
-  },
+  name: 'Sidebar',
 };
 </script>
+
 <style lang='less' scoped>
 @sidebar-width: 50px;
 @logo-size: 25px;
 
-.main_left {
+.sidebar {
   width: @sidebar-width;
   height: 100vh;
   background: var(--sidebar-bg-color);
@@ -87,14 +74,14 @@ export default {
       height: @logo-size;
     }
   }
-  .content {
+  .menus {
     width: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-bottom: 10px;
-    .icon_content {
+    &__base {
       width: 100%;
       .icon {
         width: 100%;
@@ -106,6 +93,7 @@ export default {
         cursor: pointer;
         margin: 5px 0;
         box-sizing: border-box;
+        text-decoration: none;
         &:hover {
           color: var(--icon-color-actived);
         }
@@ -115,7 +103,7 @@ export default {
           color: var(--icon-color-red);
         }
       }
-      .tab {
+      .router-link-active {
         color: var(--icon-color-actived);
         border-left: 2px solid var(--icon-color-actived);
         text-indent: -2px;
@@ -124,7 +112,7 @@ export default {
   }
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   .dark-logo {
     display: none;
   }
@@ -134,7 +122,7 @@ export default {
   }
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   .dark-logo {
     display: block;
   }

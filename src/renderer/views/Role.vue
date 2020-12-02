@@ -9,7 +9,13 @@
           :role="item"
         />
       </div>
-      <div v-else class="item_list_empty">请添加角色</div>
+      <div v-else class="empty empty--role">
+        <div class="empty__svg"></div>
+        <div class="empty__tips">
+          <p>暂无用户 :)</p>
+          <p>点击右上角“加号”按钮添加用户</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>

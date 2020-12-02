@@ -1,7 +1,7 @@
 <template>
-  <div class="title_bar drag">
-    <div class="title">{{ titleText }}</div>
-    <div class="btn no_dray" @click="handleClick"><i class="icon el-icon-circle-plus"></i></div>
+  <div class="header">
+    <div class="header__title drag">{{ titleText }}</div>
+    <div class="header__button" v-if="btnText" @click="handleClick"><i class="icon el-icon-circle-plus"></i></div>
   </div>
 </template>
 
@@ -15,7 +15,6 @@ export default {
     },
     btnText: {
       type: String,
-      required: true,
     },
   },
   data() {
@@ -34,25 +33,26 @@ export default {
 <style lang='less'>
 @height: 50px;
 
-.title_bar {
+.header {
   display: flex;
   height: @height;
   justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
   color: var(--text-color);
   background: var(--sidebar-bg-color);
-  .title {
+  &__title {
     line-height: 50px;
     font-size: 14px;
+    flex: 1;
+    padding-left: 15px;
   }
-  .btn {
+  &__button {
     width: @height;
     line-height: @height;
-    text-align: right;
-    cursor: pointer;
+    text-align: center;
     color: var(--icon-color-actived);
     font-size: 20px;
+    cursor: pointer;
     &:hover {
       color: var(--icon-color-actived);
     }

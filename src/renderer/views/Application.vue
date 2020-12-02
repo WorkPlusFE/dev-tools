@@ -11,7 +11,13 @@
       <div class="item_list_content" v-if="appOptionsVisible">
         <AppItem v-for="item of appOptions" :key="item.id" :app="item" />
       </div>
-      <div v-else class="item_list_empty">请添加应用</div>
+      <div v-else class="empty">
+        <div class="empty__svg"></div>
+        <div class="empty__tips">
+          <p>暂无应用 :)</p>
+          <p>点击右上角“加号”按钮添加应用</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -109,13 +115,64 @@ export default {
       flex-wrap: wrap;
       align-content: flex-start;
     }
-    .item_list_empty {
-      color: var(--text-color);
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      font-size: 28px;
-      padding: 20px 0;
+  }
+}
+
+.empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 28px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -30%;
+  &__svg {
+    width: 90px;
+    height: 90px;
+    background: url(~@/assets/svg/empty-a-1.svg) center center no-repeat;
+    background-size: 100%;
+    cursor: help;
+    &:hover {
+      background: url(~@/assets/svg/empty-a-2.svg) center center no-repeat;
+      background-size: 100%;
+      + .empty__tips {
+        p {
+          display: none;
+          &:last-child {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  &--role {
+    .empty__svg {
+      background: url(~@/assets/svg/empty-b-1.svg) center center no-repeat;
+      background-size: 100%;
+      &:hover {
+        background: url(~@/assets/svg/empty-b-2.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+  }
+  &__tips {
+    padding-top: 15px;
+  }
+  
+  img {
+    width: 90px;
+    opacity: .9;
+  }
+  p {
+    color: var(--text-color);
+    font-size: 12px;
+    line-height: 24px;
+    height: 24px;
+    text-align: center;
+    margin: 0;
+    &:last-child {
+      display: none;
     }
   }
 }
