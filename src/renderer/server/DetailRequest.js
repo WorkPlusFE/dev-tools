@@ -19,7 +19,7 @@ export default class DetailRequest {
         device_id: uuidv4(),
         device_platform: 'PC'
       };
-      const api = obj.api + '/token';
+      const api = `${obj.api}/token`;
       DetailRequest.baseRequest.requestForPost(api, param).then(data => {
         relove(data);
       }).catch(err => {

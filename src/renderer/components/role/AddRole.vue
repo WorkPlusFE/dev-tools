@@ -141,7 +141,7 @@ export default {
     handleEditRole() {
       if (this.validation) {
         const options = localStorage.getItem('role_');
-        let parseOption = options ? JSON.parse(options) : [];
+        const parseOption = options ? JSON.parse(options) : [];
         const index = _.findIndex(parseOption, (o) => o.id == this.roleId);
         if (index != -1) {
           _.set(parseOption, `${index}`, this.formRole);

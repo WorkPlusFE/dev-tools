@@ -1,8 +1,7 @@
 import { remote, ipcRenderer, shell } from 'electron';
 
 export class OpenApp {
-
-  /**打开方式 */
+  /** 打开方式 */
   static open(app) {
     const startModal = app.startMode;
     switch (startModal) {
@@ -22,23 +21,23 @@ export class OpenApp {
     }
   }
 
-  /**外部浏览器打开 */
+  /** 外部浏览器打开 */
   static externalOpen(app) {
     const appAddress = app.address;
     shell.openExternal(appAddress);
   }
 
-  /**不带调试工具的新窗口 */
+  /** 不带调试工具的新窗口 */
   static newBrowserWindow(app) {
 
   }
 
-  /**手机调试模式 */
+  /** 手机调试模式 */
   static H5DevTool(app) {
 
   }
 
-  /**pc调试模式 */
+  /** pc调试模式 */
   static PcDevTool(app) {
 
   }

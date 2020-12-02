@@ -115,7 +115,7 @@ export default {
   // 监听属性 类似于data概念
   computed: {
     isAdd() {
-      return this.status == 'add' ? true : false;
+      return this.status == 'add';
     },
   },
   // 监控data中的数据变化
@@ -134,7 +134,7 @@ export default {
     appId() {
       if (this.status == 'edit') {
         const options = localStorage.getItem('app_');
-        let parseOption = options ? JSON.parse(options) : [];
+        const parseOption = options ? JSON.parse(options) : [];
         const roleItem = _.find(parseOption, (o) => o.id == this.appId);
         this.formLabel = { ...roleItem };
       }
@@ -166,7 +166,7 @@ export default {
       this.$emit('handleAddApp', parseOption);
     },
     editApp() {
-      let parseOption = LocalStore.getLocalStoreArr('app_');
+      const parseOption = LocalStore.getLocalStoreArr('app_');
       const index = _.findIndex(parseOption, (o) => o.id == this.appId);
       if (index != -1) {
         _.set(parseOption, `${index}`, this.formLabel);
@@ -191,7 +191,7 @@ export default {
     async getOrganiOptions(value) {
       const role = _.find(
         this.roleOptions,
-        (o) => o.roleName + '_' + o.user == value
+        (o) => `${o.roleName}_${o.user}` == value
       );
       const _this = this;
       if (role) {
@@ -210,9 +210,7 @@ export default {
         const data = await DetailRequest.getToken(role);
         const token = _.get(data, `data.result.access_token`, '');
         const orgs = await DetailRequest.getOrganization(token, role.api);
-        const neworgs = _.map(orgs, (o) => {
-          return { value: o.org_code, label: o.name };
-        });
+        const neworgs = _.map(orgs, (o) => ({ value: o.org_code, label: o.name }));
         this.organiOptions = neworgs;
       } else {
         this.$$message.error('错误');
@@ -229,7 +227,7 @@ export default {
   mounted() {
     if (this.status == 'edit') {
       const options = localStorage.getItem('app_');
-      let parseOption = options ? JSON.parse(options) : [];
+      const parseOption = options ? JSON.parse(options) : [];
       const roleItem = _.find(parseOption, (o) => o.id == this.appId);
       this.formLabel = { ...roleItem };
     }

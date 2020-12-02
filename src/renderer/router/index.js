@@ -24,7 +24,7 @@ export default new Router({
           path: '/',
           name: 'settingList',
           component: require('@/views/Setting/SettingList').default,
-        }, 
+        },
         {
           path: '/params',
           name: 'paramsSetting',
