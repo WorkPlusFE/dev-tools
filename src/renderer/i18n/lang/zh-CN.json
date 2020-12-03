@@ -1,0 +1,52 @@
+{
+  "appName": "dev-tools",
+  "sidebar": {
+    "app": "应用",
+    "role": "角色",
+    "setting": "设置",
+    "logout": "登出"
+  },
+  "page": {
+    "application": {
+      "title": "应用列表",
+      "searchPlaceholder": "请输入关键字",
+      "addApp": "添加应用",
+      "empty": {
+        "message": "暂无应用 :)",
+        "tips": "点击右上角“+”按钮添加应用"
+      }
+    },
+    "role": {
+      "title": "角色管理",
+      "domainLabel": "域 ID：",
+      "orgLabel": "组织名称：",
+      "accountLabel": "账号：",
+      "apiLabel": "API 地址：",
+      "addRole": "添加角色",
+      "empty": {
+        "message": "没有角色 :)",
+        "tips": "点击右上角“+”按钮添加角色"
+      }
+    },
+    "setting": {
+      "title": "设置",
+      "list": {
+        "paramsSetting": "参数设置",
+        "theme": {
+          "label": "主题",
+          "dark": "暗黑",
+          "light": "明亮"
+        },
+        "language": {
+          "label": "语言",
+          "zhCN": "简体中文",
+          "en": "英文"
+        },
+        "testUpgrade": "检测更新",
+        "about": "关于",
+        "document": "使用文档"
+      }
+    },
+    "paramsSetting": {}
+  }
+}

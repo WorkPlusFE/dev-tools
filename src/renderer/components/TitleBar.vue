@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header__title drag">{{ titleText }}</div>
-    <div class="header__button" v-if="btnText" @click="handleClick"><i class="icon el-icon-circle-plus"></i></div>
+    <div class="header__button" v-if="showBtn" @click="handleClick"><i class="icon el-icon-circle-plus"></i></div>
   </div>
 </template>
 
@@ -13,8 +13,9 @@ export default {
       type: String,
       required: true,
     },
-    btnText: {
-      type: String,
+    showBtn: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

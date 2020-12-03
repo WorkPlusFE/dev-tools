@@ -1,0 +1,52 @@
+{
+  "appName": "dev-tools",
+  "sidebar": {
+    "app": "App",
+    "role": "Role",
+    "setting": "Setting",
+    "logout": "LogOut"
+  },
+  "page": {
+    "application": {
+      "title": "Applications",
+      "searchPlaceholder": "Please enter keywords",
+      "addApp": "Add",
+      "empty": {
+        "message": "No application :)",
+        "tips": "Click the \"+\" button in the upper right corner to add an application"
+      }
+    },
+    "role": {
+      "title": "Role Management",
+      "domainLabel": "Domain ID:",
+      "orgLabel": "Organization:",
+      "accountLabel": "Account:",
+      "apiLabel": "API Server:",
+      "addRole": "Add",
+      "empty": {
+        "message": "No role :)",
+        "tips": "Click the \"+\" button in the upper right corner to add a role"
+      }
+    },
+    "setting": {
+      "title": "Setting",
+      "list": {
+        "paramsSetting": "Params Setting",
+        "theme": {
+          "label": "Theme",
+          "dark": "Dark",
+          "light": "Light"
+        },
+        "language": {
+          "label": "Language",
+          "zhCN": "zh-CN",
+          "en": "EN"
+        },
+        "testUpgrade": "Detect updates",
+        "about": "About",
+        "document": "Document"
+      }
+    },
+    "paramsSetting": {}
+  }
+}

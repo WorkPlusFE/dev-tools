@@ -1,6 +1,6 @@
 <template>
   <div class="main_view">
-    <TitleBar titleText="角色管理" btnText="添加角色" @handleClick="addRole" />
+    <TitleBar :titleText="$t('page.role.title')" :showBtn="true" @handleClick="addRole" />
     <div class="main_content">
       <div class="item_list_content" v-if="roleOptionsVisible">
         <RoleItem
@@ -12,8 +12,8 @@
       <div v-else class="empty empty--role">
         <div class="empty__svg"></div>
         <div class="empty__tips">
-          <p>暂无用户 :)</p>
-          <p>点击右上角“加号”按钮添加用户</p>
+          <p>{{$t('page.role.empty.message')}}</p>
+          <p>{{$t('page.role.empty.tips')}}</p>
         </div>
       </div>
     </div>

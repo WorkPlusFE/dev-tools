@@ -16,7 +16,7 @@
             'el-icon-menu': true,
           }"
           exact
-          title="应用"
+          :title="$t('sidebar.app')"
           to="/"
         ></router-link>
         <router-link
@@ -24,7 +24,7 @@
             icon: true,
             'el-icon-s-custom': true,
           }"
-          title="角色"
+          :title="$t('sidebar.role')"
           :to="'role'"
         ></router-link>
         <router-link
@@ -32,12 +32,12 @@
             icon: true,
             'el-icon-s-tools': true,
           }"
-          title="设置"
+          :title="$t('sidebar.setting')"
           :to="'setting'"
         ></router-link>
       </div>
       <div class="menus__base">
-        <div class="icon el-icon-switch-button logout" title="退出"></div>
+        <div class="icon el-icon-switch-button logout" :title="$t('sidebar.logout')"></div>
       </div>
     </div>
   </div>

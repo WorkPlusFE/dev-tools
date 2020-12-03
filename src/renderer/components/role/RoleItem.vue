@@ -4,10 +4,10 @@
       <div class="role-name">
         <h3>{{ role.roleName }}</h3>
       </div>
-      <p class="role-description"><strong>域 ID：</strong><i>{{ role.domain }}</i></p>
-      <p class="role-description"><strong>组织名称：</strong><i>测试-恒拓高科技术</i></p>
-      <p class="role-description"><strong>账号：</strong><i>{{ role.user }}</i></p>
-      <p class="role-description"><strong>API 地址：</strong><i>{{ role.api }}</i></p>
+      <p class="role-description"><strong>{{$t('page.role.domainLabel')}}</strong><i>{{ role.domain }}</i></p>
+      <p class="role-description"><strong>{{$t('page.role.orgLabel')}}</strong><i>测试-恒拓高科技术</i></p>
+      <p class="role-description"><strong>{{$t('page.role.accountLabel')}}</strong><i>{{ role.user }}</i></p>
+      <p class="role-description"><strong>{{$t('page.role.apiLabel')}}</strong><i>{{ role.api }}</i></p>
     </div>
     <div class="role-item__footer">
       <i class="icon el-icon-delete" @click="roleDel"></i>
@@ -63,7 +63,7 @@ export default {
       line-height: 16px;
       strong {
         font-weight: normal;
-        width: 6em;
+        width: 7em;
         display: inline-block;
       }
       i {

@@ -1,9 +1,9 @@
 <template>
   <div class="main_view">
-    <TitleBar titleText="应用列表" btnText="添加应用" @handleClick="addApp" />
+    <TitleBar :titleText="$t('page.application.title')" :showBtn="true" @handleClick="addApp" />
     <div class="main_content">
       <div class="search">
-        <el-input placeholder="请输入关键字" v-model="searchValue">
+        <el-input :placeholder="$t('page.application.searchPlaceholder')" v-model="searchValue">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
@@ -14,8 +14,8 @@
       <div v-else class="empty">
         <div class="empty__svg"></div>
         <div class="empty__tips">
-          <p>暂无应用 :)</p>
-          <p>点击右上角“加号”按钮添加应用</p>
+          <p>{{$t('page.application.empty.message')}}</p>
+          <p>{{$t('page.application.empty.tips')}}</p>
         </div>
       </div>
     </div>

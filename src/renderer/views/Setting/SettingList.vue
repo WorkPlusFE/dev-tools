@@ -1,11 +1,11 @@
 <template>
   <div class="main_view">
-    <TitleBar titleText="设置" />
+    <TitleBar :titleText="$t('page.setting.title')" />
     <div class="main_content">
       <ul class="settings">
         <li class="setting-item" @click="handleGoParamsSettingPage">
           <div class="setting-item__content">
-            <p>参数设置</p>
+            <p>{{$t('page.setting.list.paramsSetting')}}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-arrow-right"></i>
@@ -13,35 +13,35 @@
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>颜色主题</p>
+            <p>{{$t('page.setting.list.theme.label')}}</p>
           </div>
           <div class="setting-item__right">
             <el-switch
               v-model="dark"
               :active-color="switchBgColor"
               :inactive-color="switchBgColor"
-              active-text="Dark"
-              inactive-text="Light">
+              :active-text="$t('page.setting.list.theme.dark')"
+              :inactive-text="$t('page.setting.list.theme.light')">
             </el-switch>
           </div>
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>语言</p>
+            <p>{{$t('page.setting.list.language.label')}}</p>
           </div>
           <div class="setting-item__right">
             <el-switch
               v-model="isZhCnLng"
               :active-color="switchBgColor"
               :inactive-color="switchBgColor"
-              active-text="zh-CN"
-              inactive-text="EN">
+              :active-text="$t('page.setting.list.language.zhCN')"
+              :inactive-text="$t('page.setting.list.language.en')">
             </el-switch>
           </div>
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>检测更新</p>
+            <p>{{$t('page.setting.list.testUpgrade')}}</p>
           </div>
           <div class="setting-item__right">
             v2.0.1 <i class="el-icon-refresh"></i>
@@ -49,7 +49,7 @@
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>关于</p>
+            <p>{{$t('page.setting.list.about')}}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-warning-outline"></i>
@@ -57,7 +57,7 @@
         </li>
         <li class="setting-item setting-item__document" @click="handleOpenDocumentWebsite">
           <div class="setting-item__content">
-            <p>应用文档</p>
+            <p>{{$t('page.setting.list.document')}}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-arrow-right"></i>
