@@ -38,8 +38,10 @@ p {
 #app {
   width: 100%;
   height: 100vh;
-  background: var(--bg-color);
   display: flex;
+  background: var(--bg-color);
+  font-size: var(--text-font-size);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .drag {

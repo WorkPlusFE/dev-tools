@@ -1,19 +1,19 @@
 <template>
   <div class="main_view">
-    <TitleBar :titleText="$t('page.role.title')" :showBtn="true" @handleClick="addRole" />
+    <TitleBar
+      :titleText="$t('page.role.title')"
+      :showBtn="true"
+      @handleClick="addRole"
+    />
     <div class="main_content">
       <div class="item_list_content" v-if="roleOptionsVisible">
-        <RoleItem
-          v-for="item of roleOptions"
-          :key="item.id"
-          :role="item"
-        />
+        <RoleItem v-for="item of roleOptions" :key="item.id" :role="item" />
       </div>
       <div v-else class="empty empty--role">
         <div class="empty__svg"></div>
         <div class="empty__tips">
-          <p>{{$t('page.role.empty.message')}}</p>
-          <p>{{$t('page.role.empty.tips')}}</p>
+          <p>{{ $t('page.role.empty.message') }}</p>
+          <p>{{ $t('page.role.empty.tips') }}</p>
         </div>
       </div>
     </div>
@@ -21,13 +21,12 @@
 </template>
 
 <script>
-// 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-// 例如：import 《组件名称》 from '《组件路径》';
 import TitleBar from '@/components/TitleBar.vue';
 import RoleItem from '@/components/role/RoleItem.vue';
 import AddRole from '@/components/role/AddRole.vue';
 import _ from 'lodash';
 import { v4 } from 'uuid';
+
 export default {
   name: 'MainRole',
   components: { TitleBar, RoleItem, AddRole },
@@ -101,23 +100,13 @@ export default {
       this.roleOptions = options;
     },
   },
-  // 生命周期 - 创建完成（可以访问当前this实例）
   created() {
     const options = localStorage.getItem('role_');
     const parseOption = options ? JSON.parse(options) : [];
     this.roleOptions = parseOption;
   },
-  // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  beforeCreate() {}, // 生命周期 - 创建之前
-  beforeMount() {}, // 生命周期 - 挂载之前
-  beforeUpdate() {}, // 生命周期 - 更新之前
-  updated() {}, // 生命周期 - 更新之后
-  beforeDestroy() {}, // 生命周期 - 销毁之前
-  destroyed() {}, // 生命周期 - 销毁完成
-  activated() {}, // 如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style lang='less'>
 
+<style lang='less'>
 </style>

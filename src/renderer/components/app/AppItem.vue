@@ -58,7 +58,8 @@ export default {
       align-items: center;
       padding-bottom: 6px;
       h3 {
-        font-size: 12px;
+        font-size: var(--text-font-size);
+        font-weight: normal;
       }
       i {
         padding-right: 5px;
@@ -66,7 +67,7 @@ export default {
       }
     }
     .app-description {
-      font-size: 10px;
+      font-size: var(--text-desc-font-size);
     }
   }
   &__footer {

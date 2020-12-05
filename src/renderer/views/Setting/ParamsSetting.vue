@@ -12,11 +12,13 @@
           </div>
         </li>
       </ul>
-      <div class="current-params">
-        <h3>{{$t('page.paramsSetting.tips.title')}}</h3>
-        <p>{{currentLink}}</p>
+      <div class="tips">
+        <div class="current-params">
+          <h3>{{$t('page.paramsSetting.tips.title')}}</h3>
+          <p>{{currentLink}}</p>
+        </div>
+        <div v-html="$t('page.paramsSetting.tips.message')"></div>
       </div>
-      <div class="tips" v-html="$t('page.paramsSetting.tips.message')"></div>
     </div>
   </div>
 </template>
@@ -85,22 +87,7 @@ export default {
 </script>
 
 <style lang="less">
-.current-params {
-  border-top: 1px solid var(--border-color);
-  padding: 15px;
-  h3 {
-    font-size: 14px;
-    font-weight: normal;
-    padding-bottom: 8px;
-    color: var(--text-color);
-  }
-  p {
-    font-size: 12px;
-    text-align: justify;
-    color: var(--text-primary-color);
-    word-break: break-all;
-  }
-}
+
 .params {
   border-top: 1px solid var(--border-color);
   margin-top: 40px;
@@ -108,7 +95,6 @@ export default {
     display: flex;
     padding: 8px 15px;
     border-bottom: 1px solid var(--border-color);
-    font-size: 14px;
     > div {
       flex: 1;
     }
@@ -124,7 +110,6 @@ export default {
 
 .tips {
   color: var(--text-color);
-  font-size: 13px;
   margin: 15px;
   border-radius: 10px;
   padding: 10px;
@@ -133,6 +118,21 @@ export default {
   word-break: break-all;
   a {
     color: var(--text-primary-color);
+  }
+}
+
+.current-params {
+  padding-bottom: 20px;
+  h3 {
+    font-size: var(--text-font-size);
+    font-weight: normal;
+    padding-bottom: 8px;
+    color: var(--text-color);
+  }
+  p {
+    text-align: justify;
+    color: var(--text-primary-color);
+    word-break: break-all;
   }
 }
 </style>

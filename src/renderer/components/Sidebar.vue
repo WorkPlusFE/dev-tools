@@ -25,16 +25,18 @@
             'el-icon-s-custom': true,
           }"
           :title="$t('sidebar.role')"
+          exact
           :to="'role'"
         ></router-link>
         <router-link
           :class="{
             icon: true,
             'el-icon-s-tools': true,
+            'router-link-active': settingRouteActive
           }"
           :title="$t('sidebar.setting')"
+          exact
           :to="'setting'"
-          
         ></router-link>
       </div>
       <div class="menus__base">
@@ -47,6 +49,12 @@
 <script>
 export default {
   name: 'Sidebar',
+  computed: {
+    settingRouteActive() {
+      const path = this.$route.path;
+      return path === '/setting' || path === '/params';
+    },
+  },
 };
 </script>
 

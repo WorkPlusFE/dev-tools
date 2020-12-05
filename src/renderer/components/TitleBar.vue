@@ -43,7 +43,7 @@ export default {
   background: var(--sidebar-bg-color);
   &__title {
     line-height: 50px;
-    font-size: 14px;
+    font-size: var(--text-title-font-size);
     flex: 1;
     padding-left: 15px;
   }

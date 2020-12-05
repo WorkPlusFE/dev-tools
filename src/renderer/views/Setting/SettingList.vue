@@ -113,7 +113,6 @@ export default {
   .setting-item {
     list-style: none;
     color: var(--text-color);
-    font-size: 12px;
     padding-left: 15px;
     height: 40px;
     line-height: 40px;
@@ -128,7 +127,6 @@ export default {
     }
     &__right {
       padding: 0 15px;
-      font-size: 14px;
       color: var(--text-color);
       i {
         font-size: 16px;
@@ -147,7 +145,6 @@ export default {
   .el-switch__label {
     color: var(--text-color);
     font-weight: normal;
-    font-size: 13px !important;
     &.is-active {
       color: var(--icon-color-actived);
     }
@@ -155,6 +152,6 @@ export default {
 }
 
 .el-switch__label * {
-  font-size: 13px !important;
+  font-size: var(--text-font-size) !important;
 }
 </style>

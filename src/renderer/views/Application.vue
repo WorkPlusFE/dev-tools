@@ -166,11 +166,11 @@ export default {
   }
   p {
     color: var(--text-color);
-    font-size: 12px;
+    font-size: var(--text-tips-font-size);
     line-height: 24px;
     height: 24px;
     text-align: center;
-    margin: 0;
+    margin: 0 20px;
     &:last-child {
       display: none;
     }
@@ -180,7 +180,7 @@ export default {
 .el-input--prefix .el-input__inner {
   background-color: var(--search-bg-color);
   border: 0;
-  font-size: 12px;
+  font-size: var(--text-placeholder-font-size);
   height: 30px;
   color: var(--text-color);
 }

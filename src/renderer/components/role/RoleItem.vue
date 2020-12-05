@@ -2,12 +2,24 @@
   <div class="role-item">
     <div class="role-item__container">
       <div class="role-name">
-        <h3>{{ role.roleName }}</h3>
+        <i class="icon el-icon-s-custom"></i> <h3>{{ role.roleName }}</h3>
       </div>
-      <p class="role-description"><strong>{{$t('page.role.domainLabel')}}</strong><i>{{ role.domain }}</i></p>
-      <p class="role-description"><strong>{{$t('page.role.orgLabel')}}</strong><i>测试-恒拓高科技术</i></p>
-      <p class="role-description"><strong>{{$t('page.role.accountLabel')}}</strong><i>{{ role.user }}</i></p>
-      <p class="role-description"><strong>{{$t('page.role.apiLabel')}}</strong><i>{{ role.api }}</i></p>
+      <p class="role-description">
+        <strong>{{ $t('page.role.domainLabel') }}</strong
+        ><i>{{ role.domain }}</i>
+      </p>
+      <p class="role-description">
+        <strong>{{ $t('page.role.orgLabel') }}</strong
+        ><i>测试-恒拓高科技术</i>
+      </p>
+      <p class="role-description">
+        <strong>{{ $t('page.role.accountLabel') }}</strong
+        ><i>{{ role.user }}</i>
+      </p>
+      <p class="role-description">
+        <strong>{{ $t('page.role.apiLabel') }}</strong
+        ><i>{{ role.api }}</i>
+      </p>
     </div>
     <div class="role-item__footer">
       <i class="icon el-icon-delete" @click="roleDel"></i>
@@ -55,12 +67,17 @@ export default {
       align-items: center;
       padding-bottom: 6px;
       h3 {
-        font-size: 12px;
+        font-size: var(--text-font-size);
+        font-weight: normal;
+      }
+      i {
+        padding-right: 5px;
+        font-size: 13px;
       }
     }
     .role-description {
-      font-size: 10px;
-      line-height: 16px;
+      font-size: var(--text-desc-font-size);
+      line-height: 18px;
       strong {
         font-weight: normal;
         width: 7em;
