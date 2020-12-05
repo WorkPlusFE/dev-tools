@@ -3,14 +3,6 @@
     <TitleBar :titleText="$t('page.setting.title')" />
     <div class="main_content">
       <ul class="settings">
-        <li class="setting-item" @click="handleGoParamsSettingPage">
-          <div class="setting-item__content">
-            <p>{{$t('page.setting.list.paramsSetting')}}</p>
-          </div>
-          <div class="setting-item__right">
-            <i class="el-icon-arrow-right"></i>
-          </div>
-        </li>
         <li class="setting-item">
           <div class="setting-item__content">
             <p>{{$t('page.setting.list.theme.label')}}</p>
@@ -55,7 +47,16 @@
             <i class="el-icon-warning-outline"></i>
           </div>
         </li>
-        <li class="setting-item setting-item__document" @click="handleOpenDocumentWebsite">
+        
+        <li class="setting-item setting-item__driver" @click="handleGoParamsSettingPage">
+          <div class="setting-item__content">
+            <p>{{$t('page.setting.list.paramsSetting')}}</p>
+          </div>
+          <div class="setting-item__right">
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </li>
+        <li class="setting-item" @click="handleOpenDocumentWebsite">
           <div class="setting-item__content">
             <p>{{$t('page.setting.list.document')}}</p>
           </div>
@@ -137,7 +138,7 @@ export default {
       background: var(--hover-bg-color);
     }
 
-    &__document {
+    &__driver {
       margin-top: 40px;
       border-top: 1px solid var(--border-color);
     }

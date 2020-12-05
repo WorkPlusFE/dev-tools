@@ -31,7 +31,6 @@
     "setting": {
       "title": "Setting",
       "list": {
-        "paramsSetting": "Params Setting",
         "theme": {
           "label": "Theme",
           "dark": "Dark",
@@ -44,9 +43,24 @@
         },
         "testUpgrade": "Detect updates",
         "about": "About",
+        "paramsSetting": "Link parameter description",
         "document": "Document"
       }
     },
-    "paramsSetting": {}
+    "paramsSetting": {
+      "title": "Link parameter description",
+      "label": {
+        "ticket": "User Ticket",
+        "username": "Username",
+        "userId": "User ID",
+        "orgId": "Organization ID",
+        "domainId": "Domain ID",
+        "random": "Random Number"
+      },
+      "tips": {
+        "title": "Current application startup parameters:",
+        "message": "The above parameters are only applicable to the PC client to start the application. If you want to use it on the mobile H5, you need to bring the specified placeholder on the link. To learn more, please check <a href=\"https://open.workplus.io/v4/light-app/#%E5%90%AF%E5%8A%A8%E5%9C%B0%E5%9D%80\" target=\"_blank\">Official document</a>!"
+      }
+    }
   }
 }

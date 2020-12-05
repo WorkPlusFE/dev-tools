@@ -31,7 +31,6 @@
     "setting": {
       "title": "设置",
       "list": {
-        "paramsSetting": "参数设置",
         "theme": {
           "label": "主题",
           "dark": "暗黑",
@@ -44,9 +43,24 @@
         },
         "testUpgrade": "检测更新",
         "about": "关于",
+        "paramsSetting": "链接参数说明",
         "document": "使用文档"
       }
     },
-    "paramsSetting": {}
+    "paramsSetting": {
+      "title": "链接参数说明",
+      "label": {
+        "ticket": "用户 Ticket",
+        "username": "用户名",
+        "userId": "用户 ID",
+        "orgId": "组织 ID",
+        "domainId": "域 ID",
+        "random": "随机数"
+      },
+      "tips": {
+        "title": "当前应用启动参数：",
+        "message": "以上参数，仅适用于 PC 客户端启动应用，若希望在移动端 H5 上使用，需在启动链接上带上规定的占位符。了解更多，请查看 <a href=\"https://open.workplus.io/v4/light-app/#%E5%90%AF%E5%8A%A8%E5%9C%B0%E5%9D%80\" target=\"_blank\">官方文档</a>！"
+      }
+    }
   }
 }

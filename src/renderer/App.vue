@@ -26,9 +26,13 @@ body {
   padding: 0;
   background: var(--bg-color);
 }
+
+ul,
+li,
 h3,
 p {
   margin: 0;
+  padding: 0;
 }
 
 #app {

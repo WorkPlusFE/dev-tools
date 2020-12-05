@@ -34,6 +34,7 @@
           }"
           :title="$t('sidebar.setting')"
           :to="'setting'"
+          
         ></router-link>
       </div>
       <div class="menus__base">
