@@ -18,6 +18,7 @@
     },
     "role": {
       "title": "Role Management",
+      "tips": "A role, including the name, service environment and a certain organization!",
       "domainLabel": "Domain ID:",
       "orgLabel": "Organization:",
       "accountLabel": "Account:",

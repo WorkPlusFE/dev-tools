@@ -1,7 +1,20 @@
 <template>
   <div class="header">
-    <div class="header__title drag">{{ titleText }}</div>
-    <div class="header__button" v-if="showBtn" @click="handleClick"><i class="icon el-icon-circle-plus"></i></div>
+    <div class="header__title drag">
+      {{ titleText }}
+      <el-tooltip
+        class="item"
+        effect="dark"
+        placement="right-end"
+        v-if="showTips"
+      >
+        <div slot="content">{{tips}}</div>
+        <i class="el-icon-question"></i>
+      </el-tooltip>
+    </div>
+    <div class="header__button" v-if="showBtn" @click="handleClick">
+      <i class="icon el-icon-circle-plus"></i>
+    </div>
   </div>
 </template>
 
@@ -17,12 +30,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    tips: {
+      type: String,
+    },
   },
   data() {
     return {};
   },
-  computed: {},
-  watch: {},
+  computed: {
+    showTips() {
+      return this.tips && this.tips.trim().length > 0;
+    },
+  },
   methods: {
     handleClick() {
       this.$emit('handleClick');

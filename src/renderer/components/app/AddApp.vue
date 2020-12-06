@@ -1,8 +1,7 @@
 <template>
-  <div class="add_app">
+  <div class="create-dialog create-app">
     <el-form
-      label-position="right"
-      label-width="80px"
+      label-position="top"
       :model="formLabel"
       style="width: 380px"
     >
@@ -52,10 +51,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="openApp">立即打开</el-button>
-        <el-button v-if="isAdd" type="primary" @click="saveApp">添加</el-button>
-        <el-button v-else type="primary" @click="editApp">修改</el-button>
+      <el-form-item class="footer">
+        <el-button size="small" type="primary" @click="openApp">立即打开</el-button>
+        <el-button size="small" v-if="isAdd" type="primary" @click="saveApp">添加</el-button>
+        <el-button size="small" v-else type="primary" @click="editApp">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -236,7 +235,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.add_app {
-  width: 200px;
-}
+
 </style>

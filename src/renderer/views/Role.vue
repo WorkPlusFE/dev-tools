@@ -4,6 +4,7 @@
       :titleText="$t('page.role.title')"
       :showBtn="true"
       @handleClick="addRole"
+      :tips="$t('page.role.tips')"
     />
     <div class="main_content">
       <div class="item_list_content" v-if="roleOptionsVisible">
@@ -51,7 +52,6 @@ export default {
       const _this = this;
       this.$msgbox({
         title: '添加角色',
-        customClass: 'no_dray',
         message: h(AddRole, {
           props: { status: 'add' },
           on: { addRoleHandle: _this.addRoleHandle },
@@ -70,7 +70,6 @@ export default {
       const _this = this;
       this.$msgbox({
         title: '修改角色 ',
-        customClass: 'no_dray',
         message: h(AddRole, {
           props: { status: 'edit', roleId: roleItemId },
           on: { handleEditRole: _this.editHandleRole },

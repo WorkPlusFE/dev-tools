@@ -1,7 +1,7 @@
 <template>
-  <div class="add_app">
+  <div class="create-dialog create-role">
     <el-form
-      label-position="right"
+      label-position="top"
       label-width="80px"
       :model="formRole"
       style="width: 380px"
@@ -15,18 +15,15 @@
       <el-form-item label="密码">
         <el-input type="password" v-model="formRole.pwd"></el-input>
       </el-form-item>
-      <el-form-item label="API地址">
+      <el-form-item label="API 地址">
         <el-input v-model="formRole.api"></el-input>
       </el-form-item>
-      <el-form-item label="域名">
+      <el-form-item label="域 ID">
         <el-input v-model="formRole.domain"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handleValidation">服务验证</el-button>
-        <el-button v-if="isAdd" type="primary" @click="handleAddRole"
-          >添加</el-button
-        >
-        <el-button v-else type="primary" @click="handleEditRole"
+      <el-form-item class="footer">
+        <el-button size="small" type="primary" @click="handleValidation">验证服务并添加</el-button>
+        <el-button size="small" type="primary" @click="handleEditRole"
           >修改</el-button
         >
       </el-form-item>
@@ -167,10 +164,6 @@ export default {
       this.$msgbox.close();
     },
   },
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  beforeUpdate() {}, // 生命周期 - 更新之前
-  // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     if (this.status == 'edit') {
       const options = localStorage.getItem('role_');
@@ -179,11 +172,8 @@ export default {
       this.formRole = { ...roleItem };
     }
   },
-  beforeCreate() {}, // 生命周期 - 创建之前
 };
 </script>
-<style lang='less' scoped>
-.add_app {
-  width: 200px;
-}
+<style lang='less'>
+
 </style>

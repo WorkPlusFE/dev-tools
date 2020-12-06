@@ -18,6 +18,7 @@
     },
     "role": {
       "title": "角色管理",
+      "tips": "一个角色，包含名称、所在服务环境及确定的一个组织！",
       "domainLabel": "域 ID：",
       "orgLabel": "组织名称：",
       "accountLabel": "账号：",
