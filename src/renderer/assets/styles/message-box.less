@@ -4,14 +4,26 @@
   background: var(--bg-color);
   color: var(--text-color);
   border: none;
+  &__content,
+  &__header {
+    padding: 0 25px;
+  }
+  &__header {
+    margin-bottom: 20px;
+    // border-bottom: 1px solid var(--border-color);
+  }
   &__title {
     color:  var(--text-primary-color) !important;
     font-size: var(--text-title-font-size);
-    margin-bottom: 20px;
+    height: 50px;
+    line-height: 50px;
   }
-  .el-message-box__headerbtn .el-message-box__close {
-    color:  var(--form-label-color) !important;
-    font-size: 20px;
+  .el-message-box__headerbtn {
+    right: 25px;
+    .el-message-box__close {
+      color:  var(--form-label-color) !important;
+      font-size: 20px;
+    }
   }
   .footer {
     text-align: center;
