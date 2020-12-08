@@ -7,8 +7,8 @@
       :tips="$t('page.role.tips')"
     />
     <div class="main_content">
-      <div class="item_list_content" v-if="roleOptionsVisible">
-        <RoleItem v-for="item of roleOptions" :key="item.id" :role="item" />
+      <div class="item_list_content" v-if="!isEmpty">
+        <RoleItem v-for="role of roles" :key="role.id" :role="role" />
       </div>
       <div v-else class="empty empty--role">
         <div class="empty__svg"></div>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 import TitleBar from '@/components/TitleBar.vue';
 import RoleItem from '@/components/role/RoleItem.vue';
 import AddRole from '@/components/role/AddRole.vue';
@@ -32,20 +33,16 @@ export default {
   name: 'MainRole',
   components: { TitleBar, RoleItem, AddRole },
   data() {
-    // 这里存放数据
     return {
       roleOptions: [],
     };
   },
-  // 监听属性 类似于data概念
   computed: {
-    roleOptionsVisible() {
-      return this.roleOptions.length != 0;
-    },
+    ...mapGetters('Role', [
+      'roles',
+      'isEmpty',
+    ]),
   },
-  // 监控data中的数据变化
-  watch: {},
-  // 方法集合
   methods: {
     addRole() {
       const h = this.$createElement;
@@ -55,7 +52,7 @@ export default {
         message: h(AddRole, {
           props: { status: 'add' },
           on: { addRoleHandle: _this.addRoleHandle },
-        }), // (<AddRole status="add"></AddRole>)
+        }),
         showCancelButton: false,
         showConfirmButton: false,
       })
@@ -73,7 +70,7 @@ export default {
         message: h(AddRole, {
           props: { status: 'edit', roleId: roleItemId },
           on: { handleEditRole: _this.editHandleRole },
-        }), // (<AddRole status="edit" roleId={roleItemId} ></AddRole>),
+        }),
         showCancelButton: false,
         showConfirmButton: false,
       })
@@ -83,26 +80,15 @@ export default {
         });
     },
     roleDel(roleItemId) {
-      const newRoleOptions = _.filter(
-        this.roleOptions,
-        (o) => o.id != roleItemId
-      );
-      this.roleOptions = newRoleOptions;
-      const apiStr = JSON.stringify(this.roleOptions);
-      console.log(apiStr);
-      localStorage.setItem(`role_`, apiStr);
+
     },
     addRoleHandle(role) {
-      this.roleOptions.push(role);
     },
     editHandleRole(options) {
-      this.roleOptions = options;
     },
   },
   created() {
-    const options = localStorage.getItem('role_');
-    const parseOption = options ? JSON.parse(options) : [];
-    this.roleOptions = parseOption;
+
   },
 };
 </script>

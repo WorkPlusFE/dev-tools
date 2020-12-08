@@ -1,21 +1,28 @@
 <template>
   <div class="main_view">
-    <TitleBar :titleText="$t('page.application.title')" :showBtn="true" @handleClick="addApp" />
+    <TitleBar
+      :titleText="$t('page.application.title')"
+      :showBtn="true"
+      @handleClick="addApp"
+    />
     <div class="main_content">
       <div class="search">
-        <el-input :placeholder="$t('page.application.searchPlaceholder')" v-model="searchValue">
+        <el-input
+          :placeholder="$t('page.application.searchPlaceholder')"
+          v-model="searchValue"
+        >
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
 
-      <div class="item_list_content" v-if="appOptionsVisible">
-        <AppItem v-for="item of appOptions" :key="item.id" :app="item" />
+      <div class="item_list_content" v-if="!isEmpty">
+        <AppItem v-for="app of apps" :key="app.id" :app="app" />
       </div>
       <div v-else class="empty">
         <div class="empty__svg"></div>
         <div class="empty__tips">
-          <p>{{$t('page.application.empty.message')}}</p>
-          <p>{{$t('page.application.empty.tips')}}</p>
+          <p>{{ $t('page.application.empty.message') }}</p>
+          <p>{{ $t('page.application.empty.tips') }}</p>
         </div>
       </div>
     </div>
@@ -23,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import TitleBar from '@/components/TitleBar.vue';
 import AppItem from '@/components/app/AppItem.vue';
 import AddApp from '@/components/app/AddApp.vue';
@@ -32,57 +40,40 @@ import _ from 'lodash';
 export default {
   components: { TitleBar, AppItem, AddApp },
   data() {
-    // 这里存放数据
     return {
       searchValue: '',
-      appOptions: [],
     };
   },
-  // 监听属性 类似于data概念
   computed: {
-    appOptionsVisible() {
-      return this.appOptions.length != 0;
-    },
+    ...mapGetters('Application', [
+      'apps',
+      'searchByQuery',
+      'isEmpty'
+    ]),
   },
-  // 监控data中的数据变化
-  watch: {},
-  // 方法集合
   methods: {
-    /** 打开添加浮层 */
+    ...mapActions('Application', ['create']),
     addApp() {
-      console.log(22);
       const h = this.$createElement;
       const _this = this;
       this.$msgbox({
         title: '创建应用',
         message: h(AddApp, {
-          props: {},
+          props: {
+            status: 'add',
+          },
           on: { handleAddApp: _this.handleAddApp },
         }),
         showCancelButton: false,
         showConfirmButton: false,
-      })
-        .then(() => {})
-        .catch((err) => {
-          console.error(err);
-        });
+      });
     },
-    /** 添加应用 */
-    handleAddApp(options) {
-      this.appOptions = options;
-    },
-    /** 删除应用 */
-    handleAppDel(appId) {
-      const newAppOptions = _.filter(this.appOptions, (o) => o.id != appId);
-      this.appOptions = newAppOptions;
-      LocalStore.setLocalStoreArr('app_', newAppOptions);
+
+    handleAddApp(app) {
+      this.create(app);
     },
   },
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-    const parseOption = LocalStore.getLocalStoreArr('app_');
-    this.appOptions = parseOption;
-  },
+  created() {},
 };
 </script>
 
@@ -119,14 +110,12 @@ export default {
 }
 
 .empty {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   display: flex;
-  justify-content: center;
   font-size: 28px;
   flex-direction: column;
   align-items: center;
-  margin-top: -30%;
+  padding-top: 150px;
   &__svg {
     width: 90px;
     height: 90px;
@@ -159,10 +148,10 @@ export default {
   &__tips {
     padding-top: 15px;
   }
-  
+
   img {
     width: 90px;
-    opacity: .9;
+    opacity: 0.9;
   }
   p {
     color: var(--text-color);

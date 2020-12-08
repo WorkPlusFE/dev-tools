@@ -12,13 +12,14 @@
       <p class="app-description">{{ app.description }}这是一段描述</p>
     </div>
     <div class="app-item__footer">
-      <i class="icon el-icon-delete" @click="appDel"></i>
-      <i class="icon el-icon-edit" @click="appEdit"></i>
+      <i class="icon el-icon-delete" @click="handleDeleteApp"></i>
+      <i class="icon el-icon-edit" @click="handleEditApp"></i>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { LocalStore } from '@/application/LocalStore';
 import _ from 'lodash';
 
@@ -31,12 +32,27 @@ export default {
     },
   },
   methods: {
-    appDel() {
-      this.$emit('appDel', this.app.id);
+    ...mapActions(['delete']),
+    handleDeleteApp() {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          });
+        });
     },
-    appEdit() {
-      this.$emit('appEdit', this.app.id);
-    },
+    handleEditApp() {},
   },
 };
 </script>

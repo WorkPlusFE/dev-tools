@@ -8,6 +8,8 @@ import router from './router';
 import store from './store';
 import messages from './i18n';
 
+Vue.prototype.$store = store;
+
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
 
 Vue.http = Vue.prototype.$http = axios;

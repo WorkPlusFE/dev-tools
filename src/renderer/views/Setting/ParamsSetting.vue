@@ -73,9 +73,7 @@ export default {
     currentLink() {
       const queryString = this.params
         .filter(param => param.selected)
-        .map((param) => {
-          return `${param.key}={{${param.label.replace(' ', '_')}}}`;
-        });
+        .map((param) => `${param.key}={{${param.label.replace(' ', '_')}}}`);
 
       return `http://test.link?${queryString.join('&')}`;
     },

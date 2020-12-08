@@ -22,7 +22,15 @@
       </p>
     </div>
     <div class="role-item__footer">
-      <i class="icon el-icon-delete" @click="roleDel"></i>
+      <el-popconfirm
+        confirm-button-text='删除'
+        cancel-button-text='取消'
+        title="确定删除该角色？"
+        @confirm="roleDel"
+        @cancel="roleDel"
+      >
+        <i class="icon el-icon-delete" slot="reference"></i>
+      </el-popconfirm>
       <i class="icon el-icon-edit" @click="roleEdit"></i>
     </div>
   </div>
@@ -44,7 +52,7 @@ export default {
       this.$emit('roleEdit', this.roleItemId);
     },
     roleDel() {
-      this.$emit('roleDel', this.roleItemId);
+      console.log('roleDel');
     },
   },
 };
