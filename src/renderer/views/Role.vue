@@ -41,6 +41,7 @@ export default {
     ...mapGetters('Role', [
       'roles',
       'isEmpty',
+      'role'
     ]),
   },
   methods: {
@@ -51,10 +52,11 @@ export default {
       const h = this.$createElement;
       const _this = this;
       const title = role ? '编辑角色' : '添加角色';
+      const roleProps = role || ({ ...this.role });
       this.$msgbox({
         title,
         message: h(AddRole, {
-          props: { role: role || null },
+          props: { role: roleProps },
         }),
         showCancelButton: false,
         showConfirmButton: false,

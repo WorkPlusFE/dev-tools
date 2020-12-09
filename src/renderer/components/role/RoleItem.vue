@@ -2,7 +2,7 @@
   <div class="role-item">
     <div class="role-item__container">
       <div class="role-name">
-        <i class="icon el-icon-s-custom"></i> <h3>{{ role.roleName }}</h3>
+        <i class="icon el-icon-s-custom"></i> <h3>{{ role.name }}</h3>
       </div>
       <p class="role-description">
         <strong>{{ $t('page.role.domainLabel') }}</strong
