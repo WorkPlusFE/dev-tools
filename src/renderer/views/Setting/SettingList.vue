@@ -13,7 +13,8 @@
               :active-color="switchBgColor"
               :inactive-color="switchBgColor"
               :active-text="$t('page.setting.list.theme.dark')"
-              :inactive-text="$t('page.setting.list.theme.light')">
+              :inactive-text="$t('page.setting.list.theme.light')"
+              @change="bgColorSwitch">
             </el-switch>
           </div>
         </li>
@@ -27,7 +28,8 @@
               :active-color="switchBgColor"
               :inactive-color="switchBgColor"
               :active-text="$t('page.setting.list.language.zhCN')"
-              :inactive-text="$t('page.setting.list.language.en')">
+              :inactive-text="$t('page.setting.list.language.en')"
+              @change="languageSwitch">
             </el-switch>
           </div>
         </li>
@@ -36,10 +38,10 @@
             <p>{{$t('page.setting.list.testUpgrade')}}</p>
           </div>
           <div class="setting-item__right">
-            v2.0.1 <i class="el-icon-refresh"></i>
+            {{version}} <i class="el-icon-refresh" @click="getVersion"></i>
           </div>
         </li>
-        <li class="setting-item">
+        <li class="setting-item" @click=" centerDialogVisible = true">
           <div class="setting-item__content">
             <p>{{$t('page.setting.list.about')}}</p>
           </div>
@@ -58,20 +60,30 @@
         </li>
         <li class="setting-item" @click="handleOpenDocumentWebsite">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.document')}}</p>
+            <p>{{$t('page.setting.list.document')}}{{te}}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-arrow-right"></i>
           </div>
         </li>
       </ul>
+    
+    
     </div>
+    <el-dialog
+      :title="$t('page.setting.list.description.title')"
+      :visible.sync="centerDialogVisible"
+      width="380px"
+      center>
+      <span>{{$t('page.setting.list.description.content')}}</span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import TitleBar from '@/components/TitleBar.vue';
-
+import { shell } from 'electron';
+import { mapActions, mapState} from 'vuex';
 export default {
   name: 'setting-list',
   data() {
@@ -79,9 +91,12 @@ export default {
       dark: true,
       isZhCnLng: true,
       theme: 'dark',
+      version: '',
+      centerDialogVisible: false
     };
   },
   computed: {
+    ...mapState('setting',{'te':'dark'}),
     isDarkMode() {
       return this.theme === 'dark';
     },
@@ -90,18 +105,36 @@ export default {
     },
   },
   methods: {
+    ...mapActions('setting',['changedark']),
     handleOpenDocumentWebsite() {
-      alert('Open Document！')
+      shell.openExternal('https://open.workplus.io/dev/packages.html#dev-tools');
     },
     handleGoParamsSettingPage() {
       this.$router.push({
         name: 'paramsSetting',
       });
     },
+    languageSwitch(value) {
+      this.$i18n.locale = value ? 'zh-CN' : 'en';
+    },
+    bgColorSwitch(value) {
+      if(value){
+        document.getElementsByTagName("body")[0].setAttribute('data-theme', 'dark');
+      }else{
+         document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
+      }
+    },
+    getVersion() {
+      this.changedark(true);
+      this.version = process.env.MY_VERSION
+    }
   },
   components: {
     TitleBar,
   },
+  mounted() {
+     this.getVersion();
+  }
 }
 </script>
 

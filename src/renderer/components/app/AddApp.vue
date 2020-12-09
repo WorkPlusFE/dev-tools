@@ -223,7 +223,7 @@ export default {
     this.roleOptions = parseOption;
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+mounted() {
     if (this.status == 'edit') {
       const options = localStorage.getItem('app_');
       const parseOption = options ? JSON.parse(options) : [];
