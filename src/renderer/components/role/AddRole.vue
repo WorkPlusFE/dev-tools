@@ -7,27 +7,45 @@
       style="width: 380px"
     >
       <el-form-item label="角色名称">
-        <el-input v-model="formRole.roleName" placeholder="请输入角色名称，50字符内"></el-input>
+        <el-input
+          v-model="formRole.roleName"
+          placeholder="请输入角色名称，50字符内"
+        ></el-input>
       </el-form-item>
       <el-form-item label="域 ID">
-        <el-input v-model="formRole.domain" placeholder="请输入域 ID，即 domain_id"></el-input>
+        <el-input
+          v-model="formRole.domain"
+          placeholder="请输入域 ID，即 domain_id"
+        ></el-input>
       </el-form-item>
       <el-form-item label="API 地址">
-        <el-input v-model="formRole.api" placeholder="请输入对应服务的 API 地址，需以 http(s):// 开头"></el-input>
+        <el-input
+          v-model="formRole.api"
+          placeholder="请输入对应服务的 API 地址，需以 http(s):// 开头"
+        ></el-input>
       </el-form-item>
       <el-form-item label="账号">
-        <el-input v-model="formRole.user" placeholder="请输入你的账号"></el-input>
+        <el-input
+          v-model="formRole.user"
+          placeholder="请输入你的账号"
+        ></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input type="password" v-model="formRole.pwd" placeholder="请输入你的密码"></el-input>
+        <el-input
+          type="password"
+          v-model="formRole.pwd"
+          placeholder="请输入你的密码"
+        ></el-input>
       </el-form-item>
       <el-form-item class="footer">
-        <el-button size="small" v-if="isCreate" type="primary" @click="handleValidation"
+        <el-button
+          size="small"
+          v-if="isCreate"
+          type="primary"
+          @click="handleValidation"
           >验证服务并添加</el-button
         >
-        <el-button size="small" v-else type="primary" 
-          >保存修改</el-button
-        >
+        <el-button size="small" v-else type="primary" @click="handleValidation">保存修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -41,6 +59,21 @@ import _ from 'lodash';
 import { Loading } from 'element-ui';
 import { v4 as uuidv4 } from 'uuid';
 
+const dafultFormRole = process.env.NODE_ENV === 'production' 
+? ({
+  roleName: '',
+  user: '',
+  pwd: '',
+  api: '',
+  domain: '',
+}) : ({
+  roleName: '',
+  user: '15992470692',
+  pwd: '123456',
+  api: 'http://120.236.169.14:7081/v1',
+  domain: 'atwork',
+});
+
 export default {
   components: {},
   props: {
@@ -52,14 +85,18 @@ export default {
   data() {
     return {
       formRole: {
-        roleName: '',
-        user: '15992470692',
-        pwd: '123456',
-        api: 'http://120.236.169.14:7081/v1',
-        domain: 'atwork',
+        ...dafultFormRole,
       },
       validation: false, // 添加的服务是否验证成功
     };
+  },
+  watch: {
+    role(val) {
+      console.log(val);
+      if (val) {
+        this.formRole = { ...val };
+      }
+    },
   },
   computed: {
     isCreate() {
@@ -97,11 +134,8 @@ export default {
     handleAddRole() {
       if (this.validation) {
         const role = {
-          roleName: this.formRole.roleName,
-          user: this.formRole.user,
-          pwd: this.formRole.pwd,
-          api: this.formRole.api,
-          domain: this.formRole.domain,
+          ...this.formRole,
+          lastUpdateTime: Date.now(),
         };
 
         this.$msgbox.close();
@@ -112,10 +146,18 @@ export default {
           role.id = this.role.id;
           this.update(role);
         }
+        this.reset();
       } else {
         this.$message.error('请先验证服务是否正确');
       }
     },
+
+    reset() {
+      this.formRole = {
+        ...dafultFormRole,
+      };
+      this.validation = false;
+    }
   },
 };
 </script>

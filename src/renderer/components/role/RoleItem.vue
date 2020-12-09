@@ -26,12 +26,11 @@
         confirm-button-text='删除'
         cancel-button-text='取消'
         title="确定删除该角色？"
-        @confirm="roleDel"
-        @cancel="roleDel"
+        @confirm="handleDeleteRole"
       >
         <i class="icon el-icon-delete" slot="reference"></i>
       </el-popconfirm>
-      <i class="icon el-icon-edit" @click="roleEdit"></i>
+      <i class="icon el-icon-edit" @click="handleEditRole"></i>
     </div>
   </div>
 </template>
@@ -48,11 +47,11 @@ export default {
     return {};
   },
   methods: {
-    roleEdit() {
-      this.$emit('roleEdit', this.roleItemId);
+    handleEditRole() {
+      this.$emit('edit', this.role);
     },
-    roleDel() {
-      console.log('roleDel');
+    handleDeleteRole() {
+      this.$emit('delete', this.role);
     },
   },
 };

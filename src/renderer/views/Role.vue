@@ -3,12 +3,12 @@
     <TitleBar
       :titleText="$t('page.role.title')"
       :showBtn="true"
-      @handleClick="addRole"
+      @handleClick="handleCreateRole"
       :tips="$t('page.role.tips')"
     />
     <div class="main_content">
       <div class="item_list_content" v-if="!isEmpty">
-        <RoleItem v-for="role of roles" :key="role.id" :role="role" />
+        <RoleItem v-for="role of roles" :key="role.id" :role="role" @edit="handleCreateRole" @delete="handleDeleteRole"/>
       </div>
       <div v-else class="empty empty--role">
         <div class="empty__svg"></div>
@@ -44,14 +44,17 @@ export default {
     ]),
   },
   methods: {
-    addRole() {
+    ...mapActions('Role' ,[
+      'delete',
+    ]),
+    handleCreateRole(role) {
       const h = this.$createElement;
       const _this = this;
+      const title = role ? '编辑角色' : '添加角色';
       this.$msgbox({
-        title: '添加角色',
+        title,
         message: h(AddRole, {
-          props: { status: 'add' },
-          on: { addRoleHandle: _this.addRoleHandle },
+          props: { role: role || null },
         }),
         showCancelButton: false,
         showConfirmButton: false,
@@ -62,33 +65,9 @@ export default {
         });
     },
 
-    roleEdit(roleItemId) {
-      const h = this.$createElement;
-      const _this = this;
-      this.$msgbox({
-        title: '修改角色 ',
-        message: h(AddRole, {
-          props: { status: 'edit', roleId: roleItemId },
-          on: { handleEditRole: _this.editHandleRole },
-        }),
-        showCancelButton: false,
-        showConfirmButton: false,
-      })
-        .then(() => {})
-        .catch((err) => {
-          console.error(err);
-        });
+    handleDeleteRole(role) {
+      this.delete(role.id);
     },
-    roleDel(roleItemId) {
-
-    },
-    addRoleHandle(role) {
-    },
-    editHandleRole(options) {
-    },
-  },
-  created() {
-
   },
 };
 </script>
