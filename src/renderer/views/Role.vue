@@ -45,7 +45,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions('Role' ,[
+    ...mapActions('Role', [
       'delete',
     ]),
     handleCreateRole(role) {
