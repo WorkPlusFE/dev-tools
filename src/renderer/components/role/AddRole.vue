@@ -59,7 +59,7 @@ import _ from 'lodash';
 import { Loading } from 'element-ui';
 import { v4 as uuidv4 } from 'uuid';
 
-const dafultFormRole = process.env.NODE_ENV === 'production' 
+const dafultFormRole = process.env.NODE_ENV === 'production'
 ? ({
   roleName: '',
   user: '',

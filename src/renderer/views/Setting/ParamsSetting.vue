@@ -17,7 +17,10 @@
           <h3>{{$t('page.paramsSetting.tips.title')}}</h3>
           <p>{{currentLink}}</p>
         </div>
-        <div v-html="$t('page.paramsSetting.tips.message')"></div>
+        <div >
+            <span>{{$t('page.paramsSetting.tips.message')}}</span>
+            <a class="cursor" @click="handleOpen">{{$t('page.paramsSetting.tips.link')}}</a>
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +28,7 @@
 
 <script>
 import TitleBar from '@/components/TitleBar.vue';
-
+import { shell } from 'electron';
 export default {
   name: 'params-setting',
   data() {
@@ -81,6 +84,11 @@ export default {
   components: {
     TitleBar,
   },
+  methods: {
+    handleOpen() {
+      shell.openExternal('https://open.workplus.io/v4/light-app/#%E5%90%AF%E5%8A%A8%E5%9C%B0%E5%9D%80');
+    }
+  }
 };
 </script>
 
@@ -132,5 +140,8 @@ export default {
     color: var(--text-primary-color);
     word-break: break-all;
   }
+}
+.cursor{
+  cursor: pointer;
 }
 </style>
