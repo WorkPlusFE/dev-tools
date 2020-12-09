@@ -7,12 +7,25 @@
 
 <script>
 import Sidebar from "@/components/Sidebar";
+import { mapState } from 'vuex';
 
 export default {
   name: 'dev-tools',
   components: {
     Sidebar,
   },
+  computed: {
+    ...mapState('setting',['dark','isZhCnLng'])
+  },
+  mounted() {
+    this.$i18n.locale = this.isZhCnLng ? 'zh-CN' : 'en';
+    if(this.dark){
+      document.getElementsByTagName("body")[0].setAttribute('data-theme', 'dark');
+    }else{
+        document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
+    }
+  
+  }
 };
 </script>
 

@@ -60,7 +60,7 @@
         </li>
         <li class="setting-item" @click="handleOpenDocumentWebsite">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.document')}}{{te}}</p>
+            <p>{{$t('page.setting.list.document')}}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-arrow-right"></i>
@@ -96,7 +96,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('setting',{'te':'dark'}),
+    ...mapState('setting',{'vuex_dark':'dark','vuex_isZhCnLng':'isZhCnLng'}),
     isDarkMode() {
       return this.theme === 'dark';
     },
@@ -105,7 +105,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('setting',['changedark']),
+    ...mapActions('setting',['changedark','changeLanguage']),
     handleOpenDocumentWebsite() {
       shell.openExternal('https://open.workplus.io/dev/packages.html#dev-tools');
     },
@@ -116,6 +116,7 @@ export default {
     },
     languageSwitch(value) {
       this.$i18n.locale = value ? 'zh-CN' : 'en';
+      this.changeLanguage(value);
     },
     bgColorSwitch(value) {
       if(value){
@@ -123,9 +124,9 @@ export default {
       }else{
          document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
       }
+      this.changedark(value);
     },
     getVersion() {
-      this.changedark(true);
       this.version = process.env.MY_VERSION
     }
   },
@@ -134,6 +135,8 @@ export default {
   },
   mounted() {
      this.getVersion();
+     this.dark = this.vuex_dark;
+     this.isZhCnLng = this.vuex_isZhCnLng;
   }
 }
 </script>

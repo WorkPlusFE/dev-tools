@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     handleOpen() {
-      shell.openExternal('https://open.workplus.io/v4/light-app/#%E5%90%AF%E5%8A%A8%E5%9C%B0%E5%9D%80');
+      shell.openExternal('https://open.workplus.io/v4/light-app/#%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E5%9C%B0%E5%9D%80');
     }
   }
 };
