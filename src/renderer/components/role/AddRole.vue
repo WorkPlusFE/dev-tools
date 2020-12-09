@@ -8,7 +8,7 @@
     >
       <el-form-item label="角色名称">
         <el-input
-          v-model="formRole.roleName"
+          v-model="formRole.name"
           placeholder="请输入角色名称，50字符内"
         ></el-input>
       </el-form-item>
@@ -52,27 +52,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import BaseRequest from '@/server/BaseRequest.js';
 import DetailRequest from '@/server/DetailRequest.js';
 import _ from 'lodash';
 import { Loading } from 'element-ui';
 import { v4 as uuidv4 } from 'uuid';
-
-const dafultFormRole = process.env.NODE_ENV === 'production' 
-? ({
-  roleName: '',
-  user: '',
-  pwd: '',
-  api: '',
-  domain: '',
-}) : ({
-  roleName: '',
-  user: '15992470692',
-  pwd: '123456',
-  api: 'http://120.236.169.14:7081/v1',
-  domain: 'atwork',
-});
+import { defaultRoleInfo } from "@/constants/initialData";
 
 export default {
   components: {},
@@ -85,7 +71,7 @@ export default {
   data() {
     return {
       formRole: {
-        ...dafultFormRole,
+        ...defaultRoleInfo,
       },
       validation: false, // 添加的服务是否验证成功
     };
@@ -100,7 +86,7 @@ export default {
   },
   computed: {
     isCreate() {
-      return this.role === null;
+      return !this.role.id;
     },
   },
   methods: {
@@ -146,18 +132,13 @@ export default {
           role.id = this.role.id;
           this.update(role);
         }
-        this.reset();
       } else {
         this.$message.error('请先验证服务是否正确');
       }
     },
-
-    reset() {
-      this.formRole = {
-        ...dafultFormRole,
-      };
-      this.validation = false;
-    }
+  },
+  created() {
+    this.formRole = { ...this.role };
   },
 };
 </script>
