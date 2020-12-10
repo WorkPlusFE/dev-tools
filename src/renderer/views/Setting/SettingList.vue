@@ -5,7 +5,7 @@
       <ul class="settings">
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.theme.label')}}</p>
+            <p>{{ $t('page.setting.list.theme.label') }}</p>
           </div>
           <div class="setting-item__right">
             <el-switch
@@ -14,13 +14,14 @@
               :inactive-color="switchBgColor"
               :active-text="$t('page.setting.list.theme.dark')"
               :inactive-text="$t('page.setting.list.theme.light')"
-              @change="bgColorSwitch">
+              @change="bgColorSwitch"
+            >
             </el-switch>
           </div>
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.language.label')}}</p>
+            <p>{{ $t('page.setting.list.language.label') }}</p>
           </div>
           <div class="setting-item__right">
             <el-switch
@@ -29,30 +30,34 @@
               :inactive-color="switchBgColor"
               :active-text="$t('page.setting.list.language.zhCN')"
               :inactive-text="$t('page.setting.list.language.en')"
-              @change="languageSwitch">
+              @change="languageSwitch"
+            >
             </el-switch>
           </div>
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.testUpgrade')}}</p>
+            <p>{{ $t('page.setting.list.testUpgrade') }}</p>
           </div>
           <div class="setting-item__right">
-            {{version}} <i class="el-icon-refresh" @click="getVersion"></i>
+            {{ version }} <i class="el-icon-refresh" @click="getVersion"></i>
           </div>
         </li>
-        <li class="setting-item" @click=" centerDialogVisible = true">
+        <li class="setting-item" @click="centerDialogVisible = true">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.about')}}</p>
+            <p>{{ $t('page.setting.list.about') }}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-warning-outline"></i>
           </div>
         </li>
-        
-        <li class="setting-item setting-item__driver" @click="handleGoParamsSettingPage">
+
+        <li
+          class="setting-item setting-item__driver"
+          @click="handleGoParamsSettingPage"
+        >
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.paramsSetting')}}</p>
+            <p>{{ $t('page.setting.list.paramsSetting') }}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-arrow-right"></i>
@@ -60,22 +65,21 @@
         </li>
         <li class="setting-item" @click="handleOpenDocumentWebsite">
           <div class="setting-item__content">
-            <p>{{$t('page.setting.list.document')}}</p>
+            <p>{{ $t('page.setting.list.document') }}</p>
           </div>
           <div class="setting-item__right">
             <i class="el-icon-arrow-right"></i>
           </div>
         </li>
       </ul>
-    
-    
     </div>
     <el-dialog
       :title="$t('page.setting.list.description.title')"
       :visible.sync="centerDialogVisible"
       width="380px"
-      center>
-      <span>{{$t('page.setting.list.description.content')}}</span>
+      center
+    >
+      <span>{{ $t('page.setting.list.description.content') }}</span>
     </el-dialog>
   </div>
 </template>
@@ -83,7 +87,7 @@
 <script>
 import TitleBar from '@/components/TitleBar.vue';
 import { shell } from 'electron';
-import { mapActions, mapState} from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
   name: 'setting-list',
   data() {
@@ -92,11 +96,11 @@ export default {
       isZhCnLng: true,
       theme: 'dark',
       version: '',
-      centerDialogVisible: false
+      centerDialogVisible: false,
     };
   },
   computed: {
-    ...mapState('setting',{'vuex_dark':'dark','vuex_isZhCnLng':'isZhCnLng'}),
+    ...mapState('setting', { vuex_dark: 'dark', vuex_isZhCnLng: 'isZhCnLng' }),
     isDarkMode() {
       return this.theme === 'dark';
     },
@@ -105,9 +109,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions('setting',['changedark','changeLanguage']),
+    ...mapActions('setting', ['changedark', 'changeLanguage']),
     handleOpenDocumentWebsite() {
-      shell.openExternal('https://open.workplus.io/dev/packages.html#dev-tools');
+      shell.openExternal(
+        'https://open.workplus.io/dev/packages.html#dev-tools'
+      );
     },
     handleGoParamsSettingPage() {
       this.$router.push({
@@ -119,26 +125,30 @@ export default {
       this.changeLanguage(value);
     },
     bgColorSwitch(value) {
-      if(value){
-        document.getElementsByTagName("body")[0].setAttribute('data-theme', 'dark');
-      }else{
-         document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
+      if (value) {
+        document
+          .getElementsByTagName('body')[0]
+          .setAttribute('data-theme', 'dark');
+      } else {
+        document
+          .getElementsByTagName('body')[0]
+          .setAttribute('data-theme', 'light');
       }
       this.changedark(value);
     },
     getVersion() {
-      this.version = process.env.MY_VERSION
-    }
+      this.version = process.env.MY_VERSION;
+    },
   },
   components: {
     TitleBar,
   },
   mounted() {
-     this.getVersion();
-     this.dark = this.vuex_dark;
-     this.isZhCnLng = this.vuex_isZhCnLng;
-  }
-}
+    this.getVersion();
+    this.dark = this.vuex_dark;
+    this.isZhCnLng = this.vuex_isZhCnLng;
+  },
+};
 </script>
 
 <style lang="less">
