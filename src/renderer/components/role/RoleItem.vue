@@ -28,9 +28,16 @@
         title="确定删除该角色？"
         @confirm="handleDeleteRole"
       >
-        <i class="icon el-icon-delete" slot="reference"></i>
+        <el-tooltip content="删除" placement="top" :open-delay="500" :enterable="false" slot="reference">
+        <i class="icon el-icon-delete"></i>
+        </el-tooltip>
       </el-popconfirm>
-      <i class="icon el-icon-edit" @click="handleEditRole"></i>
+      <el-tooltip content="复制" placement="top" :open-delay="500" :enterable="false">
+        <i class="icon el-icon-copy-document" @click="handleCopyRole" ></i>
+      </el-tooltip>
+      <el-tooltip content="编辑" placement="top" :open-delay="500" :enterable="false">
+        <i class="icon el-icon-edit" @click="handleEditRole"></i>
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -52,6 +59,9 @@ export default {
     },
     handleDeleteRole() {
       this.$emit('delete', this.role);
+    },
+    handleCopyRole() {
+      this.$emit('copy', this.role);
     },
   },
 };

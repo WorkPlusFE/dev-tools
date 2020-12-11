@@ -14,6 +14,7 @@
           :role="role"
           @edit="handleCreateRole"
           @delete="handleDeleteRole"
+          @copy="handleCopyRole"
         />
       </div>
       <div v-else class="empty empty--role">
@@ -33,7 +34,7 @@ import TitleBar from '@/components/TitleBar.vue';
 import RoleItem from '@/components/role/RoleItem.vue';
 import AddRole from '@/components/role/AddRole.vue';
 import _ from 'lodash';
-import { v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'MainRole',
@@ -47,7 +48,7 @@ export default {
     ...mapGetters('Role', ['roles', 'isEmpty', 'role']),
   },
   methods: {
-    ...mapActions('Role', ['delete']),
+    ...mapActions('Role', ['delete', 'create']),
     handleCreateRole(role) {
       const h = this.$createElement;
       const _this = this;
@@ -68,6 +69,16 @@ export default {
 
     handleDeleteRole(role) {
       this.delete(role.id);
+    },
+
+    handleCopyRole(role) {
+      const namePrev = '(新)';
+      const newRole = {
+        ...role,
+        name: `${namePrev}${role.name}`,
+        id: uuidv4(),
+      };
+      this.create(newRole);
     },
   },
 };

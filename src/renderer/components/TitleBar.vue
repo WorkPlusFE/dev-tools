@@ -6,6 +6,7 @@
         class="item"
         effect="dark"
         placement="right-end"
+        :enterable="false"
         v-if="showTips"
       >
         <div slot="content">{{tips}}</div>

@@ -82,8 +82,12 @@
 }
 
 .el-tooltip__popper {
-  width: 150px;
-  line-height: 20px;
+  max-width: 130px;
+  line-height: 14px;
+  font-size: var(--text-desc-font-size);
+  word-break: break-all;
+  padding: 4px 6px;
+  border-radius: 2px;
 }
 
 .el-dialog{
@@ -94,4 +98,62 @@
   .el-dialog__body{
     color: var(--text-color);
   }
+}
+
+// el-popconfirm
+.el-popconfirm {
+  &__main {
+    padding-bottom: 12px;
+    font-size: 12px;
+    i {
+      font-size: 15px;
+    }
+  }
+}
+
+[data-theme="dark"] {
+  // 下拉选择框
+  .el-select-dropdown {
+    background: #0B1015;
+    border-color: #0B1015;
+    .el-select-dropdown__item.hover, 
+    .el-select-dropdown__item:hover {
+      background-color: #07161C;
+    }
+    .el-select-dropdown__item.selected {
+      color: var(--text-primary-color);
+      font-weight: 700;
+    }
+  }
+  .el-select:hover .el-input__inner {
+    border-color: var(--text-primary-color);
+  }
+
+  .el-select .el-input.is-focus .el-input__inner {
+    border-color: var(--text-primary-color);
+  }
+
+  .el-select .el-input__inner:focus {
+    border-color: var(--text-primary-color);
+  }
+
+  // 气泡确认框
+  .el-popper {
+    background: #0B1015 !important;
+    border-color: #07161C !important;
+    .popper__arrow,
+    .popper__arrow::after {
+      border-bottom-color: #07161C !important;
+    }
+    .el-popconfirm {
+      &__main {
+        color: var(--text-color);
+      }
+    }
+    .el-button--text {
+      color: var(--text-color);
+      font-size: 12px;
+    }
+  }
+
 }
