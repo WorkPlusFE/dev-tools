@@ -1,9 +1,4 @@
-import { defaultRoleInfo } from "../../constants/initialData";
-
 const state = () => ({
-  role: {
-    ...defaultRoleInfo,
-  },
   roles: [],
 });
 
@@ -45,7 +40,9 @@ const actions = {
 };
 
 const getters = {
-  role: (state) => state.role,
+  getRoleByName: (state) => (name) => {
+    return state.roles.find((role) => role.name === name);
+  },
   roles: (state) => state.roles,
   isEmpty: (state) => state.roles.length === 0,
 };

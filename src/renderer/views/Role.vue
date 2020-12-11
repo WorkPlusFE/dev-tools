@@ -8,7 +8,13 @@
     />
     <div class="main_content">
       <div class="item_list_content" v-if="!isEmpty">
-        <RoleItem v-for="role of roles" :key="role.id" :role="role" @edit="handleCreateRole" @delete="handleDeleteRole"/>
+        <RoleItem
+          v-for="role of roles"
+          :key="role.id"
+          :role="role"
+          @edit="handleCreateRole"
+          @delete="handleDeleteRole"
+        />
       </div>
       <div v-else class="empty empty--role">
         <div class="empty__svg"></div>
@@ -22,7 +28,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 import TitleBar from '@/components/TitleBar.vue';
 import RoleItem from '@/components/role/RoleItem.vue';
 import AddRole from '@/components/role/AddRole.vue';
@@ -38,33 +44,26 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('Role', [
-      'roles',
-      'isEmpty',
-      'role'
-    ]),
+    ...mapGetters('Role', ['roles', 'isEmpty', 'role']),
   },
   methods: {
-    ...mapActions('Role', [
-      'delete',
-    ]),
+    ...mapActions('Role', ['delete']),
     handleCreateRole(role) {
       const h = this.$createElement;
       const _this = this;
       const title = role ? '编辑角色' : '添加角色';
-      const roleProps = role || ({ ...this.role });
+      const roleProps = role || null;
       this.$msgbox({
         title,
         message: h(AddRole, {
+          key: Date.now(),
           props: { role: roleProps },
         }),
         showCancelButton: false,
         showConfirmButton: false,
       })
-        .then(() => {})
-        .catch((err) => {
-          console.error(err);
-        });
+        .then((action) => {})
+        .catch((err) => {});
     },
 
     handleDeleteRole(role) {

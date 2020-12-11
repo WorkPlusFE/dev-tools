@@ -35,7 +35,7 @@ export default class DetailRequest {
     const url = `${api}/organizations?access_token=${token}`;
     return DetailRequest.baseRequest.requestForGet(url).then(data => {
       const results = _.get(data, `data.result`, []);
-      return results
+      return results;
     })
   }
 }

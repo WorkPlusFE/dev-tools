@@ -88,6 +88,7 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     .search {
       height: 30px;
       line-height: 30px;

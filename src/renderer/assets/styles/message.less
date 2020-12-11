@@ -1,0 +1,29 @@
+.el-message {
+  top: 15px !important;
+  z-index: 2000;
+  width: auto;
+  min-width: auto;
+  border-radius: 2px;
+  text-align: center;
+  padding: 8px 10px;
+  .el-icon-success {
+    margin-right: 8px;
+  }
+  &__content {
+    font-size: var(--text-message-font-size);
+    color: var(--text-color);
+  }
+}
+
+[data-theme="dark"] {
+  .el-message {
+    .el-icon-success {
+      color: var(--color-primary);
+    }
+    &--success {
+      .el-message__content {
+        color: var(--color-primary);
+      }
+    }
+  }
+}

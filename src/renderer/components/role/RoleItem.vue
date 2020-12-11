@@ -10,7 +10,7 @@
       </p>
       <p class="role-description">
         <strong>{{ $t('page.role.orgLabel') }}</strong
-        ><i>测试-恒拓高科技术</i>
+        ><i>{{ role.orgName }}</i>
       </p>
       <p class="role-description">
         <strong>{{ $t('page.role.accountLabel') }}</strong
