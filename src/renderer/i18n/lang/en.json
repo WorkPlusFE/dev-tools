@@ -42,7 +42,7 @@
           "zhCN": "zh-CN",
           "en": "EN"
         },
-        "testUpgrade": "Detect updates",
+        "version": "Version",
         "about": "About",
         "paramsSetting": "Link parameter description",
         "document": "Document",

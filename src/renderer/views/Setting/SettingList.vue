@@ -3,7 +3,27 @@
     <TitleBar :titleText="$t('page.setting.title')" />
     <div class="main_content">
       <ul class="settings">
-        <li class="setting-item">
+        <li
+          class="setting-item"
+          @click="handleGoParamsSettingPage"
+        >
+          <div class="setting-item__content">
+            <p>{{ $t('page.setting.list.paramsSetting') }}</p>
+          </div>
+          <div class="setting-item__right">
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </li>
+        <li class="setting-item" @click="handleOpenDocumentWebsite">
+          <div class="setting-item__content">
+            <p>{{ $t('page.setting.list.document') }}</p>
+          </div>
+          <div class="setting-item__right">
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </li>
+        <!-- driver -->
+        <li class="setting-item setting-item__driver">
           <div class="setting-item__content">
             <p>{{ $t('page.setting.list.theme.label') }}</p>
           </div>
@@ -23,7 +43,7 @@
           <div class="setting-item__content">
             <p>{{ $t('page.setting.list.language.label') }}</p>
           </div>
-          <div class="setting-item__right">
+          <div class="setting-item__right" :key="renderKey">
             <el-switch
               v-model="isZhCnLng"
               :active-color="switchBgColor"
@@ -37,10 +57,10 @@
         </li>
         <li class="setting-item">
           <div class="setting-item__content">
-            <p>{{ $t('page.setting.list.testUpgrade') }}</p>
+            <p>{{ $t('page.setting.list.version') }}</p>
           </div>
           <div class="setting-item__right">
-            {{ version }} <i class="el-icon-refresh" @click="getVersion"></i>
+            {{ version }}
           </div>
         </li>
         <li class="setting-item" @click="centerDialogVisible = true">
@@ -49,26 +69,6 @@
           </div>
           <div class="setting-item__right">
             <i class="el-icon-warning-outline"></i>
-          </div>
-        </li>
-
-        <li
-          class="setting-item setting-item__driver"
-          @click="handleGoParamsSettingPage"
-        >
-          <div class="setting-item__content">
-            <p>{{ $t('page.setting.list.paramsSetting') }}</p>
-          </div>
-          <div class="setting-item__right">
-            <i class="el-icon-arrow-right"></i>
-          </div>
-        </li>
-        <li class="setting-item" @click="handleOpenDocumentWebsite">
-          <div class="setting-item__content">
-            <p>{{ $t('page.setting.list.document') }}</p>
-          </div>
-          <div class="setting-item__right">
-            <i class="el-icon-arrow-right"></i>
           </div>
         </li>
       </ul>
@@ -94,18 +94,15 @@ export default {
     return {
       dark: true,
       isZhCnLng: true,
-      theme: 'dark',
       version: '',
       centerDialogVisible: false,
+      renderKey: Date.now(),
     };
   },
   computed: {
     ...mapState('setting', { vuex_dark: 'dark', vuex_isZhCnLng: 'isZhCnLng' }),
-    isDarkMode() {
-      return this.theme === 'dark';
-    },
     switchBgColor() {
-      return this.isDarkMode ? '#47B785' : '#279AFC';
+      return this.dark ? '#47B785' : '#279AFC';
     },
   },
   methods: {
@@ -135,9 +132,10 @@ export default {
           .setAttribute('data-theme', 'light');
       }
       this.changedark(value);
+      this.renderKey = Date.now();
     },
     getVersion() {
-      this.version = process.env.MY_VERSION;
+      this.version = `v${process.env.MY_VERSION}`;
     },
   },
   components: {

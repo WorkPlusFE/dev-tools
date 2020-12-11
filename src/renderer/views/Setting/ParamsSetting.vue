@@ -96,11 +96,14 @@ export default {
 
 .params {
   border-top: 1px solid var(--border-color);
-  margin-top: 40px;
+  padding-top: 40px;
   .param {
     display: flex;
     padding: 8px 15px;
     border-bottom: 1px solid var(--border-color);
+    &:first-child {
+      border-top: 1px solid var(--border-color);
+    }
     > div {
       flex: 1;
     }
