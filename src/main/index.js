@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow,
-appWin;
+  appWin;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
@@ -27,7 +27,8 @@ function createWindow() {
     resizable: false, //
     webPreferences: {
       nodeIntegration: true,
-      nodeIntegrationInWorker: true
+      nodeIntegrationInWorker: true,
+      enableRemoteModule: true,
     },
   });
 
@@ -35,7 +36,6 @@ function createWindow() {
   mainWindow.webContents.once('dom-ready', () => {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
   });
-
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -89,15 +89,15 @@ class appWindow {
   heiht = 800;
 
   show(url) {
-      // this.appWin.loadURL(url);
-      if (this.appWin) {
-          this.appWin.show();
-      } else {
-          this.createappWindow();
-      }
+    // this.appWin.loadURL(url);
+    if (this.appWin) {
       this.appWin.show();
-      this.appWin.focus();
-      // this.appWin.webContents.openDevTools({ mode: 'detach' });
+    } else {
+      this.createAppWindow();
+    }
+    this.appWin.show();
+    this.appWin.focus();
+    // this.appWin.webContents.openDevTools({ mode: 'detach' });
   }
 
   constructor() {
@@ -105,49 +105,44 @@ class appWindow {
   }
 
   startAppView() {
-      if (!this.appWin) {
-          this.createappWindow();
-      }
+    if (!this.appWin) {
+      this.createAppWindow();
+    }
   }
 
   /**
 * 初始化窗口
 */
- createappWindow() {
-      this.appWin = new BrowserWindow({
-          width: this.width,
-height: this.heiht,
-webPreferences: {
-              nodeIntegration: true,
-              nodeIntegrationInSubFrames: true,
-              preload: "./preload.js"
-              // webSecurity: false
-          },
-          resizable: false,
-          show: false,
-          frame: false,
-          // fullscreenable: false,
-      })
+  createAppWindow() {
+    this.appWin = new BrowserWindow({
+      width: this.width,
+      height: this.heiht,
+      webPreferences: {
+        nodeIntegration: true,
+        nodeIntegrationInSubFrames: true,
+        enableRemoteModule: true,
+        preload: "./preload.js"
+        // webSecurity: false
+      },
+      resizable: false,
+      show: false,
+      frame: false,
+      // fullscreenable: false,
+    })
 
-      this.appWin.on('closed', () => {
-          this.appWin = null;
-      });
+    this.appWin.on('closed', () => {
+      this.appWin = null;
+    });
 
-      this.loadAppView();
+    this.loadAppView();
   }
 
   loadAppView = () => {
-      // const loadUrl = url.format({
-      //     pathname: path.resolve(app.getAppPath(), 'index.html'),
-      //     protocol: 'file:',
-      //     slashes: true
-      // });
-      this.appWin.loadURL("http://localhost:2003/video_group");
-      this.appWin.once('ready-to-show', () => {
-          this.appWin.hide();
-          this.appWin.center();
-          // this.show();
-      })
+    this.appWin.loadURL("http://localhost:2003/video_group");
+    this.appWin.once('ready-to-show', () => {
+      this.appWin.hide();
+      this.appWin.center();
+    })
   }
 }
 
