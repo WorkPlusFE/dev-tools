@@ -63,7 +63,7 @@ export default {
     padding-bottom: 10px;
     .app-name {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       padding-bottom: 6px;
       h3 {
         font-size: var(--text-font-size);
@@ -72,6 +72,7 @@ export default {
       i {
         padding-right: 5px;
         font-size: 13px;
+        padding-top: 3px;
       }
     }
     .app-description {
