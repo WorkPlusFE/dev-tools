@@ -32,7 +32,7 @@
           :class="{
             icon: true,
             'el-icon-s-tools': true,
-            'router-link-active': settingRouteActive
+            'router-link-active': settingRouteActive,
           }"
           :title="$t('sidebar.setting')"
           exact
@@ -40,7 +40,18 @@
         ></router-link>
       </div>
       <div class="menus__base">
-        <div class="icon el-icon-switch-button logout" :title="$t('sidebar.logout')"></div>
+        <el-popconfirm
+          confirm-button-text="确定"
+          cancel-button-text="取消"
+          title="是否确定关闭应用？"
+          @confirm="handleExit"
+        >
+          <div
+            class="icon el-icon-switch-button logout"
+            slot="reference"
+            :title="$t('sidebar.logout')"
+          ></div>
+        </el-popconfirm>
       </div>
     </div>
   </div>
@@ -53,6 +64,12 @@ export default {
     settingRouteActive() {
       const path = this.$route.path;
       return path === '/setting' || path === '/params';
+    },
+  },
+  methods: {
+    handleExit() {
+      const app = require('electron').remote.app;
+      app.exit();
     },
   },
 };
