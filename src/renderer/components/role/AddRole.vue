@@ -11,7 +11,10 @@
       <el-form-item label="角色名称" prop="name">
         <el-input
           v-model="formRole.name"
-          placeholder="请输入角色名称，50字符内"
+          placeholder="请输入角色名称"
+          maxlength="30"
+          show-word-limit
+          autofocus
         ></el-input>
       </el-form-item>
       <el-form-item label="域 ID" prop="domain">
@@ -37,6 +40,7 @@
           type="password"
           v-model="formRole.pwd"
           placeholder="请输入你的密码"
+          show-password
         ></el-input>
       </el-form-item>
       <transition name="el-zoom-in-top">
@@ -107,7 +111,6 @@ export default {
       rules: {
         name: [
           { required: true, message: '角色名称不能为空', trigger: 'blur' },
-          { min: 1, max: 50, message: '已超出最大字符数 50', trigger: 'blur' },
         ],
         domain: [
           { required: true, message: '域 ID 不能为空', trigger: 'blur' },

@@ -67,6 +67,7 @@ export default {
         .catch((err) => {});
     },
 
+    // TODO: 关联的角色，不可删除
     handleDeleteRole(role) {
       this.delete(role.id);
     },

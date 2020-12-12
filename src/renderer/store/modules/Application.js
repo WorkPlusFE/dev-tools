@@ -16,24 +16,38 @@ const mutations = {
     const index = state.apps.findIndex(app => app.id === app.id);
     state.apps.splice(index, 1, app);
   },
+
+  sort(state) {
+    state.apps.sort((a, b) => b.lastUpdateTime - a.lastUpdateTime);
+  },
 };
 
 const actions = {
   create(context, app) {
     context.commit('create', app);
+    context.commit('sort');
   },
 
   delete(context, appId) {
     context.commit('delete', appId);
+    context.commit('sort');
   },
 
   update(context, app) {
     context.commit('update', app);
+    context.commit('sort');
   },
 };
 
 const getters = {
-  searchByQuery: (state) => (query) => state.apps.find(app => app.name.indexOf(query) > -1),
+  searchByQuery: (state) => (query) => {
+    if (query.trim() === '') return state.apps;
+    return state.apps.filter(app => app.name.indexOf(query) > -1);
+  },
+
+  getAppByName: (state) => (name) => {
+    return state.apps.find((app) => app.name === name);
+  },
 
   apps: (state) => state.apps,
 

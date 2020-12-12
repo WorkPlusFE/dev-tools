@@ -9,20 +9,27 @@
         <i v-else class="icon el-icon-monitor"></i>
         <h3>{{ app.name }}</h3>
       </div>
-      <p class="app-description">{{ app.description }}这是一段描述</p>
+      <p class="app-description">{{ app.description }}</p>
     </div>
     <div class="app-item__footer">
-      <i class="icon el-icon-delete" @click="handleDeleteApp"></i>
-      <i class="icon el-icon-edit" @click="handleEditApp"></i>
+      <el-popconfirm
+        confirm-button-text='删除'
+        cancel-button-text='取消'
+        title="确定删除该应用？"
+        @confirm="handleDeleteApp"
+      >
+        <el-tooltip content="删除" placement="top" :open-delay="500" :enterable="false" slot="reference">
+        <i class="icon el-icon-delete"></i>
+        </el-tooltip>
+      </el-popconfirm>
+      <el-tooltip content="编辑" placement="top" :open-delay="500" :enterable="false">
+        <i class="icon el-icon-edit" @click="handleEditApp"></i>
+      </el-tooltip>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { LocalStore } from '@/application/LocalStore';
-import _ from 'lodash';
-
 export default {
   components: {},
   props: {
@@ -32,27 +39,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['delete']),
     handleDeleteApp() {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      })
-        .then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!',
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除',
-          });
-        });
+      this.$emit('delete', this.app);
     },
-    handleEditApp() {},
+    handleEditApp() {
+      this.$emit('edit', this.app);
+    },
   },
 };
 </script>

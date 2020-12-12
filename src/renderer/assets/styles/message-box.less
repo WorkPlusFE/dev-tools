@@ -49,14 +49,16 @@
   .el-select {
     width: 100%;
   }
-  .el-input__inner {
+  .el-input__inner,
+  .el-textarea__inner {
     color: var(--form-label-color);
     font-size: var(--font-size);
   }
 }
 
 [data-theme='dark'] {
-  .el-input__inner {
+  .el-input__inner,
+  .el-textarea__inner {
     background-color: var(--search-bg-color) !important;
     border: none;
     border-bottom: 1px solid var(--text-primary-color);
@@ -111,6 +113,13 @@
   }
 }
 
+// el-radio-group
+.el-radio__label {
+  font-size: var(--font-size);
+  color: var(--text-color);
+  font-weight: normal;
+}
+
 [data-theme="dark"] {
   // 下拉选择框
   .el-select-dropdown {
@@ -155,5 +164,23 @@
       font-size: 12px;
     }
   }
+  .el-popper[x-placement^=top] .popper__arrow::after,
+  .el-popper[x-placement^=top] .popper__arrow {
+    border-top-color: #07161C !important;
+  }
 
+  // el-radio-group
+  .el-radio-group {
+    .el-radio__input.is-checked+.el-radio__label {
+      color: var(--text-primary-color);
+    }
+    .el-radio__input.is-checked .el-radio__inner {
+      border-color: var(--text-primary-color);
+      background: var(--text-primary-color);
+    }
+  }
+}
+
+.el-input .el-input__count .el-input__count-inner {
+  background: transparent;
 }

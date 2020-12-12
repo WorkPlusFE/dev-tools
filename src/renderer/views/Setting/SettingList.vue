@@ -141,7 +141,7 @@ export default {
   components: {
     TitleBar,
   },
-  mounted() {
+  created() {
     this.getVersion();
     this.dark = this.vuex_dark;
     this.isZhCnLng = this.vuex_isZhCnLng;

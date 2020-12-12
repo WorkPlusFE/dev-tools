@@ -3,20 +3,29 @@
     <TitleBar
       :titleText="$t('page.application.title')"
       :showBtn="true"
-      @handleClick="addApp"
+      @handleClick="handleCreateApp"
     />
     <div class="main_content">
       <div class="search">
         <el-input
           :placeholder="$t('page.application.searchPlaceholder')"
           v-model="searchValue"
+          :debounce="1000"
+          @input="handleSearchByName"
+          clearable
         >
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
 
       <div class="item_list_content" v-if="!isEmpty">
-        <AppItem v-for="app of apps" :key="app.id" :app="app" />
+        <AppItem
+          v-for="app of apps"
+          :key="app.id"
+          :app="app"
+          @delete="handleDeleteApp"
+          @edit="handleEditApp"
+        />
       </div>
       <div v-else class="empty">
         <div class="empty__svg"></div>
@@ -25,6 +34,8 @@
           <p>{{ $t('page.application.empty.tips') }}</p>
         </div>
       </div>
+
+      <div class="search-result-empty" v-if="showSearchResultIsEmpty">未搜索到任何内容！:)</div>
     </div>
   </div>
 </template>
@@ -41,39 +52,55 @@ export default {
   components: { TitleBar, AppItem, AddApp },
   data() {
     return {
+      apps: [],
       searchValue: '',
+      searchResultIsEmpty: false,
     };
   },
   computed: {
-    ...mapGetters('Application', [
-      'apps',
-      'searchByQuery',
-      'isEmpty'
-    ]),
+    ...mapGetters('Application', ['searchByQuery', 'isEmpty']),
+    showSearchResultIsEmpty() {
+      return this.searchResultIsEmpty && this.searchValue.trim() !== '';
+    },
   },
   methods: {
-    ...mapActions('Application', ['create']),
-    addApp() {
+    ...mapActions('Application', ['create', 'delete']),
+    handleCreateApp(app) {
       const h = this.$createElement;
       const _this = this;
+      const title = app ? '编辑应用' : '创建应用';
       this.$msgbox({
-        title: '创建应用',
+        title,
         message: h(AddApp, {
+          key: Date.now(),
           props: {
-            status: 'add',
+            app: app || null,
           },
-          on: { handleAddApp: _this.handleAddApp },
         }),
         showCancelButton: false,
         showConfirmButton: false,
-      });
+      })
+        .then(() => {})
+        .catch(() => {});
     },
 
-    handleAddApp(app) {
-      this.create(app);
+    handleDeleteApp(app) {
+      this.delete(app.id);
+    },
+    handleEditApp(app) {
+      this.handleCreateApp(app);
     },
   },
-  created() {},
+
+  created() {
+    this.apps = this.searchByQuery('');
+
+    const _this = this;
+    this.handleSearchByName = _.debounce((val) => {
+      _this.apps = _this.searchByQuery(val);
+      _this.searchResultIsEmpty = _this.apps.length === 0;
+    }, 500);
+  },
 };
 </script>
 
@@ -89,6 +116,7 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: relative;
     .search {
       height: 30px;
       line-height: 30px;
@@ -176,5 +204,14 @@ export default {
 }
 .el-input__icon {
   line-height: 31px;
+}
+
+.search-result-empty {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--text-placeholder-font-size);
+  color: var(--text-color);
 }
 </style>

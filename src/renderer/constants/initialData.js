@@ -20,6 +20,16 @@ export const defaultRoleInfo = process.env.NODE_ENV === 'production'
 export const defaultAppInfo = process.env.NODE_ENV === 'production' 
 ? ({
   name: '',
+  description: '',
+  link: '',
+  role: '',
+  roleName: '',
+  startMode: 'externalOpen',
 }) : ({
-  name: 'test',
+  name: '',
+  description: '这是一个测试应用',
+  link: 'https://workplus.io',
+  role: '',
+  roleName: '',
+  startMode: 'externalOpen',
 });
