@@ -57,6 +57,7 @@
     "electron": "^11.0.2",
     "element-ui": "2.14.1",
     "lodash": "^4.17.20",
+    "qrcode.vue": "^1.7.0",
     "uuid": "^8.3.1",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",

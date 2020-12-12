@@ -114,7 +114,9 @@ export default {
         ],
         domain: [
           { required: true, message: '域 ID 不能为空', trigger: 'blur' },
-          { min: 1, max: 50, message: '已超出最大字符数 50', trigger: 'blur' },
+          {
+ min: 1, max: 50, message: '已超出最大字符数 50', trigger: 'blur'
+},
         ],
         api: [
           { required: true, message: 'API 地址不能为空', trigger: 'blur' },
@@ -127,11 +129,15 @@ export default {
         ],
         user: [
           { required: true, message: '账号不能为空', trigger: 'blur' },
-          { min: 1, max: 30, message: '已超出最大字符数 30', trigger: 'blur' },
+          {
+ min: 1, max: 30, message: '已超出最大字符数 30', trigger: 'blur'
+},
         ],
         pwd: [
           { required: true, message: '密码不能为空', trigger: 'blur' },
-          { min: 1, max: 30, message: '已超出最大字符数 30', trigger: 'blur' },
+          {
+ min: 1, max: 30, message: '已超出最大字符数 30', trigger: 'blur'
+},
         ],
       },
     };
@@ -155,7 +161,7 @@ export default {
     ...mapActions('Role', ['create', 'update']),
 
     async handleValidation() {
-      const valid = await this.$refs['roleForm'].validate();
+      const valid = await this.$refs.roleForm.validate();
       if (!valid) return;
 
       this.loading = true;
@@ -193,7 +199,7 @@ export default {
         this.formRole.orgId = orgs[0].org_code;
         this.formRole.orgName = orgs[0].name;
       }
-      
+
       this.orgs = orgs;
     },
 

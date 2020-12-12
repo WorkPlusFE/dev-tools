@@ -1,4 +1,4 @@
-export const defaultRoleInfo = process.env.NODE_ENV === 'production' 
+export const defaultRoleInfo = process.env.NODE_ENV === 'production'
 ? ({
   name: '',
   user: '',
@@ -17,7 +17,7 @@ export const defaultRoleInfo = process.env.NODE_ENV === 'production'
   orgName: '',
 });
 
-export const defaultAppInfo = process.env.NODE_ENV === 'production' 
+export const defaultAppInfo = process.env.NODE_ENV === 'production'
 ? ({
   name: '',
   description: '',
@@ -25,6 +25,7 @@ export const defaultAppInfo = process.env.NODE_ENV === 'production'
   role: '',
   roleName: '',
   startMode: 'externalOpen',
+  top: 0,
 }) : ({
   name: '',
   description: '这是一个测试应用',
@@ -32,4 +33,5 @@ export const defaultAppInfo = process.env.NODE_ENV === 'production'
   role: '',
   roleName: '',
   startMode: 'externalOpen',
+  top: 0,
 });

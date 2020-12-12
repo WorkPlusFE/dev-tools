@@ -40,9 +40,7 @@ const actions = {
 };
 
 const getters = {
-  getRoleByName: (state) => (name) => {
-    return state.roles.find((role) => role.name === name);
-  },
+  getRoleByName: (state) => (name) => state.roles.find((role) => role.name === name),
   roles: (state) => state.roles,
   isEmpty: (state) => state.roles.length === 0,
 };

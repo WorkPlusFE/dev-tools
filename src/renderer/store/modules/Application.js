@@ -12,13 +12,14 @@ const mutations = {
     state.apps.splice(index, 1);
   },
 
-  update(state, app) {
-    const index = state.apps.findIndex(app => app.id === app.id);
-    state.apps.splice(index, 1, app);
+  update(state, data) {
+    const index = state.apps.findIndex(app => app.id === data.id);
+    state.apps.splice(index, 1, data);
   },
 
+  // 需要注意置顶的排序
   sort(state) {
-    state.apps.sort((a, b) => b.lastUpdateTime - a.lastUpdateTime);
+    state.apps.sort((a, b) => b.lastUpdateTime - a.lastUpdateTime).sort((a, b) => b.top - a.top);
   },
 };
 
@@ -37,6 +38,18 @@ const actions = {
     context.commit('update', app);
     context.commit('sort');
   },
+
+  setTop(context, app) {
+    app = { ...app, top: 1, lastUpdateTime: Date.now() };
+    context.commit('update', app);
+    context.commit('sort');
+  },
+
+  cancelTop(context, app) {
+    app = { ...app, top: 0, lastUpdateTime: Date.now() };
+    context.commit('update', app);
+    context.commit('sort');
+  },
 };
 
 const getters = {
@@ -45,9 +58,7 @@ const getters = {
     return state.apps.filter(app => app.name.indexOf(query) > -1);
   },
 
-  getAppByName: (state) => (name) => {
-    return state.apps.find((app) => app.name === name);
-  },
+  getAppByName: (state) => (name) => state.apps.find((app) => app.name === name),
 
   apps: (state) => state.apps,
 

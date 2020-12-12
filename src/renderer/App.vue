@@ -15,16 +15,15 @@ export default {
     Sidebar,
   },
   computed: {
-    ...mapState('setting',['dark','isZhCnLng'])
+    ...mapState('setting', ['dark', 'isZhCnLng'])
   },
   mounted() {
     this.$i18n.locale = this.isZhCnLng ? 'zh-CN' : 'en';
-    if(this.dark){
+    if (this.dark) {
       document.getElementsByTagName("body")[0].setAttribute('data-theme', 'dark');
-    }else{
+    } else {
         document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
     }
-  
   }
 };
 </script>

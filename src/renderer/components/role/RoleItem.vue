@@ -94,10 +94,10 @@ export default {
     }
     .role-description {
       font-size: var(--text-desc-font-size);
-      line-height: 18px;
+      line-height: 16px;
       strong {
         font-weight: normal;
-        width: 7em;
+        width: 6em;
         display: inline-block;
       }
       i {

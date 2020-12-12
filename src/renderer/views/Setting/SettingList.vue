@@ -108,9 +108,7 @@ export default {
   methods: {
     ...mapActions('setting', ['changedark', 'changeLanguage']),
     handleOpenDocumentWebsite() {
-      shell.openExternal(
-        'https://open.workplus.io/dev/packages.html#dev-tools'
-      );
+      shell.openExternal('https://open.workplus.io/dev/packages.html#dev-tools');
     },
     handleGoParamsSettingPage() {
       this.$router.push({

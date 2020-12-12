@@ -25,6 +25,8 @@
           :app="app"
           @delete="handleDeleteApp"
           @edit="handleEditApp"
+          @set-top="handleSetTop"
+          @cancel-top="handleCancelTop"
         />
       </div>
       <div v-else class="empty">
@@ -64,7 +66,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('Application', ['create', 'delete']),
+    ...mapActions('Application', ['create', 'delete', 'setTop', 'cancelTop']),
     handleCreateApp(app) {
       const h = this.$createElement;
       const _this = this;
@@ -90,6 +92,13 @@ export default {
     handleEditApp(app) {
       this.handleCreateApp(app);
     },
+
+    handleSetTop(app) {
+      this.setTop(app);
+    },
+    handleCancelTop(app) {
+      this.cancelTop(app);
+    }
   },
 
   created() {

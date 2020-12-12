@@ -1,0 +1,16 @@
+{
+  "id": "2187965",
+  "name": "devtools",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "32472",
+      "name": "qr_code",
+      "font_class": "qrcode",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    }
+  ]
+}

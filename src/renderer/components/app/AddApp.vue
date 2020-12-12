@@ -16,14 +16,6 @@
           autofocus
         ></el-input>
       </el-form-item>
-      <el-form-item label="应用描述" prop="description">
-        <el-input
-          v-model="formLabel.description"
-          type="textarea"
-          :rows="2"
-          placeholder="请输入应用描述，100字符内"
-        ></el-input>
-      </el-form-item>
       <el-form-item label="访问地址" prop="link">
         <el-input
           v-model="formLabel.link"
@@ -55,6 +47,15 @@
           >
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="应用描述" prop="description">
+        <el-input
+          v-model="formLabel.description"
+          type="textarea"
+          :rows="2"
+          placeholder="非必填，100字符内"
+        ></el-input>
+      </el-form-item>
+      
       <el-form-item class="footer">
         <el-button size="medium" type="primary" @click="openApp"
           >保存并打开</el-button
@@ -104,7 +105,9 @@ export default {
           { required: true, message: '应用名称不能为空', trigger: 'blur' },
         ],
         description: [
-          { min: 1, max: 50, message: '已超出最大字符数 100', trigger: 'blur' },
+          {
+ min: 1, max: 50, message: '已超出最大字符数 100', trigger: 'blur'
+},
         ],
         link: [
           { required: true, message: '应用访问地址不能为空', trigger: 'blur' },
@@ -123,7 +126,7 @@ export default {
   methods: {
     ...mapActions('Application', ['create', 'update']),
     async saveApp() {
-      const valid = await this.$refs['appForm'].validate();
+      const valid = await this.$refs.appForm.validate();
       if (!valid) return;
 
       const storeApp = this.getAppByName(this.formLabel.name);

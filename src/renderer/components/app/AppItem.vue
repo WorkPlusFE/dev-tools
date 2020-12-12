@@ -1,15 +1,26 @@
 <template>
-  <div class="app-item">
+  <div class="app-item" :class="{ 'is-top': isTop }">
     <div class="app-item__container">
       <div class="app-name">
         <i
-          v-if="app.startMode === 'H5DevTool'"
+          v-if="isH5Mode"
           class="icon el-icon-mobile-phone"
         ></i>
         <i v-else class="icon el-icon-monitor"></i>
         <h3>{{ app.name }}</h3>
       </div>
-      <p class="app-description">{{ app.description }}</p>
+      <p class="app-description" v-if="app.description">
+        <strong>应用描述：</strong
+        ><i>{{ app.description }}</i>
+      </p>
+      <p class="app-description">
+        <strong>访问地址：</strong
+        ><i>{{ app.link }}</i>
+      </p>
+      <p class="app-description">
+        <strong>角色：</strong
+        ><i>{{ app.roleName }}</i>
+      </p>
     </div>
     <div class="app-item__footer">
       <el-popconfirm
@@ -22,6 +33,24 @@
         <i class="icon el-icon-delete"></i>
         </el-tooltip>
       </el-popconfirm>
+      
+      <el-tooltip content="置顶" v-if="!isTop" placement="top" :open-delay="500" :enterable="false">
+        <i class="icon el-icon-upload2" @click="handleSetTop"></i>
+      </el-tooltip>
+      <el-tooltip content="取消置顶" v-else placement="top" :open-delay="500" :enterable="false">
+        <i class="icon el-icon-download" @click="handleCancelTop"></i>
+      </el-tooltip>
+
+      <el-popover
+        v-if="isH5Mode"
+        placement="top"
+        trigger="click">
+        <qrcode-vue :value="app.link" class="h5-link-qrcode" :size="200" :background="qrcodeBgColor"></qrcode-vue>
+        <el-tooltip content="显示二维码"  placement="top" slot="reference" :open-delay="500" :enterable="false">
+          <i class="iconfont iconqrcode"></i>
+        </el-tooltip>
+      </el-popover>
+
       <el-tooltip content="编辑" placement="top" :open-delay="500" :enterable="false">
         <i class="icon el-icon-edit" @click="handleEditApp"></i>
       </el-tooltip>
@@ -30,12 +59,29 @@
 </template>
 
 <script>
+import QrcodeVue from 'qrcode.vue';
+import { mapState } from "vuex";
+
 export default {
-  components: {},
+  components: {
+    QrcodeVue,
+  },
   props: {
     app: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    ...mapState('setting', { vuex_dark: 'dark'}),
+    isH5Mode() {
+      return this.app.startMode === 'H5DevTool';
+    },
+    isTop() {
+      return this.app.top === 1;
+    },
+    qrcodeBgColor() {
+      return this.vuex_dark ? '#47B785' : '#FFFFFF';
     },
   },
   methods: {
@@ -44,6 +90,12 @@ export default {
     },
     handleEditApp() {
       this.$emit('edit', this.app);
+    },
+    handleSetTop() {
+      this.$emit('set-top', this.app);
+    },
+    handleCancelTop() {
+      this.$emit('cancel-top', this.app);
     },
   },
 };
@@ -56,7 +108,8 @@ export default {
   padding: 10px 15px;
   color: var(--text-color);
   border-bottom: 1px solid var(--border-color);
-  &:hover {
+  &:hover,
+  &.is-top {
     background: var(--hover-bg-color);
   }
   &__container {
@@ -77,6 +130,20 @@ export default {
     }
     .app-description {
       font-size: var(--text-desc-font-size);
+      line-height: 16px;
+      display: flex;
+      strong {
+        font-weight: normal;
+        width: 6em;
+        display: inline-block;
+      }
+      i {
+        padding-left: 5px;
+        color: var(--text-primary-color);
+        font-style: normal;
+        flex: 1;
+        word-break: break-all;
+      }
     }
   }
   &__footer {
@@ -91,4 +158,12 @@ export default {
     }
   }
 }
+
+[data-theme="dark"] {
+  .h5-link-qrcode {
+    padding: 5px;
+    border: 1px solid var(--text-primary-color);
+  }
+}
+
 </style>
