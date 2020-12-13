@@ -34,7 +34,9 @@ function createWindow() {
 
   mainWindow.loadURL(winURL);
   mainWindow.webContents.once('dom-ready', () => {
+   if(process.env.NODE_ENV !== 'production'){
     mainWindow.webContents.openDevTools({ mode: 'detach' });
+   }
   });
 
   mainWindow.on('closed', () => {

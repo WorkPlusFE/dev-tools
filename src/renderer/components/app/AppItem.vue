@@ -73,7 +73,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('setting', { vuex_dark: 'dark'}),
+    ...mapState('setting', { vuex_dark: 'dark' }),
     isH5Mode() {
       return this.app.startMode === 'H5DevTool';
     },

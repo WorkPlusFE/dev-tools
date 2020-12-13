@@ -1,7 +1,7 @@
 {
-  "name": "@w6s/dev-tools",
+  "name": "w6s-dev-tools",
   "version": "0.0.1",
-  "author": "hejianxian <531601727@qq.com>",
+  "author": "workplusfe",
   "description": "WorkPlus ligh-webapp dev tools",
   "license": "MIT",
   "main": "./dist/electron/main.js",
@@ -19,8 +19,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "@w6s/dev-tools",
-    "appId": "io.workplus.fe",
+    "productName": "高科前端开发工具",
+    "appId": "w6s-dev-tools",
     "directories": {
       "output": "build"
     },
@@ -46,7 +46,22 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "design/icon.ico",
+      "target": {
+        "target": "nsis",
+        "arch": [
+          "ia32"
+        ]
+      }
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "perMachine": true,
+      "oneClick": false,
+      "menuCategory": true,
+      "allowElevation": false,
+      "createDesktopShortcut": true
     },
     "linux": {
       "icon": "build/icons"
@@ -54,7 +69,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "electron": "^11.0.2",
     "element-ui": "2.14.1",
     "lodash": "^4.17.20",
     "qrcode.vue": "^1.7.0",
@@ -68,6 +82,7 @@
     "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
+    "electron": "^11.0.2",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
     "ajv": "^6.5.0",
