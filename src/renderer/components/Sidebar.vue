@@ -25,7 +25,6 @@
             'el-icon-s-custom': true,
           }"
           :title="$t('sidebar.role')"
-          exact
           :to="'role'"
         ></router-link>
         <router-link

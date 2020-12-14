@@ -46,10 +46,12 @@ export default {
   },
   computed: {
     ...mapGetters('Application', ['apps']),
+    ...mapGetters('setting', ['createRoleFirst']),
     ...mapGetters('Role', ['roles', 'isEmpty', 'role']),
   },
   methods: {
     ...mapActions('Role', ['delete', 'create']),
+    ...mapActions('setting', ['changeCreateRoleFirst']),
     handleCreateRole(role) {
       const h = this.$createElement;
       const _this = this;
@@ -90,6 +92,13 @@ export default {
       };
       this.create(newRole);
     },
+  },
+
+  created() {
+    if (this.createRoleFirst) {
+      this.handleCreateRole();
+      this.changeCreateRoleFirst(false);
+    }
   },
 };
 </script>

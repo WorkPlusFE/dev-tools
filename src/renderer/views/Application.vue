@@ -37,7 +37,9 @@
         </div>
       </div>
 
-      <div class="search-result-empty" v-if="showSearchResultIsEmpty">未搜索到任何内容！:)</div>
+      <div class="search-result-empty" v-if="showSearchResultIsEmpty">
+        未搜索到任何内容！:)
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +62,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('Role', ['roles']),
     ...mapGetters('Application', ['searchByQuery', 'isEmpty']),
     showSearchResultIsEmpty() {
       return this.searchResultIsEmpty && this.searchValue.trim() !== '';
@@ -67,7 +70,17 @@ export default {
   },
   methods: {
     ...mapActions('Application', ['create', 'delete', 'setTop', 'cancelTop']),
+    ...mapActions('setting', ['changeCreateRoleFirst']),
     handleCreateApp(app) {
+      if (this.roles.length === 0) {
+        this.$message.info('请先创建角色！');
+        this.changeCreateRoleFirst(true);
+        setTimeout(() => {
+          this.$router.push('role');
+        }, 1000);
+        return;
+      }
+
       const h = this.$createElement;
       const _this = this;
       const title = app ? '编辑应用' : '创建应用';
@@ -98,7 +111,7 @@ export default {
     },
     handleCancelTop(app) {
       this.cancelTop(app);
-    }
+    },
   },
 
   created() {
