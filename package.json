@@ -1,6 +1,6 @@
 {
-  "name": "w6s-dev-tools",
-  "version": "0.0.1",
+  "name": "workplusfe-devtools",
+  "version": "0.10.1",
   "author": "workplusfe",
   "description": "WorkPlus ligh-webapp dev tools",
   "license": "MIT",
@@ -20,7 +20,8 @@
   },
   "build": {
     "productName": "高科前端开发工具",
-    "appId": "w6s-dev-tools",
+    "appId": "com.electron.${name}",
+    "artifactName": "WorkPlusFE-DevTools-${version}.${ext}",
     "directories": {
       "output": "build"
     },
@@ -43,7 +44,9 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "category": "public.workplus-fe.developer-tools",
+      "icon": "design/logo.icns",
+      "type": "development"
     },
     "win": {
       "icon": "design/icon.ico",
@@ -62,9 +65,6 @@
       "menuCategory": true,
       "allowElevation": false,
       "createDesktopShortcut": true
-    },
-    "linux": {
-      "icon": "build/icons"
     }
   },
   "dependencies": {
@@ -82,7 +82,6 @@
     "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
-    "electron": "^11.0.2",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
     "ajv": "^6.5.0",
@@ -101,7 +100,8 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron-builder": "^20.19.2",
+    "electron": "^11.0.2",
+    "electron-builder": "^22.9.1",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
     "eslint": "^4.19.1",
