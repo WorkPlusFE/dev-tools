@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     ...mapActions('Application', ['create', 'delete', 'setTop', 'cancelTop']),
-    ...mapActions('setting', ['changeCreateRoleFirst']),
+    ...mapActions('Setting', ['changeCreateRoleFirst']),
     handleCreateApp(app) {
       if (this.roles.length === 0) {
         this.$message.info('请先创建角色！');

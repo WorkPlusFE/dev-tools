@@ -15,7 +15,7 @@ export default {
     Sidebar,
   },
   computed: {
-    ...mapState('setting', ['dark', 'isZhCnLng'])
+    ...mapState('Setting', ['dark', 'isZhCnLng'])
   },
   mounted() {
     this.$i18n.locale = this.isZhCnLng ? 'zh-CN' : 'en';

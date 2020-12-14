@@ -100,13 +100,13 @@ export default {
     };
   },
   computed: {
-    ...mapState('setting', { vuex_dark: 'dark', vuex_isZhCnLng: 'isZhCnLng' }),
+    ...mapState('Setting', { vuex_dark: 'dark', vuex_isZhCnLng: 'isZhCnLng' }),
     switchBgColor() {
       return this.dark ? '#47B785' : '#279AFC';
     },
   },
   methods: {
-    ...mapActions('setting', ['changedark', 'changeLanguage']),
+    ...mapActions('Setting', ['changedark', 'changeLanguage']),
     handleOpenDocumentWebsite() {
       shell.openExternal('https://open.workplus.io/dev/packages.html#dev-tools');
     },
