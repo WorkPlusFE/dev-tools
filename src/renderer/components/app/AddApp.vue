@@ -11,9 +11,10 @@
         <el-input
           v-model="formLabel.name"
           placeholder="请输入应用名称"
-          maxlength="30"
+          maxlength="20"
           show-word-limit
-          autofocus
+          :autofocus="true"
+          class="app-name-input"
         ></el-input>
       </el-form-item>
       <el-form-item label="访问地址" prop="link">
@@ -55,7 +56,7 @@
           placeholder="非必填，100字符内"
         ></el-input>
       </el-form-item>
-      
+
       <el-form-item class="footer">
         <el-button size="medium" type="primary" @click="openApp"
           >保存并打开</el-button
@@ -75,6 +76,7 @@ import DetailRequest from '@/server/DetailRequest.js';
 import { v4 as uuidv4 } from 'uuid';
 import { OpenApp } from '@/application/OpenApp.js';
 import { defaultAppInfo } from '@/constants/initialData';
+import { nameValidater, urlValidater } from '@/utils/validate';
 
 export default {
   props: {
@@ -103,16 +105,21 @@ export default {
       rules: {
         name: [
           { required: true, message: '应用名称不能为空', trigger: 'blur' },
-        ],
-        description: [
-          {
- min: 1, max: 50, message: '已超出最大字符数 100', trigger: 'blur'
-},
+          { validator: nameValidater('应用名称'), trigger: 'blur' },
         ],
         link: [
-          { required: true, message: '应用访问地址不能为空', trigger: 'blur' },
+          { required: true, message: '访问地址不能为空', trigger: 'blur' },
+          { validator: urlValidater('请输入正确的访问地址'), trigger: 'blur' },
         ],
         role: [{ required: true, message: '请选择角色', trigger: 'blur' }],
+        description: [
+          {
+            min: 1,
+            max: 50,
+            message: '已超出最大字符数 100',
+            trigger: 'blur',
+          },
+        ],
       },
     };
   },
@@ -166,6 +173,11 @@ export default {
     if (!this.isCreate) {
       this.formLabel = { ...this.app };
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      document.querySelector('.app-name-input').querySelector('.el-input__inner').focus();
+    }, 300);
   },
 };
 </script>

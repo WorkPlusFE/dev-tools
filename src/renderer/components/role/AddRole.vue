@@ -12,9 +12,9 @@
         <el-input
           v-model="formRole.name"
           placeholder="请输入角色名称"
-          maxlength="30"
+          maxlength="20"
           show-word-limit
-          autofocus
+          class="role-name-input"
         ></el-input>
       </el-form-item>
       <el-form-item label="域 ID" prop="domain">
@@ -88,6 +88,7 @@ import _ from 'lodash';
 import { Loading } from 'element-ui';
 import { v4 as uuidv4 } from 'uuid';
 import { defaultRoleInfo } from '@/constants/initialData';
+import { nameValidater, urlValidater } from '@/utils/validate';
 
 export default {
   components: {},
@@ -111,15 +112,20 @@ export default {
       rules: {
         name: [
           { required: true, message: '角色名称不能为空', trigger: 'blur' },
+          { validator: nameValidater('角色名称'), trigger: 'blur' },
         ],
         domain: [
           { required: true, message: '域 ID 不能为空', trigger: 'blur' },
           {
- min: 1, max: 50, message: '已超出最大字符数 50', trigger: 'blur'
-},
+            min: 1,
+            max: 50,
+            message: '已超出最大字符数 50',
+            trigger: 'blur',
+          },
         ],
         api: [
           { required: true, message: 'API 地址不能为空', trigger: 'blur' },
+          { validator: urlValidater('请输入正确的 API 地址'), trigger: 'blur' },
           {
             min: 1,
             max: 100,
@@ -130,14 +136,20 @@ export default {
         user: [
           { required: true, message: '账号不能为空', trigger: 'blur' },
           {
- min: 1, max: 30, message: '已超出最大字符数 30', trigger: 'blur'
-},
+            min: 1,
+            max: 30,
+            message: '已超出最大字符数 30',
+            trigger: 'blur',
+          },
         ],
         pwd: [
           { required: true, message: '密码不能为空', trigger: 'blur' },
           {
- min: 1, max: 30, message: '已超出最大字符数 30', trigger: 'blur'
-},
+            min: 1,
+            max: 30,
+            message: '已超出最大字符数 30',
+            trigger: 'blur',
+          },
         ],
       },
     };
@@ -192,7 +204,9 @@ export default {
       }
 
       if (!this.isCreate && this.formRole.orgId) {
-        const selected = orgs.find((org) => org.org_code === this.formRole.orgId);
+        const selected = orgs.find(
+          (org) => org.org_code === this.formRole.orgId
+        );
         this.formRole.orgId = selected.org_code;
         this.formRole.orgName = selected.name;
       } else {
@@ -244,6 +258,11 @@ export default {
       this.formRole = { ...this.role };
       this.orgs = [{ org_code: this.role.orgId, name: this.role.orgName }];
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      document.querySelector('.role-name-input').querySelector('.el-input__inner').focus();
+    }, 300);
   },
 };
 </script>
