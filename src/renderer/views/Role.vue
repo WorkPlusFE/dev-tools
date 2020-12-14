@@ -45,6 +45,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('Application', ['apps']),
     ...mapGetters('Role', ['roles', 'isEmpty', 'role']),
   },
   methods: {
@@ -67,8 +68,16 @@ export default {
         .catch((err) => {});
     },
 
-    // TODO: 关联的角色，不可删除
     handleDeleteRole(role) {
+      const binds = this.apps.filter((app) => app.role === role.id);
+      const count = binds.length;
+      if (count > 0) {
+        const message =
+          count > 1
+            ? '当前角色已被多个应用使用，不可删除！'
+            : `当前角色已被应用[${binds[0].name}]使用，不可删除！`;
+        return this.$message.error(message);
+      }
       this.delete(role.id);
     },
 
