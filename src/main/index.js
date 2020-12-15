@@ -1,5 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron' // eslint-disable-line
 
+const i18n = require('./i18n');
+const menuFactoryService = require('./menuFactory');
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -34,9 +37,9 @@ function createWindow() {
 
   mainWindow.loadURL(winURL);
   mainWindow.webContents.once('dom-ready', () => {
-   if (process.env.NODE_ENV !== 'production') {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
-   }
+    if (process.env.NODE_ENV !== 'production') {
+      mainWindow.webContents.openDevTools({ mode: 'detach' });
+    }
   });
 
   mainWindow.on('closed', () => {
@@ -148,3 +151,12 @@ class appWindow {
   }
 }
 
+// i18n 
+i18n.on('loaded', (loaded) => {
+  i18n.changeLanguage('zh-CN');
+  i18n.off('loaded');
+});
+
+i18n.on('languageChanged', (lng) => {
+  menuFactoryService.buildMenu(app, mainWindow, i18n);
+});

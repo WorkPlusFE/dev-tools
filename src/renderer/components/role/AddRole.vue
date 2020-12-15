@@ -204,9 +204,7 @@ export default {
       }
 
       if (!this.isCreate && this.formRole.orgId) {
-        const selected = orgs.find(
-          (org) => org.org_code === this.formRole.orgId
-        );
+        const selected = orgs.find((org) => org.org_code === this.formRole.orgId);
         this.formRole.orgId = selected.org_code;
         this.formRole.orgName = selected.name;
       } else {
