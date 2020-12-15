@@ -8,6 +8,7 @@
 <script>
 import Sidebar from "@/components/Sidebar";
 import { mapState } from 'vuex';
+import { remote } from 'electron';
 
 export default {
   name: 'dev-tools',
@@ -19,6 +20,8 @@ export default {
   },
   mounted() {
     this.$i18n.locale = this.isZhCnLng ? 'zh-CN' : 'en';
+    remote.app.changeLanguage(this.$i18n.locale);
+
     if (this.dark) {
       document.getElementsByTagName("body")[0].setAttribute('data-theme', 'dark');
     } else {

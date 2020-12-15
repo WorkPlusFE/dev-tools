@@ -11,7 +11,6 @@ function MenuFactoryService(menu) {
 function buildMenu(app, mainWindow, i18n) {
   if (isMac()) {
     this.menu = Menu.buildFromTemplate(darwinTemplate(app, mainWindow, i18n));
-    console.log(this.menu, i18n);
     Menu.setApplicationMenu(this.menu);
   }
 }
