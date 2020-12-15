@@ -1,7 +1,7 @@
 const { shell } = require('electron');
 
 const menuConfig = require('./menu.config');
-const i18nConfig = require('../i18n.config');
+const i18nConfig = require('../i18next/i18n.config');
 
 module.exports = (app, mainWindow, i18n) => {
   let menu = [
@@ -24,10 +24,6 @@ module.exports = (app, mainWindow, i18n) => {
           label: i18n.t('Hide Others'),
           accelerator: 'Command+Shift+H',
           role: 'hideothers'
-        },
-        {
-          label: i18n.t('Show All'),
-          role: 'unhide'
         },
         {
           type: 'separator'

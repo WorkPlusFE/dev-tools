@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron' // eslint-disable-line
 
-const i18n = require('./i18n');
-const menuFactoryService = require('./menuFactory');
+const i18n = require('./i18next/i18n');
+const menuFactoryService = require('./menus/menuFactory');
 
 /**
  * Set `__static` path to static files in production
