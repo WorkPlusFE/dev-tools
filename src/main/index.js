@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron' // eslint-disable-line
 
 const i18n = require('./i18next/i18n');
 const menuFactoryService = require('./menus/menuFactory');
-
+const {createOtherWindow} = require('./CreateWindow');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -38,7 +38,7 @@ function createWindow() {
   mainWindow.loadURL(winURL);
   mainWindow.webContents.once('dom-ready', () => {
     if (process.env.NODE_ENV !== 'production') {
-      mainWindow.webContents.openDevTools({ mode: 'detach' });
+      // mainWindow.webContents.openDevTools({ mode: 'detach' });
     }
   });
 
@@ -58,7 +58,12 @@ function listen() {
     mainWindow.center()
   });
   ipcMain.on('OPEM_APP_WIN', (event, url) => {
-    appWin.show(url);
+    console.log(url);
+    // createOtherWindow(url)
+  })
+  ipcMain.on('OPEN',(event,url) => {
+    console.log(url);
+    createOtherWindow(url)
   })
 }
 
@@ -79,77 +84,7 @@ app.on('activate', () => {
   }
 });
 
-const initAppWin = () => {
-  appWin = new appWindow();
-  appWin.startAppView();
-}
 
-
-class appWindow {
-  // 浏览图片窗口对象
-  appWin = null;
-  url = null;
-
-  width = 960;
-  heiht = 800;
-
-  show(url) {
-    // this.appWin.loadURL(url);
-    if (this.appWin) {
-      this.appWin.show();
-    } else {
-      this.createAppWindow();
-    }
-    this.appWin.show();
-    this.appWin.focus();
-    // this.appWin.webContents.openDevTools({ mode: 'detach' });
-  }
-
-  constructor() {
-
-  }
-
-  startAppView() {
-    if (!this.appWin) {
-      this.createAppWindow();
-    }
-  }
-
-  /**
-* 初始化窗口
-*/
-  createAppWindow() {
-    this.appWin = new BrowserWindow({
-      width: this.width,
-      height: this.heiht,
-      webPreferences: {
-        nodeIntegration: true,
-        nodeIntegrationInSubFrames: true,
-        enableRemoteModule: true,
-        preload: "./preload.js"
-        // webSecurity: false
-      },
-      resizable: false,
-      show: false,
-      frame: false,
-      // fullscreenable: false,
-    })
-
-    this.appWin.on('closed', () => {
-      this.appWin = null;
-    });
-
-    this.loadAppView();
-  }
-
-  loadAppView = () => {
-    this.appWin.loadURL("http://localhost:2003/video_group");
-    this.appWin.once('ready-to-show', () => {
-      this.appWin.hide();
-      this.appWin.center();
-    })
-  }
-}
 
 // i18n
 i18n.on('loaded', (loaded) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-item" :class="{ 'is-top': isTop }">
+  <div class="app-item" :class="{ 'is-top': isTop }" @click='handleOpen'>
     <div class="app-item__container">
       <div class="app-name">
         <i
@@ -97,6 +97,9 @@ export default {
     handleCancelTop() {
       this.$emit('cancel-top', this.app);
     },
+    handleOpen() {
+      this.$emit('open-app', this.app);
+    }
   },
 };
 </script>

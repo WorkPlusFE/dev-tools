@@ -1,21 +1,16 @@
-import { remote, ipcRenderer, shell } from 'electron';
-
+// import { remote, ipcRenderer, shell } from 'electron';
+const { remote, ipcRenderer, shell } = window.require('electron');
 export class OpenApp {
   /** 打开方式 */
   static open(app) {
     const startModal = app.startMode;
     switch (startModal) {
-      case '外部浏览器打开': {
+      case 'externalOpen': {
         OpenApp.externalOpen(app);
         break;
       }
-      case '新窗口打开': {
-        break;
-      }
-      case 'H5模拟器': {
-        break;
-      }
-      case 'Pc模拟器': {
+      case 'H5DevTool': {
+        OpenApp.H5DevTool(app);
         break;
       }
     }
@@ -23,22 +18,14 @@ export class OpenApp {
 
   /** 外部浏览器打开 */
   static externalOpen(app) {
-    const appAddress = app.address;
-    shell.openExternal(appAddress);
-  }
-
-  /** 不带调试工具的新窗口 */
-  static newBrowserWindow(app) {
-
+    const appLink = app.link;
+    shell.openExternal(appLink);
   }
 
   /** 手机调试模式 */
   static H5DevTool(app) {
-
-  }
-
-  /** pc调试模式 */
-  static PcDevTool(app) {
-
+    const url = app.link;
+    console.log(ipcRenderer);
+    ipcRenderer.send('OPEN',url);
   }
 }

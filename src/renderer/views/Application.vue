@@ -27,6 +27,7 @@
           @edit="handleEditApp"
           @set-top="handleSetTop"
           @cancel-top="handleCancelTop"
+          @open-app="handleOpenApp"
         />
       </div>
       <div v-else class="empty">
@@ -49,9 +50,9 @@ import { mapGetters, mapActions } from 'vuex';
 import TitleBar from '@/components/TitleBar.vue';
 import AppItem from '@/components/app/AppItem.vue';
 import AddApp from '@/components/app/AddApp.vue';
-import { LocalStore } from '@/application/LocalStore';
 import _ from 'lodash';
-
+import { OpenApp } from '@/application/OpenApp';
+import { remote, ipcRenderer, shell } from 'electron';
 export default {
   components: { TitleBar, AppItem, AddApp },
   data() {
@@ -112,6 +113,9 @@ export default {
     handleCancelTop(app) {
       this.cancelTop(app);
     },
+    handleOpenApp(app) {
+      OpenApp.open(app);
+    }
   },
 
   created() {
