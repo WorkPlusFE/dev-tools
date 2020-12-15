@@ -87,7 +87,7 @@
 
 <script>
 import TitleBar from '@/components/TitleBar.vue';
-import { shell } from 'electron';
+import { shell, remote } from 'electron';
 import { mapActions, mapState } from 'vuex';
 export default {
   name: 'setting-list',
@@ -119,6 +119,8 @@ export default {
     languageSwitch(value) {
       this.$i18n.locale = value ? 'zh-CN' : 'en';
       this.changeLanguage(value);
+
+      remote.app.changeLanguage(this.$i18n.locale);
     },
     bgColorSwitch(value) {
       if (value) {

@@ -160,3 +160,7 @@ i18n.on('loaded', (loaded) => {
 i18n.on('languageChanged', (lng) => {
   menuFactoryService.buildMenu(app, mainWindow, i18n);
 });
+
+app.changeLanguage = (lng) => {
+  i18n.changeLanguage(lng);
+};
