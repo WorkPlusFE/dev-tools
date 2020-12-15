@@ -47,8 +47,8 @@
         "paramsSetting": "Link parameter description",
         "document": "Document",
         "description": {
-          "title": "explain",
-          "content": "Application description"
+          "title": "About",
+          "content": "The WorkPlusFE DevTools is to improve the efficiency of development and joint debugging based on the WorkPlus mobile platform. The tool focuses on the simulation of real environment data and interfaces during the development process. By creating roles and application portals, you can quickly switch environments and greatly improve development efficiency."
         }
         
       }

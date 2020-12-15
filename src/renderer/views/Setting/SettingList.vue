@@ -76,6 +76,7 @@
     <el-dialog
       :title="$t('page.setting.list.description.title')"
       :visible.sync="centerDialogVisible"
+      class="about-dialog"
       width="380px"
       center
     >
