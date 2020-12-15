@@ -151,7 +151,7 @@ class appWindow {
   }
 }
 
-// i18n 
+// i18n
 i18n.on('loaded', (loaded) => {
   i18n.changeLanguage('zh-CN');
   i18n.off('loaded');

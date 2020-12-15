@@ -5,7 +5,7 @@ const path = require('path');
 const i18nConfig = require('./i18n.config');
 
 const i18nextOptions = {
-  backend:{
+  backend: {
     loadPath: path.resolve(__dirname, './locales/{{lng}}/{{ns}}.json'),
     addPath: path.resolve(__dirname, './locales/{{lng}}/{{ns}}.missing.json'),
     // jsonIndent to use when storing json files

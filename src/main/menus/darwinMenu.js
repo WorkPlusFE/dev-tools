@@ -4,7 +4,7 @@ const menuConfig = require('./menu.config');
 const i18nConfig = require('../i18next/i18n.config');
 
 module.exports = (app, mainWindow, i18n) => {
-  let menu = [
+  const menu = [
     {
       label: i18n.t('WorkPlusFE DevTools'),
       submenu: [
@@ -63,7 +63,7 @@ module.exports = (app, mainWindow, i18n) => {
         {
           label: i18n.t('Learn More'),
           role: 'recentDocuments',
-          click: function () {
+          click() {
             shell.openExternal(menuConfig.links.learnMore);
           }
         },
@@ -72,13 +72,13 @@ module.exports = (app, mainWindow, i18n) => {
         },
         {
           label: i18n.t('Report Issue'),
-          click: function (item, focusedWindow) {
+          click(item, focusedWindow) {
             shell.openExternal(menuConfig.links.reportIssue);
           }
         },
         {
           label: i18n.t('Github Repository'),
-          click: function (item, focusedWindow) {
+          click(item, focusedWindow) {
             shell.openExternal(menuConfig.links.github);
           }
         },
@@ -87,13 +87,13 @@ module.exports = (app, mainWindow, i18n) => {
         },
         {
           label: i18n.t('WorkPlus Open'),
-          click: function (item, focusedWindow) {
+          click(item, focusedWindow) {
             shell.openExternal(menuConfig.links.workplusOpen);
           }
         },
         {
           label: i18n.t('WorkPlusFE FED'),
-          click: function (item, focusedWindow) {
+          click(item, focusedWindow) {
             shell.openExternal(menuConfig.links.fed);
           }
         }

@@ -30,7 +30,7 @@ const actions = {
 
 const getters = {
   createRoleFirst: (state) => state.createRoleFirst,
-  isZhCnLng: (state) => state.isZhCnLng, 
+  isZhCnLng: (state) => state.isZhCnLng,
 };
 
 export default {
