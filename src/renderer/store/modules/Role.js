@@ -41,6 +41,7 @@ const actions = {
 
 const getters = {
   getRoleByName: (state) => (name) => state.roles.find((role) => role.name === name),
+  getRoleById: (state) => (id) => state.roles.find((role) => role.id === id),
   roles: (state) => state.roles,
   isEmpty: (state) => state.roles.length === 0,
 };

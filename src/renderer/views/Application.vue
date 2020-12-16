@@ -113,8 +113,8 @@ export default {
     handleCancelTop(app) {
       this.cancelTop(app);
     },
-    handleOpenApp(app) {
-      OpenApp.open(app);
+    handleOpenApp(app, role) {
+      OpenApp.open(app, role);
     }
   },
 

@@ -1,58 +1,83 @@
 <template>
-  <div class="app-item" :class="{ 'is-top': isTop }" @click='handleOpen'>
+  <div class="app-item" :class="{ 'is-top': isTop }" @click="handleOpen">
     <div class="app-item__container">
       <div class="app-name">
-        <i
-          v-if="isH5Mode"
-          class="icon el-icon-mobile-phone"
-        ></i>
+        <i v-if="isH5Mode" class="icon el-icon-mobile-phone"></i>
         <i v-else class="icon el-icon-monitor"></i>
         <h3>{{ app.name }}</h3>
       </div>
       <p class="app-description" v-if="app.description">
-        <strong>应用描述：</strong
-        ><i>{{ app.description }}</i>
+        <strong>应用描述：</strong><i>{{ app.description }}</i>
       </p>
       <p class="app-description">
-        <strong>访问地址：</strong
-        ><i>{{ app.link }}</i>
+        <strong>访问地址：</strong><i>{{ app.link }}</i>
       </p>
       <p class="app-description">
-        <strong>角色：</strong
-        ><i>{{ app.roleName }}</i>
+        <strong>角色：</strong><i>{{ app.roleName }}</i>
       </p>
     </div>
     <div class="app-item__footer">
       <el-popconfirm
-        confirm-button-text='删除'
-        cancel-button-text='取消'
+        confirm-button-text="删除"
+        cancel-button-text="取消"
         title="确定删除该应用？"
         @confirm="handleDeleteApp"
       >
-        <el-tooltip content="删除" placement="top" :open-delay="500" :enterable="false" slot="reference">
-        <i class="icon el-icon-delete"></i>
+        <el-tooltip
+          content="删除"
+          placement="top"
+          :open-delay="500"
+          :enterable="false"
+          slot="reference"
+        >
+          <i class="icon el-icon-delete" @click.stop></i>
         </el-tooltip>
       </el-popconfirm>
-      
-      <el-tooltip content="置顶" v-if="!isTop" placement="top" :open-delay="500" :enterable="false">
-        <i class="icon el-icon-upload2" @click="handleSetTop"></i>
+
+      <el-tooltip
+        content="置顶"
+        v-if="!isTop"
+        placement="top"
+        :open-delay="500"
+        :enterable="false"
+      >
+        <i class="icon el-icon-upload2" @click.stop="handleSetTop"></i>
       </el-tooltip>
-      <el-tooltip content="取消置顶" v-else placement="top" :open-delay="500" :enterable="false">
-        <i class="icon el-icon-download" @click="handleCancelTop"></i>
+      <el-tooltip
+        content="取消置顶"
+        v-else
+        placement="top"
+        :open-delay="500"
+        :enterable="false"
+      >
+        <i class="icon el-icon-download" @click.stop="handleCancelTop"></i>
       </el-tooltip>
 
-      <el-popover
-        v-if="isH5Mode"
-        placement="top"
-        trigger="click">
-        <qrcode-vue :value="app.link" class="h5-link-qrcode" :size="200" :background="qrcodeBgColor"></qrcode-vue>
-        <el-tooltip content="显示二维码"  placement="top" slot="reference" :open-delay="500" :enterable="false">
-          <i class="iconfont iconqrcode"></i>
+      <el-popover v-if="isH5Mode" placement="top" trigger="click">
+        <qrcode-vue
+          :value="app.link"
+          class="h5-link-qrcode"
+          :size="200"
+          :background="qrcodeBgColor"
+        ></qrcode-vue>
+        <el-tooltip
+          content="显示二维码"
+          placement="top"
+          slot="reference"
+          :open-delay="500"
+          :enterable="false"
+        >
+          <i class="iconfont iconqrcode" @click.stop></i>
         </el-tooltip>
       </el-popover>
 
-      <el-tooltip content="编辑" placement="top" :open-delay="500" :enterable="false">
-        <i class="icon el-icon-edit" @click="handleEditApp"></i>
+      <el-tooltip
+        content="编辑"
+        placement="top"
+        :open-delay="500"
+        :enterable="false"
+      >
+        <i class="icon el-icon-edit" @click.stop="handleEditApp"></i>
       </el-tooltip>
     </div>
   </div>
@@ -60,7 +85,7 @@
 
 <script>
 import QrcodeVue from 'qrcode.vue';
-import { mapState } from "vuex";
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -74,6 +99,7 @@ export default {
   },
   computed: {
     ...mapState('Setting', { vuex_dark: 'dark' }),
+    ...mapGetters('Role', ['getRoleById']),
     isH5Mode() {
       return this.app.startMode === 'H5DevTool';
     },
@@ -98,8 +124,9 @@ export default {
       this.$emit('cancel-top', this.app);
     },
     handleOpen() {
-      this.$emit('open-app', this.app);
-    }
+      const role = this.getRoleById(this.app.role);
+      this.$emit('open-app', { ...this.app }, { ...role });
+    },
   },
 };
 </script>
@@ -162,11 +189,10 @@ export default {
   }
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   .h5-link-qrcode {
     padding: 5px;
     border: 1px solid var(--text-primary-color);
   }
 }
-
 </style>

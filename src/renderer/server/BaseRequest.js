@@ -62,6 +62,7 @@ export default class BaseRequest {
         };
         return response;
     }
+    
     errorResponse(err) {
         const response = {
             status: -1,

@@ -38,4 +38,26 @@ export default class DetailRequest {
       return results;
     })
   }
+
+  /**
+   * 获取 ticket
+   */
+  static getUserTicket(token, api, orgId) {
+    const url = `${api}/tickets?access_token=${token}`;
+    return DetailRequest.baseRequest.requestForPost(url, {org_id: orgId}).then(data => {
+      const results = _.get(data, `data.result`, []);
+      return results;
+    })
+  }
+
+  /**
+   * 获取雇员信息
+   */
+  static getCurrentEmployeeInfo(token, api) {
+    const url = `${api}/user?access_token=${token}`;
+    return DetailRequest.baseRequest.requestForGet(url).then(data => {
+      const results = _.get(data, `data.result`, []);
+      return results;
+    })
+  }
 }
