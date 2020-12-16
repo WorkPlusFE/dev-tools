@@ -13,5 +13,11 @@
   "Github Repository": "打开 Github 仓库",
   "WorkPlus Open": "WorkPlus 开放平台",
   "WorkPlusFE FED": "WorkPlus 前端开发文档",
-  "Learn More": "使用手册"
+  "Learn More": "使用手册",
+  "Edit": "编辑",
+  "Edit copy": "复制",
+  "Edit cut": "剪切",
+  "Edit paste": "粘贴",
+  "Edit redo": "重做",
+  "Edit undo": "撤销"
 }

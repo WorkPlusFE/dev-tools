@@ -38,6 +38,34 @@ module.exports = (app, mainWindow, i18n) => {
       ]
     },
     {
+      label: i18n.t('Edit'),
+      submenu: [
+        {
+          label: i18n.t('Edit copy'),
+          role: 'copy',
+        },
+        {
+          label: i18n.t('Edit cut'),
+          role: 'cut',
+        },
+        {
+          label: i18n.t('Edit paste'),
+          role: 'paste',
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: i18n.t('Edit redo'),
+          role: 'redo',
+        },
+        {
+          label: i18n.t('Edit undo'),
+          role: 'undo',
+        }
+      ],
+    },
+    {
       label: i18n.t('View'),
       submenu: [
         {
