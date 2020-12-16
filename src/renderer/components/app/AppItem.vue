@@ -23,36 +23,11 @@
         title="确定删除该应用？"
         @confirm="handleDeleteApp"
       >
-        <el-tooltip
-          content="删除"
-          placement="top"
-          :open-delay="500"
-          :enterable="false"
-          slot="reference"
-        >
-          <i class="icon el-icon-delete" @click.stop></i>
-        </el-tooltip>
+        <i class="icon el-icon-delete" slot="reference" title="删除" @click.stop></i>
       </el-popconfirm>
 
-      <el-tooltip
-        content="置顶"
-        v-if="!isTop"
-        placement="top"
-        :open-delay="500"
-        :enterable="false"
-      >
-        <i class="icon el-icon-upload2" @click.stop="handleSetTop"></i>
-      </el-tooltip>
-      <el-tooltip
-        content="取消置顶"
-        v-else
-        placement="top"
-        :open-delay="500"
-        :enterable="false"
-      >
-        <i class="icon el-icon-download" @click.stop="handleCancelTop"></i>
-      </el-tooltip>
-
+      <i class="icon el-icon-upload2" v-if="!isTop" title="置顶" @click.stop="handleSetTop"></i>
+      <i class="icon el-icon-download" v-else title="取消置顶" @click.stop="handleCancelTop"></i>
       <el-popover v-if="isH5Mode" placement="top" trigger="click">
         <qrcode-vue
           :value="app.link"
@@ -60,25 +35,9 @@
           :size="200"
           :background="qrcodeBgColor"
         ></qrcode-vue>
-        <el-tooltip
-          content="显示二维码"
-          placement="top"
-          slot="reference"
-          :open-delay="500"
-          :enterable="false"
-        >
-          <i class="iconfont iconqrcode" @click.stop></i>
-        </el-tooltip>
+        <i class="iconfont iconqrcode" slot="reference" title="显示二维码" @click.stop></i>
       </el-popover>
-
-      <el-tooltip
-        content="编辑"
-        placement="top"
-        :open-delay="500"
-        :enterable="false"
-      >
-        <i class="icon el-icon-edit" @click.stop="handleEditApp"></i>
-      </el-tooltip>
+      <i class="icon el-icon-edit" title="编辑" @click.stop="handleEditApp"></i>
     </div>
   </div>
 </template>
@@ -184,6 +143,9 @@ export default {
       color: var(--icon-color);
       &:hover {
         color: var(--icon-color-actived);
+      }
+      &:focus {
+        outline: none;
       }
     }
   }

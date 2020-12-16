@@ -177,7 +177,7 @@ export default {
   mounted() {
     setTimeout(() => {
       document.querySelector('.app-name-input').querySelector('.el-input__inner').focus();
-    }, 300);
+    }, 500);
   },
 };
 </script>
