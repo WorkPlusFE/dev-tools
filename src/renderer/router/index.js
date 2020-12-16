@@ -17,7 +17,6 @@ export default new Router({
     },
     {
       path: '/setting',
-      name: 'setting',
       component: require('@/views/Setting/Index').default,
       children: [
         {
