@@ -20,5 +20,7 @@
   "Edit cut": "Edit cut",
   "Edit paste": "Edit paste",
   "Edit redo": "Edit redo",
-  "Edit undo": "Edit undo"
+  "Edit undo": "Edit undo",
+  "Edit delete": "Edit delete",
+  "Edit selectAll": "Edit selectAll"
 }

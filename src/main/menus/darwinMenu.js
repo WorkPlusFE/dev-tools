@@ -62,6 +62,17 @@ module.exports = (app, mainWindow, i18n) => {
         {
           label: i18n.t('Edit undo'),
           role: 'undo',
+        },
+        {
+          label: i18n.t('Edit delete'),
+          role: 'delete',
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: i18n.t('Edit selectAll'),
+          role: 'selectAll',
         }
       ],
     },
