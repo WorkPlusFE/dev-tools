@@ -1,5 +1,5 @@
 export const isValidateUrl = (url) => {
-  const regexp = /^(https?:\/\/(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]+\.)+(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]+))(:\d+)?(\/.*)?(\?.*)?(#.*)?$/;
+  const regexp = /^https?:\/\/([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+/;
   return regexp.test(url);
 };
 
