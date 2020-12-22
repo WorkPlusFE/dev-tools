@@ -24,7 +24,15 @@
         }],
         "stage-0"
       ]
-    }
+    },
+    "preload": {
+      "presets": [
+        ["env", {
+          "modules": false
+        }],
+        "stage-0"
+      ]
+    },
   },
   "plugins": ["transform-runtime"]
 }

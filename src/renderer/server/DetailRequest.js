@@ -44,7 +44,7 @@ export default class DetailRequest {
    */
   static getUserTicket(token, api, orgId) {
     const url = `${api}/tickets?access_token=${token}`;
-    return DetailRequest.baseRequest.requestForPost(url, {org_id: orgId}).then(data => {
+    return DetailRequest.baseRequest.requestForPost(url, { org_id: orgId }).then(data => {
       const results = _.get(data, `data.result`, []);
       return results;
     })

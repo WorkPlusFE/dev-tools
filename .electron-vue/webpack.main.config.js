@@ -7,7 +7,7 @@ const { dependencies } = require('../package.json')
 const webpack = require('webpack')
 
 const MinifyPlugin = require("babel-minify-webpack-plugin")
-
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 let mainConfig = {
   entry: {
     main: path.join(__dirname, '../src/main/index.js')
@@ -79,5 +79,13 @@ if (process.env.NODE_ENV === 'production') {
     })
   )
 }
+// mainConfig.plugins.push(
+//   new CopyWebpackPlugin([
+//     {
+//       from: path.join(__dirname, '../src/main/preload.js'),
+//       to: path.join(__dirname, '../dist/electron'),
+//     }
+//   ])
+// )
 
 module.exports = mainConfig

@@ -1,14 +1,20 @@
 import { app, BrowserWindow, ipcMain } from 'electron' // eslint-disable-line
+import { pathToFileURL } from 'url';
+const path = require('path');
 
 const i18n = require('./i18next/i18n');
 const menuFactoryService = require('./menus/menuFactory');
-const {createOtherWindow} = require('./CreateWindow');
+const { createOtherWindow } = require('./CreateWindow');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
+}
+
+global.shareRole = {
+  
 }
 
 let mainWindow,
@@ -21,6 +27,7 @@ function createWindow() {
   /**
    * Initial window options
    */
+  console.log('---b---'+path.join(__dirname, 'preload.js'));
   mainWindow = new BrowserWindow({
     height: 620,
     useContentSize: true,
@@ -31,7 +38,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      enableRemoteModule: true,
+      enableRemoteModule: true
     },
   });
 
@@ -61,9 +68,9 @@ function listen() {
     console.log(url);
     // createOtherWindow(url)
   })
-  ipcMain.on('OPEN',(event,url) => {
+  ipcMain.on('OPEN', (event, url,role) => {
     console.log(url);
-    createOtherWindow(url)
+    createOtherWindow(url,role)
   })
 }
 
@@ -83,7 +90,6 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
 
 
 // i18n
