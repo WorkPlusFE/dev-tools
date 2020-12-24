@@ -8,7 +8,7 @@
 <script>
 import Sidebar from "@/components/Sidebar";
 import { mapState } from 'vuex';
-import { remote } from 'electron';
+import { remote,ipcRenderer } from 'electron';
 
 export default {
   name: 'dev-tools',
@@ -17,6 +17,15 @@ export default {
   },
   computed: {
     ...mapState('Setting', ['dark', 'isZhCnLng'])
+  },
+  methods:{
+    rendererListen(){
+      ipcRenderer.on('open-select-contact',(event,arg) => {
+        console.log(arg);
+        this.$router.push({path: '/selectcontact',query:{winId: arg}});
+        ipcRenderer.send('show-center');
+      })
+    }
   },
   mounted() {
     this.$i18n.locale = this.isZhCnLng ? 'zh-CN' : 'en';
@@ -27,6 +36,7 @@ export default {
     } else {
         document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
     }
+    this.rendererListen();
   }
 };
 </script>

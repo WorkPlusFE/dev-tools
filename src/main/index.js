@@ -1,10 +1,11 @@
 import { app, BrowserWindow, ipcMain } from 'electron' // eslint-disable-line
 import { pathToFileURL } from 'url';
 const path = require('path');
-
+import { EventEmitter } from 'events';
 const i18n = require('./i18next/i18n');
 const menuFactoryService = require('./menus/menuFactory');
 const { createOtherWindow } = require('./CreateWindow');
+const { ContactWindow,contactWinShow,contactWinHide } = require('./ContactWindow')
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -12,12 +13,12 @@ const { createOtherWindow } = require('./CreateWindow');
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
-
+export const bus = new EventEmitter();
 global.shareRole = {
   
 }
 
-let mainWindow,
+let mainWindow,contactWindow,
   appWin;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
@@ -52,6 +53,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+  global.shareRole['mainwin'] = mainWindow;
 }
 function listen() {
   ipcMain.on(`resize-window`, (eveny, x, y) => {
@@ -72,10 +74,23 @@ function listen() {
     console.log(url);
     createOtherWindow(url,role)
   })
+  ipcMain.on('show-contact-win',(event, args) => {
+    contactWinShow(contactWindow);
+  })
+  ipcMain.on('close-contact-win',(event, args) => {
+    contactWinHide(contactWindow);
+  })
+  ipcMain.on('show-center',() => {
+    mainWindow.center();
+    mainWindow.moveTop();
+  })
+
+
 }
 
 app.on('ready', () => {
   createWindow();
+  // contactWindow = ContactWindow();
   listen();
 });
 
@@ -105,3 +120,6 @@ i18n.on('languageChanged', (lng) => {
 app.changeLanguage = (lng) => {
   i18n.changeLanguage(lng);
 };
+
+
+

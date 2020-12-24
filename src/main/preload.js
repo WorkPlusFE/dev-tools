@@ -1,15 +1,19 @@
-import { remote} from 'electron'
-const { intersection } = require("lodash");
+import { remote } from 'electron'
+const{ ipcMain } = remote;
+import _ from 'lodash';
 const CordovaRequest = require('./server/CordovaRequest').default
-window.w6s = 'ydky'
 const getRole = () => {
     const key = 'role'+remote.getCurrentWindow().id
     const role = remote.getGlobal('shareRole')[key];
     return role;
 }
+const getMainWin = () => {
+    return  remote.getGlobal('shareRole')['mainwin'];
+}
+console.log('注入成功');
 window.cordova = {
-   async exec(success,error,WorkPlus_Auth,type,otherArgs){
-        switch(type){
+   async exec(success,error,WorkPlusType,methodType,otherArgs){
+        switch(methodType){
             case 'getUserTicket':
                 const role = getRole();
                 const { api, domain, orgId ,user,pwd} = role;
@@ -19,7 +23,13 @@ window.cordova = {
                 const user_ticket = _.get(TickObject,`ticket_id`);
                 return {user_ticket}
                 break;
-            case '':
+            case 'getContact':
+                const mainwin = getMainWin();
+                mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id);
+                ipcMain.on('render-reload',(event,arg) => {
+                    console.log(arg);
+                    alert(arg);
+                })
                 break;
             default:
         }

@@ -32,6 +32,11 @@ export default new Router({
       ],
     },
     {
+      path: '/selectcontact',
+      name: 'selectcontact',
+      component: require('@/views/SelectContact').default,
+    },
+    {
       path: '*',
       redirect: '/',
     },

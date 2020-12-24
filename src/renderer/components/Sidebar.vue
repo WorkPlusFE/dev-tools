@@ -57,6 +57,7 @@
 </template>
 
 <script>
+const { remote, ipcRenderer, shell } = window.require('electron');
 export default {
   name: 'Sidebar',
   computed: {
@@ -69,7 +70,7 @@ export default {
     handleExit() {
       const app = require('electron').remote.app;
       app.exit();
-    },
+    }
   },
 };
 </script>
