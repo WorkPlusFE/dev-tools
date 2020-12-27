@@ -192,7 +192,8 @@ if (process.env.NODE_ENV === 'production') {
       }
     ]),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"production"',
+      'process.env.MY_VERSION': JSON.stringify(require('./../package.json').version)
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
