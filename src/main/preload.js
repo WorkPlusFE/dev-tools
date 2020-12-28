@@ -28,7 +28,7 @@ window.cordova = {
                 mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id);
                 ipcMain.on('render-reload',(event,arg) => {
                     console.log(arg);
-                    alert(arg);
+                    success(arg);
                 })
                 break;
             default:
