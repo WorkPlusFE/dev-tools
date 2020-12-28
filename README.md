@@ -10,3 +10,5 @@
 
 MIT.
 
+最终解析权归[恒拓高科](https://workplus.io)所有。
+
