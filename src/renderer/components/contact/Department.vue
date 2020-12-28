@@ -1,5 +1,8 @@
 <template>
     <div @click="handleClick" class="department" :style='getStyle'>
+        <span @click.stop  v-if="selectType != 'contact'">
+             <el-checkbox v-model="checked" class="department-checkbox" @change="checkboxChange"></el-checkbox>
+        </span>
         <i v-if="isOpen" class="el-icon-arrow-down"></i>
         <i v-else class="el-icon-arrow-right"></i>
         <span class="department-span">{{org.name}}</span>
@@ -17,11 +20,15 @@ export default {
         },
         org:{
             type:Object
+        },
+        selectType:{
+            type:String
         }
     },
     data() {
         return {
-            isOpen: false
+            isOpen: false,
+            checked: false
         }
     },
     computed: { 
@@ -36,7 +43,7 @@ export default {
     },
     components: {},
     methods: {
-        ...mapActions('Contact',['changeOrgs','setOrgs']),
+        ...mapActions('Contact',['changeOrgs','setOrgs','changeSelectContact']),
         handleClick() {
             this.isOpen = !this.isOpen;
             if (this.org.loading) return;
@@ -57,15 +64,14 @@ export default {
                 // refreshDatas();
             }
         },
-        getStyl2e() {
-            const left = (this.org.level * 35) + 'px';
-            const style = {
-                paddingLeft: left
-            }
-            return style;
-                
-            
-            
+        async checkboxChange(check,e) {
+            const result = await ContactRequest.getContactByorgId(this.role,this.token,this.org.uuid);
+            const obj = {
+                            data:result,
+                            isAdd:check,
+                            isArr:true
+                        }
+            this.changeSelectContact(obj);
         }
     }
 }
@@ -77,6 +83,9 @@ export default {
     padding-left: 10px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
+    .department-checkbox{
+        margin: 0 10px;
+    }
     .department-span {
         padding-left:10px;
     }

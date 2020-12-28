@@ -35,7 +35,7 @@ function createWindow() {
     width: 400,
     frame: false, // 无边框窗口
     movable: true, // 可拖动
-    resizable: false, //
+    resizable: true, //
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,

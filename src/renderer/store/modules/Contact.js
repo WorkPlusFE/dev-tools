@@ -4,7 +4,8 @@ const state = () => ({
     orgs: [],
     token: '',
     role: {},
-    random:v4()
+    random:v4(),
+    selectContact: []
   });
   
   const mutations = {
@@ -24,6 +25,30 @@ const state = () => ({
       }else{
         state.random = v4();
       }
+    },
+    changeSelectContact(state,obj) {
+      const { data,isAdd,isArr } = obj;
+      if(isArr){
+        if(isAdd){
+          state.selectContact = state.selectContact.concat(data);
+        }else{
+          _.forEach(data,(item) => {
+            const index = _.findIndex(state.selectContact,(o)=>o.userId == item.userId);
+            if(index != -1){
+              state.selectContact.splice(index,1);
+            }
+          })
+        }
+      }else{
+        if(isAdd){
+          state.selectContact.push(data);
+        }else{
+          const index = _.findIndex(state.selectContact,(o)=>o.userId == data.userId);
+          if(index != -1){
+            state.selectContact.splice(index,1);
+          }
+        }
+      }
     }
   };
   
@@ -39,6 +64,9 @@ const state = () => ({
     },
     changeOrgs({commit},org){
       commit('changeOrgs',org);
+    },
+    changeSelectContact({ commit },obj){
+      commit('changeSelectContact',obj);
     }
   };
   

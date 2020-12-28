@@ -1,10 +1,23 @@
 <template>
   <div class="main_view">
+    <div class="search">
+      <el-input placeholder="搜索" v-model="searchInpub" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search"></el-button>
+      </el-input>
+    </div>
+    <div class="select-content" v-if="false">
+      <Avatar
+        v-for="org of selectContact"
+        :key="org.avatar"
+        :src='org.avatar'
+      />
+    </div>
       <Contact 
         v-for="org of orgsData"
         :key="org.id"
         :department="org.isOrg"
         :org="org"
+        :selectType="contactType"
       />
   </div>
 </template>
@@ -16,26 +29,33 @@ import { v4 as uuidv4 } from 'uuid';
 const { remote, ipcRenderer, shell } = window.require('electron');
 import Department from '@/components/contact/Department.vue'
 import Employee from '@/components/contact/Employee.vue'
+import Avatar from '@/components/contact/Avatar.vue'
 import Contact from '@/components/contact/Contact.vue'
 import ContactRequest from '@/server/ContactRequest.js';
 import DetailRequest from '@/server/DetailRequest.js';
 export default {
   name: 'SelectContact',
-  components: { Employee,  Department, Contact},
+  components: { Employee,  Department, Contact, Avatar},
   data() {
     return {
-     orgsData:[]
+     orgsData:[],
+     searchInpub:'',
+     contactType: 'contacts',
     };
   },
   computed: {
-     ...mapState('Contact', ['orgs','random']),
+     ...mapState('Contact', ['orgs','random','selectContact']),
      ...mapGetters('Role', ['roles']),
      orgWatch(){
           return this.orgs;
      },
      randomWatch() {
        return this.random;
-     }
+     },
+     showSelectContact() {
+      return _.size(this.selectContact) > 0;
+    }
+
   },
   watch:{
     orgWatch(newOrgs,oldOrgs) {
@@ -44,14 +64,15 @@ export default {
     randomWatch() {
       this.refreshDatas(this.orgs);
     }
+    
   },
   methods: {
     ...mapActions('Contact', ['setOrgs','setToken','setRole']),
     getRole() {
       const key = 'role'+ this.getParams();
       const role = remote.getGlobal('shareRole')[key];
-      return role;
-      // return this.roles[0];
+      // return role;
+      return this.roles[0];
   
     },
     getParams() {   
@@ -98,4 +119,15 @@ export default {
 </script>
 
 <style lang='less'>
+.main_view{
+  overflow: auto;
+  .search{
+    margin: 10px;
+  }
+  .select-content{
+      height: 40px;
+      overflow-x:auto;
+      display: flex;
+  }
+}
 </style>

@@ -97,4 +97,12 @@ export default class ContactRequest {
         org.employees = subEmployees;
         return org;
     }
+    /**获取组织下的全部联系人 */
+    static async getContactByorgId(role,token,uuid) {
+        const baseRequest = new BaseRequest();
+        const url = role.api+'/organizations/'+role.orgId+'/employees?access_token='+token+'&org_id='+uuid+'&recursion=true&filter=true&filter_senior=true';
+        const response = await baseRequest.requestForGet(url);
+        return _.get(response,`data.result`,[]);
+
+    }
 }
