@@ -1,21 +1,14 @@
-# @w6s/dev-tools
+## 高科前端开发工具
 
-> WorkPlus ligh-webapp dev tools
+专注于开发过程中真实环境数据及接口的模拟，在基于 WorkPlus 移动平台开发应用时，通过创建角色及应用入口，可快速切换环境，大大提升开发效率。
 
-#### Build Setup
+![高科前端开发工具](https://open.workplus.io/v4/devtools/screenshot.png)
 
-``` bash
-# install dependencies
-npm install
+更多使用说明，请查看[官方文档](https://open.workplus.io/v4/dev-tools/#%E6%A6%82%E8%BF%B0)。
 
-# serve with hot reload at localhost:9080
-npm run dev
+### License
 
-# build electron application for production
-npm run build
+MIT.
 
+最终解析权归[恒拓高科](https://workplus.io)所有。
 
-# lint all JS/Vue component files in `src/`
-npm run lint
-
-```
