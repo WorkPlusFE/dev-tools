@@ -20,9 +20,9 @@ export default {
   },
   methods:{
     rendererListen(){
-      ipcRenderer.on('open-select-contact',(event,arg) => {
+      ipcRenderer.on('open-select-contact',(event,arg,type) => {
         console.log(arg);
-        this.$router.push({path: '/selectcontact',query:{winId: arg}});
+        this.$router.push({path: '/selectcontact',query:{winId: arg, type}});
         ipcRenderer.send('show-center');
       })
     }

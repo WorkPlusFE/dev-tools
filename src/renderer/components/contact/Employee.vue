@@ -1,9 +1,9 @@
 <template>
-    <div class='employee' :style='getStyle' @click="handleContact" :key="org.userId+'employee'">
+    <div class='employee' :style='getStyle' @click="handleContact" :key="org.user_id+'employee'">
         <span @click.stop v-if="selectType != 'contact'"  class="employee-checkbox">
-             <el-checkbox v-model="checked"  @change="checkboxChange"></el-checkbox>
+             <el-checkbox  :checked='getchecked' @change="checkboxChange"></el-checkbox>
         </span>
-        <Avatar :src='org.avatar' :key="org.userId"></Avatar>
+        <Avatar :src='org.avatar' :key="org.user_id"></Avatar>
         <div class="employee-right">
             <span class="employee-name">{{org.name}}</span>
             <span class="employee-job">{{org.name}}</span>
@@ -13,14 +13,15 @@
 
 <script>
 import Avatar from '@/components/contact/Avatar.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 const { remote, ipcRenderer, shell } = window.require('electron');
+import _ from 'lodash';
+import ContactRequest from '@/server/ContactRequest.js';
 export default {
     name:'Employee',
     components: {Avatar},
     data(){
         return {
-            checked:false
         }
     },
     props:{
@@ -32,12 +33,19 @@ export default {
         }
     },
     computed: {
+        ...mapState('Contact',['selectContact','role','token']),
         getStyle() {
             const left = (this.org.level * 20) + 'px';
             const style = {
                 paddingLeft: left
             }
             return style;
+        },
+        getchecked() {
+            const index = _.findIndex(this.selectContact,(o)=>o.user_id == this.org.user_id);
+            const bool =  index == -1 ? false : true;
+            console.log(bool);
+            return bool;
         }
     },
     methods: {
@@ -45,9 +53,11 @@ export default {
         handleContact() {
             ipcRenderer.send('render-reload',this.org)
         },
-        checkboxChange(checked) {
+        async checkboxChange(checked) {
+            const data = await ContactRequest.getContactByUserId(this.role,this.token,this.org.user_id)
+            console.log(data);
             const obj = {
-                data:this.org,
+                data:_.get(data,`[0]`,{}),
                 isAdd:checked,
                 isArr:false
             }

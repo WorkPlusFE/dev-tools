@@ -74,7 +74,7 @@ export default class ContactRequest {
         if (employees) {
             employees.forEach(searchEmployee => {
                 subEmployees.push({
-                    userId: searchEmployee.user_id,
+                    user_id: searchEmployee.user_id,
                     domainId: searchEmployee.domain_id,
                     orgCode: org.id,
                     displayName: searchEmployee.display_name,
@@ -104,5 +104,12 @@ export default class ContactRequest {
         const response = await baseRequest.requestForGet(url);
         return _.get(response,`data.result`,[]);
 
+    }
+    /** 根据用户Id查询用户详情*/
+    static async getContactByUserId(role,token,userId) {
+        const baseRequest = new BaseRequest();
+        const url = role.api+ "/admin/organizations/"+role.orgId+"/employees?access_token="+token+"&matching=true&query=" + userId;
+        const response = await baseRequest.requestForGet(url);
+        return _.get(response,`data.result`,[]);
     }
 }

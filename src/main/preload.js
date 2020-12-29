@@ -1,42 +1,39 @@
 import { remote } from 'electron'
 const{ ipcMain } = remote;
 import _ from 'lodash';
-const CordovaRequest = require('./server/CordovaRequest').default
-const getRole = () => {
+
+const Cordova = require('./cordova').default
+export const getRole = () => {
     const key = 'role'+remote.getCurrentWindow().id
     const role = remote.getGlobal('shareRole')[key];
     return role;
 }
-const getMainWin = () => {
+export const getMainWin = () => {
     return  remote.getGlobal('shareRole')['mainwin'];
 }
-const openContact = () => {
+export const openContact = (type) => {
     const mainwin = getMainWin();
-    mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id);
+    mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id,type);
 }
 console.log('注入成功');
 window.cordova = {
    async exec(success,error,WorkPlusType,methodType,otherArgs){
         switch(methodType){
-            case 'getUserTicket':
-                const role = getRole();
-                const { api, domain, orgId ,user,pwd} = role;
-                const TokenObject = await CordovaRequest.getToken(role);
-                const token = _.get(TokenObject,'access_token','');
-                const TickObject = await CordovaRequest.getUserTicket(token,api,orgId);
-                const user_ticket = _.get(TickObject,`ticket_id`);
-                return {user_ticket}
+            case 'getUserTicket':{
+                const data = await Cordova.getUserTicket();
+                console.log({data});
+                success(data);
                 break;
+            }
             case 'getContact':
                 const mainwin = getMainWin();
-                mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id);
+                mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id,'contact');
                 ipcMain.on('render-reload',(event,arg) => {
-                    console.log(arg);
                     success(arg);
                 })
                 break;
             case 'getContacts':{
-                openContact();
+                openContact('contacts');
                 ipcMain.on('render-reload-getContacts',(event,arg) => {
                     success(arg);
                 })

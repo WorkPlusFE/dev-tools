@@ -33,7 +33,7 @@ const state = () => ({
           state.selectContact = state.selectContact.concat(data);
         }else{
           _.forEach(data,(item) => {
-            const index = _.findIndex(state.selectContact,(o)=>o.userId == item.userId);
+            const index = _.findIndex(state.selectContact,(o)=>o.user_id == item.user_id);
             if(index != -1){
               state.selectContact.splice(index,1);
             }
@@ -43,12 +43,15 @@ const state = () => ({
         if(isAdd){
           state.selectContact.push(data);
         }else{
-          const index = _.findIndex(state.selectContact,(o)=>o.userId == data.userId);
+          const index = _.findIndex(state.selectContact,(o)=>o.user_id == data.user_id);
           if(index != -1){
             state.selectContact.splice(index,1);
           }
         }
       }
+    },
+    delectSelectContact(state) {
+      state.selectContact = [];
     }
   };
   
@@ -67,6 +70,9 @@ const state = () => ({
     },
     changeSelectContact({ commit },obj){
       commit('changeSelectContact',obj);
+    },
+    delectSelectContact({commit}) {
+      commit('delectSelectContact');
     }
   };
   

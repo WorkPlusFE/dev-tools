@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen ,remote} from 'electron'
+import { app, BrowserWindow, ipcMain, screen ,remote,globalShortcut} from 'electron'
 const path = require('path');
 export const createOtherWindow = (link,role) => {
    const { width, height } = screen.getPrimaryDisplay().workAreaSize;// 获取到屏幕的宽度和高度

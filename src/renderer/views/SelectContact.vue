@@ -9,13 +9,16 @@
       <div class="avatar-content">
           <Avatar
           v-for="org of selectContact"
-          :key="org"
+          :key="org.userId"
           :src='org.avatar'
         />
+         <div class="select-btn" @click="handleClickSelect">
+          确定({{selectContactSize}})
+        </div>
       </div>
-      <div class="select-btn">
+      <!-- <div class="select-btn">
         确定({{selectContactSize}})
-      </div>
+      </div> -->
     </div>
       <Contact 
         v-for="org of orgsData"
@@ -45,7 +48,7 @@ export default {
     return {
      orgsData:[],
      searchInpub:'',
-     contactType: 'contacts',
+     contactType: '',
     };
   },
   computed: {
@@ -75,7 +78,7 @@ export default {
     
   },
   methods: {
-    ...mapActions('Contact', ['setOrgs','setToken','setRole']),
+    ...mapActions('Contact', ['setOrgs','setToken','setRole','delectSelectContact']),
     getRole() {
       const key = 'role'+ this.getParams();
       const role = remote.getGlobal('shareRole')[key];
@@ -86,6 +89,10 @@ export default {
     getParams() {   
       const winId = this.$route.query.winId;
       return winId;
+    },
+    getContactType() {
+      const type = this.$route.query.type;
+      this.contactType = type;
     },
     refreshDatas(orgs) {
         const datas = [];
@@ -105,6 +112,13 @@ export default {
                 this.pushOrg(subOrg, datas);
             })
         }
+    },
+    handleClickSelect() {
+      if(this.contactType == 'contacts') {
+        ipcRenderer.send('render-reload-getContacts',this.selectContact)
+      }
+      this.delectSelectContact();
+      this.$router.push('/')
     }
   },
 
@@ -113,6 +127,7 @@ export default {
   },
   async mounted() {
     const role = this.getRole();
+    this.getContactType();
     this.setRole(role);
     const TokenObject = await DetailRequest.getToken(role);
     const token = _.get(TokenObject,'data.result.access_token','');
@@ -133,23 +148,23 @@ export default {
     margin: 10px;
   }
   .select-content{
-      height: 40px;
+      // height: 40px;
       display: flex;
       justify-content:space-between;
       .avatar-content{
         flex: 1;
         display: flex;
         padding: 0 5px;
-        overflow-x:auto;
-        &::-webkit-scrollbar {
-            // display: none;
-        }
+        flex-wrap: wrap;
+        // overflow-x:auto;
       }
       .select-btn{
         width: 60px;
         cursor: pointer;
         font-size: 14px;
         line-height: 40px;
+        margin-left: 10px;
+        color: #3a8ee6;
       }
 
   }
