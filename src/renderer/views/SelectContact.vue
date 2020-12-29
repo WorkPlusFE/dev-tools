@@ -5,12 +5,17 @@
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </div>
-    <div class="select-content" v-if="false">
-      <Avatar
-        v-for="org of selectContact"
-        :key="org.avatar"
-        :src='org.avatar'
-      />
+    <div class="select-content" v-if="showSelectContact">
+      <div class="avatar-content">
+          <Avatar
+          v-for="org of selectContact"
+          :key="org"
+          :src='org.avatar'
+        />
+      </div>
+      <div class="select-btn">
+        确定({{selectContactSize}})
+      </div>
     </div>
       <Contact 
         v-for="org of orgsData"
@@ -54,6 +59,9 @@ export default {
      },
      showSelectContact() {
       return _.size(this.selectContact) > 0;
+    },
+    selectContactSize() {
+      return _.size(this.selectContact);
     }
 
   },
@@ -126,8 +134,24 @@ export default {
   }
   .select-content{
       height: 40px;
-      overflow-x:auto;
       display: flex;
+      justify-content:space-between;
+      .avatar-content{
+        flex: 1;
+        display: flex;
+        padding: 0 5px;
+        overflow-x:auto;
+        &::-webkit-scrollbar {
+            // display: none;
+        }
+      }
+      .select-btn{
+        width: 60px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 40px;
+      }
+
   }
 }
 </style>

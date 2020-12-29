@@ -1,7 +1,7 @@
 <template>
   
         <Department v-if="department" :org="org" :selectType="selectType"></Department>
-        <Employee v-else :org="org" :selectType="selectType"></Employee>
+        <Employee v-else :org="org" :selectType="selectType" :key="org.userId"></Employee>
 
 </template>
 

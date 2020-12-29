@@ -10,6 +10,10 @@ const getRole = () => {
 const getMainWin = () => {
     return  remote.getGlobal('shareRole')['mainwin'];
 }
+const openContact = () => {
+    const mainwin = getMainWin();
+    mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id);
+}
 console.log('注入成功');
 window.cordova = {
    async exec(success,error,WorkPlusType,methodType,otherArgs){
@@ -31,6 +35,13 @@ window.cordova = {
                     success(arg);
                 })
                 break;
+            case 'getContacts':{
+                openContact();
+                ipcMain.on('render-reload-getContacts',(event,arg) => {
+                    success(arg);
+                })
+                break;
+            }
             default:
         }
     }

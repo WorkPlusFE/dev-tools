@@ -18,6 +18,11 @@ const { remote, ipcRenderer, shell } = window.require('electron');
 export default {
     name:'Employee',
     components: {Avatar},
+    data(){
+        return {
+            checked:false
+        }
+    },
     props:{
         org:{
             type:Object
