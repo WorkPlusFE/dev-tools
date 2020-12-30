@@ -7,7 +7,7 @@ const state = () => ({
     random:v4(),
     selectContact: []
   });
-  
+ 
   const mutations = {
     setOrgs(state,orgs) {
         state.orgs = orgs;
@@ -25,6 +25,7 @@ const state = () => ({
       }else{
         state.random = v4();
       }
+
     },
     changeSelectContact(state,obj) {
       const { data,isAdd,isArr } = obj;
@@ -54,6 +55,10 @@ const state = () => ({
       state.selectContact = [];
     }
   };
+
+  const change = (state) =>{
+    console.log({state});
+  }
   
   const actions = {
     setOrgs({commit},orgs) {
@@ -68,13 +73,16 @@ const state = () => ({
     changeOrgs({commit},org){
       commit('changeOrgs',org);
     },
-    changeSelectContact({ commit },obj){
+    changeSelectContact({ commit,state },obj){
       commit('changeSelectContact',obj);
+      change(state.selectContact);
     },
     delectSelectContact({commit}) {
       commit('delectSelectContact');
     }
   };
+
+  
   
   const getters = {
     orgsDatas:(state) => {

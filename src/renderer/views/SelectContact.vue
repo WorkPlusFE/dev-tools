@@ -1,24 +1,17 @@
 <template>
   <div class="main_view">
-    <div class="search">
-      <el-input placeholder="搜索" v-model="searchInpub" class="input-with-select">
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
-    </div>
-    <div class="select-content" v-if="showSelectContact">
+    
+    <div class="select-content" >
       <div class="avatar-content">
           <Avatar
           v-for="org of selectContact"
           :key="org.userId"
           :src='org.avatar'
         />
-         <div class="select-btn" @click="handleClickSelect">
-          确定({{selectContactSize}})
-        </div>
       </div>
-      <!-- <div class="select-btn">
+      <div class="select-btn">
         确定({{selectContactSize}})
-      </div> -->
+      </div>
     </div>
       <Contact 
         v-for="org of orgsData"
@@ -146,19 +139,9 @@ export default {
   overflow: auto;
   .search{
     margin: 10px;
+    display: flex;
   }
-  .select-content{
-      // height: 40px;
-      display: flex;
-      justify-content:space-between;
-      .avatar-content{
-        flex: 1;
-        display: flex;
-        padding: 0 5px;
-        flex-wrap: wrap;
-        // overflow-x:auto;
-      }
-      .select-btn{
+  .select-btn{
         width: 60px;
         cursor: pointer;
         font-size: 14px;
@@ -166,6 +149,19 @@ export default {
         margin-left: 10px;
         color: #3a8ee6;
       }
+  .select-content{
+      // height: 40px;
+      display: flex;
+      justify-content:space-between;
+      margin: 10px 0px;
+      .avatar-content{
+        flex: 1;
+        display: flex;
+        padding: 0 5px;
+        // flex-wrap: wrap;
+        overflow-x:auto;
+      }
+      
 
   }
 }

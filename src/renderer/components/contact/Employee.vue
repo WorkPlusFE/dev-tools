@@ -1,7 +1,7 @@
 <template>
-    <div class='employee' :style='getStyle' @click="handleContact" :key="org.user_id+'employee'">
+    <div class='employee' :style='getStyle' @click="handleContact" >
         <span @click.stop v-if="selectType != 'contact'"  class="employee-checkbox">
-             <el-checkbox  :checked='getchecked' @change="checkboxChange"></el-checkbox>
+             <el-checkbox v-model="getchecked"  @change="checkboxChange"></el-checkbox>
         </span>
         <Avatar :src='org.avatar' :key="org.user_id"></Avatar>
         <div class="employee-right">
