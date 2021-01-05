@@ -7,26 +7,26 @@
       ref="appForm"
       style="width: 380px"
     >
-      <el-form-item label="应用名称" prop="name">
+      <el-form-item :label="$t('component.addApp.name.label')" prop="name">
         <el-input
           v-model="formLabel.name"
-          placeholder="请输入应用名称"
+          :placeholder="$t('component.addApp.name.placeholder')"
           maxlength="20"
           show-word-limit
           :autofocus="true"
           class="app-name-input"
         ></el-input>
       </el-form-item>
-      <el-form-item label="访问地址" prop="link">
+      <el-form-item :label="$t('component.addApp.link.label')" prop="link">
         <el-input
           v-model="formLabel.link"
-          placeholder="请输入应用访问地址，需以 http(s):// 开头"
+          :placeholder="$t('component.addApp.link.placeholder')"
         ></el-input>
       </el-form-item>
-      <el-form-item label="角色" prop="role">
+      <el-form-item :label="$t('component.addApp.role.label')" prop="role">
         <el-select
           v-model="formLabel.role"
-          placeholder="请选择角色"
+          :placeholder="$t('component.addApp.role.placeholder')"
           @change="handleRoleChanged"
         >
           <el-option
@@ -38,7 +38,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="启动方式" required>
+      <el-form-item :label="$t('component.addApp.startMode.label')" required>
         <el-radio-group v-model="formLabel.startMode">
           <el-radio
             v-for="item in startModeOptions"
@@ -48,21 +48,28 @@
           >
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="应用描述" prop="description">
+      <el-form-item
+        :label="$t('component.addApp.description.label')"
+        prop="description"
+      >
         <el-input
           v-model="formLabel.description"
           type="textarea"
           :rows="2"
-          placeholder="非必填，100字符内"
+          :placeholder="
+            $t('component.addApp.description.placeholder', {
+              max: descriptionMax,
+            })
+          "
         ></el-input>
       </el-form-item>
 
       <el-form-item class="footer">
-        <el-button size="medium" type="primary" @click="openApp"
-          >保存并打开</el-button
-        >
+        <el-button size="medium" type="primary" @click="openApp">{{
+          $t('component.addApp.button.saveAndOpen')
+        }}</el-button>
         <el-button size="medium" type="primary" @click="saveApp">{{
-          isCreate ? '添加应用' : '保存修改'
+          isCreate ? buttonLabel.create : buttonLabel.save
         }}</el-button>
       </el-form-item>
     </el-form>
@@ -84,6 +91,7 @@ export default {
       type: Object,
       default: null,
     },
+    $t: Function,
   },
   data() {
     return {
@@ -95,28 +103,59 @@ export default {
       startModeOptions: [
         {
           value: 'externalOpen',
-          label: '外部浏览器打开',
+          label: this.$t('component.addApp.startMode.externalOpen'),
         },
         {
           value: 'H5DevTool',
-          label: 'H5模拟器',
+          label: this.$t('component.addApp.startMode.H5DevTool'),
         },
       ],
+      descriptionMax: 100,
+      buttonLabel: {
+        create: this.$t('component.addApp.button.create'),
+        save: this.$t('component.addApp.button.save'),
+      },
       rules: {
         name: [
-          { required: true, message: '应用名称不能为空', trigger: 'blur' },
-          { validator: nameValidater('应用名称'), trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addApp.rules.name.require'),
+            trigger: 'blur',
+          },
+          {
+            validator: nameValidater(
+              this.$t('component.addApp.rules.name.validate')
+            ),
+            trigger: 'blur',
+          },
         ],
         link: [
-          { required: true, message: '访问地址不能为空', trigger: 'blur' },
-          { validator: urlValidater('请输入正确的访问地址'), trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addApp.rules.link.require'),
+            trigger: 'blur',
+          },
+          {
+            validator: urlValidater(
+              this.$t('component.addApp.rules.link.validate')
+            ),
+            trigger: 'blur',
+          },
         ],
-        role: [{ required: true, message: '请选择角色', trigger: 'blur' }],
+        role: [
+          {
+            required: true,
+            message: this.$t('component.addApp.rules.role.require'),
+            trigger: 'blur',
+          },
+        ],
         description: [
           {
             min: 1,
             max: 50,
-            message: '已超出最大字符数 100',
+            message: this.$t('component.addApp.rules.description.validate', {
+              max: this.descriptionMax,
+            }),
             trigger: 'blur',
           },
         ],
@@ -139,7 +178,10 @@ export default {
       const storeApp = this.getAppByName(this.formLabel.name);
       if (storeApp) {
         if (this.isCreate || storeApp.id !== this.formLabel.id) {
-          return this.$message.error(`应用 [${this.formLabel.name}] 已存在！`);
+          const msg = this.$t('component.addApp.message.existed', {
+            name: this.formLabel.name,
+          });
+          return this.$message.error(msg);
         }
       }
 
@@ -158,7 +200,9 @@ export default {
         this.update(app);
       }
 
-      const message = this.isCreate ? '应用创建成功！' : '应用资料已更新！';
+      const message = this.isCreate
+        ? this.$t('component.addApp.response.create')
+        : this.$t('component.addApp.response.save');
       this.$message.success(message);
     },
     openApp() {
@@ -176,7 +220,10 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      document.querySelector('.app-name-input').querySelector('.el-input__inner').focus();
+      document
+        .querySelector('.app-name-input')
+        .querySelector('.el-input__inner')
+        .focus();
     }, 500);
   },
 };

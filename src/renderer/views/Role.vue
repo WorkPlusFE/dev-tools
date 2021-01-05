@@ -55,13 +55,18 @@ export default {
     handleCreateRole(role) {
       const h = this.$createElement;
       const _this = this;
-      const title = role ? '编辑角色' : '添加角色';
+      const title = role
+        ? this.$t('page.role.message.edit')
+        : this.$t('page.role.message.create');
       const roleProps = role || null;
       this.$msgbox({
         title,
         message: h(AddRole, {
           key: Date.now(),
-          props: { role: roleProps },
+          props: { 
+            role: roleProps,
+            $t: _this.$t.bind(_this),
+          },
         }),
         showCancelButton: false,
         showConfirmButton: false,
@@ -76,15 +81,15 @@ export default {
       if (count > 0) {
         const message =
           count > 1
-            ? '当前角色已被多个应用使用，不可删除！'
-            : `当前角色已被应用[${binds[0].name}]使用，不可删除！`;
+            ? this.$t('page.role.message.cantDelete')
+            : this.$t('page.role.message.cantDelete2', { name: binds[0].name });
         return this.$message.error(message);
       }
       this.delete(role.id);
     },
 
     handleCopyRole(role) {
-      const namePrev = '(新)';
+      const namePrev = this.$t('page.role.new');
       const newRole = {
         ...role,
         name: `${namePrev}${role.name}`,

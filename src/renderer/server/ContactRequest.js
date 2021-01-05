@@ -2,11 +2,10 @@ import _ from 'lodash';
 import BaseRequest from '@/server/BaseRequest.js';
 import { v4 as uuidv4 } from 'uuid';
 export default class ContactRequest {
-
-     /**初始化获取全部组织架构 */
-     static async fetchOrgs(role,token) {
+     /** 初始化获取全部组织架构 */
+     static async fetchOrgs(role, token) {
         const baseRequest = new BaseRequest();
-        const url = role.api + '/organizations?access_token=' + token;
+        const url = `${role.api}/organizations?access_token=${token}`;
         const response = await baseRequest.requestForGet(url);
         const orgs = [];
         const results = _.get(response, `data.result`, []);
@@ -30,18 +29,18 @@ export default class ContactRequest {
                     disabled: org.disabled,
                     lastModified: org.lastModified,
                     refreshTimer: org.refreshTimer,
-                    isOrg:true
+                    isOrg: true
                 });
             });
         }
         return orgs;
     }
 
-    /**点击加载组织 */
+    /** 点击加载组织 */
      static async loadOrg(org, role, token) {
         const baseRequest = new BaseRequest();
-        const url = role.api + "/organizations/" + org.orgCode + "/view?access_token=" + token + "&org_id=" + org.id +
-            "&filter_senior=false&employee_limit=100&employee_skip=0&filter_rank=true&org_limit=100&org_skip=0&rank_view=true";
+        const url = `${role.api}/organizations/${org.orgCode}/view?access_token=${token}&org_id=${org.id
+            }&filter_senior=false&employee_limit=100&employee_skip=0&filter_rank=true&org_limit=100&org_skip=0&rank_view=true`;
         const response = await baseRequest.requestForGet(url);
         const orgs = [];
         const children = response.data.result[0].children;
@@ -63,8 +62,8 @@ export default class ContactRequest {
                     disabled: organization.disabled,
                     lastModified: organization.last_modified,
                     allEmployeeCount: organization.all_employee_count,
-                    isOrg:true,
-                    open:false
+                    isOrg: true,
+                    open: false
                 });
             })
         }
@@ -90,26 +89,25 @@ export default class ContactRequest {
                     status: searchEmployee.status,
                     orgInfo: searchEmployee.root_org_info.name,
                     level: org.level + 1,
-                    isOrg:false
+                    isOrg: false
                 });
             })
         }
         org.employees = subEmployees;
         return org;
     }
-    /**获取组织下的全部联系人 */
-    static async getContactByorgId(role,token,uuid) {
+    /** 获取组织下的全部联系人 */
+    static async getContactByorgId(role, token, uuid) {
         const baseRequest = new BaseRequest();
-        const url = role.api+'/organizations/'+role.orgId+'/employees?access_token='+token+'&org_id='+uuid+'&recursion=true&filter=true&filter_senior=true';
+        const url = `${role.api}/organizations/${role.orgId}/employees?access_token=${token}&org_id=${uuid}&recursion=true&filter=true&filter_senior=true`;
         const response = await baseRequest.requestForGet(url);
-        return _.get(response,`data.result`,[]);
-
+        return _.get(response, `data.result`, []);
     }
-    /** 根据用户Id查询用户详情*/
-    static async getContactByUserId(role,token,userId) {
+    /** 根据用户Id查询用户详情 */
+    static async getContactByUserId(role, token, userId) {
         const baseRequest = new BaseRequest();
-        const url = role.api+ "/admin/organizations/"+role.orgId+"/employees?access_token="+token+"&matching=true&query=" + userId;
+        const url = `${role.api}/admin/organizations/${role.orgId}/employees?access_token=${token}&matching=true&query=${userId}`;
         const response = await baseRequest.requestForGet(url);
-        return _.get(response,`data.result`,[]);
+        return _.get(response, `data.result`, []);
     }
 }

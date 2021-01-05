@@ -1,11 +1,11 @@
-import { app, BrowserWindow, ipcMain, screen ,remote} from 'electron'
+import { app, BrowserWindow, ipcMain, screen, remote } from 'electron'
 const path = require('path');
 const url = require('url');
-export const ContactWindow = (link,role) => {
-   let contactWindow = new BrowserWindow({
-        height:600,
+export const ContactWindow = (link, role) => {
+   const contactWindow = new BrowserWindow({
+        height: 600,
         useContentSize: true,
-        width:400,
+        width: 400,
         frame: false, // 无边框窗口
         movable: true, // 可拖动
         resizable: false, //
@@ -15,9 +15,9 @@ export const ContactWindow = (link,role) => {
             enableRemoteModule: true,
         },
     });
-   
+
     contactWindow.webContents.once('dom-ready', () => {
-        
+
     });
     contactWindow.on('closed', () => {
          otherWindow = null;

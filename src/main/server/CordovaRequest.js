@@ -2,10 +2,9 @@ import _ from 'lodash';
 import BaseRequest from './BaseRequest.js';
 import { v4 as uuidv4 } from 'uuid';
 export default class CordovaRequest {
+    static baseRequest = new BaseRequest();
 
-    static baseRequest  = new BaseRequest();
-
-    /**获取token */
+    /** 获取token */
     static getToken(obj) {
         return new Promise((relove, reject) => {
             const param = {

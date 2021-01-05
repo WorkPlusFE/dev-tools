@@ -23,15 +23,15 @@
     </div>
     <div class="role-item__footer">
       <el-popconfirm
-        confirm-button-text='删除'
-        cancel-button-text='取消'
-        title="确定删除该角色？"
+        :confirm-button-text="$t('component.role.popconfirm.del')"
+        :cancel-button-text="$t('component.role.popconfirm.cancel')"
+        :title="$t('component.role.popconfirm.title')"
         @confirm="handleDeleteRole"
       >
-      <i class="icon el-icon-delete"  slot="reference" title="删除" ></i>
+      <i class="icon el-icon-delete"  slot="reference" :title="$t('tooltips.del')"></i>
       </el-popconfirm>
-      <i class="icon el-icon-copy-document" @click="handleCopyRole" title="复制"></i>
-      <i class="icon el-icon-edit" title="编辑" @click="handleEditRole"></i>
+      <i class="icon el-icon-copy-document" @click="handleCopyRole" :title="$t('tooltips.copy')"></i>
+      <i class="icon el-icon-edit" :title="$t('tooltips.edit')" @click="handleEditRole"></i>
     </div>
   </div>
 </template>

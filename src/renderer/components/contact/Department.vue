@@ -11,18 +11,18 @@
 
 <script>
 import ContactRequest from '@/server/ContactRequest.js';
-import { mapActions,mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
-    name:'Department',
+    name: 'Department',
     props: {
-        departmentName:{
-            type:String
+        departmentName: {
+            type: String
         },
-        org:{
-            type:Object
+        org: {
+            type: Object
         },
-        selectType:{
-            type:String
+        selectType: {
+            type: String
         }
     },
     data() {
@@ -31,10 +31,10 @@ export default {
             checked: false
         }
     },
-    computed: { 
-        ...mapState('Contact', ['role','token']),
+    computed: {
+        ...mapState('Contact', ['role', 'token']),
         getStyle() {
-            const left = (this.org.level * 20) + 'px';
+            const left = `${this.org.level * 20}px`;
             const style = {
                 paddingLeft: left
             }
@@ -43,7 +43,7 @@ export default {
     },
     components: {},
     methods: {
-        ...mapActions('Contact',['changeOrgs','setOrgs','changeSelectContact']),
+        ...mapActions('Contact', ['changeOrgs', 'setOrgs', 'changeSelectContact']),
         handleClick() {
             this.isOpen = !this.isOpen;
             if (this.org.loading) return;
@@ -51,7 +51,7 @@ export default {
                 this.org.loading = true;
                 this.changeOrgs(this.org);
                 // refreshDatas();
-                ContactRequest.loadOrg(this.org,this.role, this.token).then(success => {
+                ContactRequest.loadOrg(this.org, this.role, this.token).then(success => {
                     success.open = true;
                     success.loading = false;
                     this.changeOrgs(success);
@@ -64,12 +64,12 @@ export default {
                 // refreshDatas();
             }
         },
-        async checkboxChange(check,e) {
-            const result = await ContactRequest.getContactByorgId(this.role,this.token,this.org.uuid);
+        async checkboxChange(check, e) {
+            const result = await ContactRequest.getContactByorgId(this.role, this.token, this.org.uuid);
             const obj = {
-                            data:result,
-                            isAdd:check,
-                            isArr:true
+                            data: result,
+                            isAdd: check,
+                            isArr: true
                         }
             this.changeSelectContact(obj);
         }

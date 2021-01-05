@@ -20,7 +20,7 @@ const URL_KEYS = {
  * @param {*} app
  * @param {*} params
  */
-const completeAppUrl = (app, params) => {
+const completeAppUrl = (app, params = {}) => {
   const { startMode } = app;
   const prevChat = app.link.indexOf('?') > -1 ? '&' : '?';
 
@@ -69,6 +69,6 @@ export class OpenApp {
     const urlParams = await getUrlParams(app, role);
     const appLink = completeAppUrl(app, urlParams);
 
-    ipcRenderer.send('OPEN', appLink,role);
+    ipcRenderer.send('OPEN', appLink, role);
   }
 }

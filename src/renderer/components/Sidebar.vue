@@ -49,9 +49,9 @@
       </div>
       <div class="menus__base">
         <el-popconfirm
-          confirm-button-text="确定"
-          cancel-button-text="取消"
-          title="是否确定关闭应用？"
+          :confirm-button-text="$t('sidebar.popconfirm.del')"
+          :cancel-button-text="$t('sidebar.popconfirm.cancel')"
+          :title="$t('sidebar.popconfirm.title')"
           @confirm="handleExit"
         >
           <div

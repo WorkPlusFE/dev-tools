@@ -7,27 +7,26 @@
         <h3>{{ app.name }}</h3>
       </div>
       <p class="app-description" v-if="app.description">
-        <strong>应用描述：</strong><i>{{ app.description }}</i>
+        <strong>{{$t('component.app.description')}}</strong><i>{{ app.description }}</i>
       </p>
       <p class="app-description">
-        <strong>访问地址：</strong><i>{{ app.link }}</i>
+        <strong>{{$t('component.app.link')}}</strong><i>{{ app.link }}</i>
       </p>
       <p class="app-description">
-        <strong>角色：</strong><i>{{ app.roleName }}</i>
+        <strong>{{$t('component.app.roleName')}}</strong><i>{{ app.roleName }}</i>
       </p>
     </div>
     <div class="app-item__footer">
       <el-popconfirm
-        confirm-button-text="删除"
-        cancel-button-text="取消"
-        title="确定删除该应用？"
+        :confirm-button-text="$t('component.app.popconfirm.del')"
+        :cancel-button-text="$t('component.app.popconfirm.cancel')"
+        :title="$t('component.app.popconfirm.title')"
         @confirm="handleDeleteApp"
       >
-        <i class="icon el-icon-delete" slot="reference" title="删除" @click.stop></i>
+        <i class="icon el-icon-delete" slot="reference" :title="$t('tooltips.del')" @click.stop></i>
       </el-popconfirm>
-
-      <i class="icon el-icon-upload2" v-if="!isTop" title="置顶" @click.stop="handleSetTop"></i>
-      <i class="icon el-icon-download" v-else title="取消置顶" @click.stop="handleCancelTop"></i>
+      <i class="icon el-icon-upload2" v-if="!isTop" :title="$t('tooltips.setTop')" @click.stop="handleSetTop"></i>
+      <i class="icon el-icon-download" v-else :title="$t('tooltips.cancelTop')" @click.stop="handleCancelTop"></i>
       <el-popover v-if="isH5Mode" placement="top" trigger="click">
         <qrcode-vue
           :value="app.link"
@@ -35,9 +34,9 @@
           :size="200"
           :background="qrcodeBgColor"
         ></qrcode-vue>
-        <i class="iconfont iconqrcode" slot="reference" title="显示二维码" @click.stop></i>
+        <i class="iconfont iconqrcode" slot="reference" :title="$t('tooltips.qrcode')" @click.stop></i>
       </el-popover>
-      <i class="icon el-icon-edit" title="编辑" @click.stop="handleEditApp"></i>
+      <i class="icon el-icon-edit" :title="$t('tooltips.edit')" @click.stop="handleEditApp"></i>
     </div>
   </div>
 </template>

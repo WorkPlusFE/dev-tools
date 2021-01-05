@@ -9,25 +9,25 @@
 import Department from './Department.vue';
 import Employee from './Employee.vue';
 export default {
-    name:'Contact',
-    data(){
+    name: 'Contact',
+    data() {
         return {
         }
     },
     props: {
-        department:{
-            type:Boolean
+        department: {
+            type: Boolean
         },
-        org:{
-            type:Object
+        org: {
+            type: Object
         },
-        selectType:{
-            type:String
+        selectType: {
+            type: String
         }
     },
-    components: {Employee, Department},
+    components: { Employee, Department },
     mounted() {
-    
+
     }
 }
 </script>

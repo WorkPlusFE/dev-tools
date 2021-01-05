@@ -8,7 +8,7 @@
 <script>
 import Sidebar from "@/components/Sidebar";
 import { mapState } from 'vuex';
-import { remote,ipcRenderer } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 
 export default {
   name: 'dev-tools',
@@ -18,11 +18,11 @@ export default {
   computed: {
     ...mapState('Setting', ['dark', 'isZhCnLng'])
   },
-  methods:{
-    rendererListen(){
-      ipcRenderer.on('open-select-contact',(event,arg,type) => {
+  methods: {
+    rendererListen() {
+      ipcRenderer.on('open-select-contact', (event, arg, type) => {
         console.log(arg);
-        this.$router.push({path: '/selectcontact',query:{winId: arg, type}});
+        this.$router.push({ path: '/selectcontact', query: { winId: arg, type } });
         ipcRenderer.send('show-center');
       })
     }

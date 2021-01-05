@@ -23,7 +23,7 @@ const i18n = new VueI18n({
 });
 
 /* eslint-disable no-new */
-new Vue({
+export default new Vue({
   components: { App },
   router,
   store,

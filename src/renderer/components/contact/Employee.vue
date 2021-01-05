@@ -14,52 +14,52 @@
 <script>
 import Avatar from '@/components/contact/Avatar.vue';
 import { mapActions, mapState } from 'vuex';
-const { remote, ipcRenderer, shell } = window.require('electron');
 import _ from 'lodash';
 import ContactRequest from '@/server/ContactRequest.js';
+const { remote, ipcRenderer, shell } = window.require('electron');
 export default {
-    name:'Employee',
-    components: {Avatar},
-    data(){
+    name: 'Employee',
+    components: { Avatar },
+    data() {
         return {
         }
     },
-    props:{
-        org:{
-            type:Object
+    props: {
+        org: {
+            type: Object
         },
-        selectType:{
-            type:String
+        selectType: {
+            type: String
         }
     },
     computed: {
-        ...mapState('Contact',['selectContact','role','token']),
+        ...mapState('Contact', ['selectContact', 'role', 'token']),
         getStyle() {
-            const left = (this.org.level * 20) + 'px';
+            const left = `${this.org.level * 20}px`;
             const style = {
                 paddingLeft: left
             }
             return style;
         },
         getchecked() {
-            const index = _.findIndex(this.selectContact,(o)=>o.user_id == this.org.user_id);
-            const bool =  index == -1 ? false : true;
+            const index = _.findIndex(this.selectContact, (o) => o.user_id == this.org.user_id);
+            const bool = index != -1;
             console.log(bool);
             return bool;
         }
     },
     methods: {
-        ...mapActions('Contact',['changeSelectContact']),
+        ...mapActions('Contact', ['changeSelectContact']),
         handleContact() {
-            ipcRenderer.send('render-reload',this.org)
+            ipcRenderer.send('render-reload', this.org)
         },
         async checkboxChange(checked) {
-            const data = await ContactRequest.getContactByUserId(this.role,this.token,this.org.user_id)
+            const data = await ContactRequest.getContactByUserId(this.role, this.token, this.org.user_id)
             console.log(data);
             const obj = {
-                data:_.get(data,`[0]`,{}),
-                isAdd:checked,
-                isArr:false
+                data: _.get(data, `[0]`, {}),
+                isAdd: checked,
+                isArr: false
             }
             this.changeSelectContact(obj)
         }

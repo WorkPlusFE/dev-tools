@@ -1,3 +1,5 @@
+import VueInstance from '../main';
+
 export const isValidateUrl = (url) => {
   const regexp = /^https?:\/\/([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+/;
   return regexp.test(url);
@@ -12,7 +14,7 @@ export const hasSpace = (value) => /\s+/.test(value);
 
 export const nameValidater = (type) => (_, name, callback) => {
   if (hasSpace(name)) {
-    callback(new Error(`${type}不能包含空格`));
+    callback(new Error(`${type} ${VueInstance.$t('util.noEmpty')}`));
   } else {
     callback();
   }

@@ -1,10 +1,166 @@
 {
   "appName": "dev-tools",
+  "util": {
+    "noEmpty": "不能包含空格"
+  },
+  "getUrlParamsLoading": {
+    "fetching": "正在验证服务...",
+    "getAccessTokenFail": "获取 AccessToken 失败",
+    "getTicket": "获取用户票据 Ticket",
+    "getTicketFail": "获取用户票据 Ticket 失败",
+    "getUserInfo": "获取用户信息详情",
+    "getUserInofFail": "获取用户信息详情失败"
+  },
   "sidebar": {
     "app": "应用",
     "role": "角色",
     "setting": "设置",
-    "logout": "登出"
+    "logout": "登出",
+    "popconfirm": {
+      "del": "确定",
+      "cancel": "取消",
+      "title": "是否确定关闭应用？"
+    }
+  },
+  "tooltips": {
+    "del": "删除",
+    "setTop": "置顶",
+    "cancelTop": "取消置顶",
+    "qrcode": "显示二维码",
+    "edit": "编辑",
+    "copy": "复制"
+  },
+  "component": {
+    "app": {
+      "description": "应用描述：",
+      "link": "访问地址：",
+      "roleName": "角色：",
+      "popconfirm": {
+        "del": "删除",
+        "cancel": "取消",
+        "title": "确定删除该应用？"
+      }
+    },
+    "addApp": {
+      "name": {
+        "label": "应用名称",
+        "placeholder": "请输入应用名称"
+      },
+      "link": {
+        "label": "访问地址",
+        "placeholder": "请输入应用访问地址，需以 http(s):// 开头"
+      },
+      "role": {
+        "label": "角色",
+        "placeholder": "请选择角色"
+      },
+      "startMode": {
+        "label": "启动方式",
+        "externalOpen": "外部浏览器打开",
+        "H5DevTool": "H5模拟器"
+      },
+      "description": {
+        "label": "应用描述",
+        "placeholder": "非必填，{max}字符内"
+      },
+      "button": {
+        "saveAndOpen": "保存并打开",
+        "create": "添加应用",
+        "save": "保存修改"
+      },
+      "rules": {
+        "name": {
+          "require": "应用名称不能为空",
+          "validate": "应用名称"
+        },
+        "link": {
+          "require": "访问地址不能为空",
+          "validate": "请输入正确的访问地址"
+        },
+        "role": {
+          "require": "请选择角色"
+        },
+        "description": {
+          "validate": "已超出最大字符数 {max}"
+        }
+      },
+      "response": {
+        "create": "应用创建成功！",
+        "save": "应用资料已更新！",
+        "existed": "应用 [{name}] 已存在！"
+      }
+    },
+    "role": {
+      "popconfirm": {
+        "del": "删除",
+        "cancel": "取消",
+        "title": "确定删除该角色？"
+      }
+    },
+    "addRole": {
+      "name": {
+        "label": "角色名称",
+        "placeholder": "请输入角色名称"
+      },
+      "domain": {
+        "label": "域 ID",
+        "placeholder": "请输入域 ID，即 domain_id"
+      },
+      "api": {
+        "label": "API 地址",
+        "placeholder": "请输入对应服务的 API 地址，需以 http(s):// 开头"
+      },
+      "user": {
+        "label": "账号",
+        "placeholder": "请输入你的账号"
+      },
+      "pwd": {
+        "label": "密码",
+        "placeholder": "请输入你的密码"
+      },
+      "orgId": {
+        "label": "所在组织",
+        "placeholder": "请选择组织",
+        "disableOrgSelector": "验证通过后，才可选择组织！"
+      },
+      "button": {
+        "create": "添加角色",
+        "save": "保存修改",
+        "validating": "验证中...",
+        "validate": "验证服务"
+      },
+      "rules": {
+        "name": {
+          "require": "角色名称不能为空",
+          "validate": "角色名称"
+        },
+        "domain": {
+          "require": "域 ID 不能为空",
+          "validate": "已超出最大字符数 {max}"
+        },
+        "api": {
+          "require": "API 地址不能为空",
+          "validate": "请输入正确的 API 地址",
+          "max": "已超出最大字符数 {max}"
+        },
+        "user": {
+          "require": "账号不能为空",
+          "validate": "已超出最大字符数 {max}"
+        },
+        "pwd": {
+          "require": "密码不能为空",
+          "validate": "已超出最大字符数 {max}"
+        }
+      },
+      "response": {
+        "validateError": "服务验证出错",
+        "validateSuccess": "服务验证成功",
+        "getOrgError": "获取组织信息失败",
+        "create": "角色创建成功！",
+        "save": "角色资料已更新！",
+        "existed": "角色 [{name}] 已存在！"
+      }
+    }
   },
   "page": {
     "application": {
@@ -14,7 +170,13 @@
       "empty": {
         "message": "暂无应用 :)",
         "tips": "点击右上角“+”按钮添加应用"
-      }
+      },
+      "message": {
+        "createRoleFirst": "请先创建角色！",
+        "editApp": "编辑应用",
+        "createApp": "创建应用"
+      },
+      "noSearchResult": "未搜索到任何内容！:)"
     },
     "role": {
       "title": "角色管理",
@@ -27,6 +189,13 @@
       "empty": {
         "message": "没有角色 :)",
         "tips": "点击右上角“+”按钮添加角色"
+      },
+      "new": "(新)",
+      "message": {
+        "edit": "编辑角色",
+        "create": "创建角色",
+        "cantDelete": "当前角色已被多个应用使用，不可删除！",
+        "cantDelete2": "当前角色已被应用[{name}]使用，不可删除！"
       }
     },
     "setting": {

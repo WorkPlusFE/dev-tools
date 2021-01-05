@@ -8,46 +8,50 @@
       :rules="rules"
       ref="roleForm"
     >
-      <el-form-item label="角色名称" prop="name">
+      <el-form-item :label="$t('component.addRole.name.label')" prop="name">
         <el-input
           v-model="formRole.name"
-          placeholder="请输入角色名称"
+          :placeholder="$t('component.addRole.name.placeholder')"
           maxlength="20"
           show-word-limit
           class="role-name-input"
         ></el-input>
       </el-form-item>
-      <el-form-item label="域 ID" prop="domain">
+      <el-form-item :label="$t('component.addRole.domain.label')" prop="domain">
         <el-input
           v-model="formRole.domain"
-          placeholder="请输入域 ID，即 domain_id"
+          :placeholder="$t('component.addRole.domain.placeholder')"
         ></el-input>
       </el-form-item>
-      <el-form-item label="API 地址" prop="api">
+      <el-form-item :label="$t('component.addRole.api.label')" prop="api">
         <el-input
           v-model="formRole.api"
-          placeholder="请输入对应服务的 API 地址，需以 http(s):// 开头"
+          :placeholder="$t('component.addRole.api.placeholder')"
         ></el-input>
       </el-form-item>
-      <el-form-item label="账号" prop="user">
+      <el-form-item :label="$t('component.addRole.user.label')" prop="user">
         <el-input
           v-model="formRole.user"
-          placeholder="请输入你的账号"
+          :placeholder="$t('component.addRole.user.placeholder')"
         ></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pwd">
+      <el-form-item :label="$t('component.addRole.pwd.label')" prop="pwd">
         <el-input
           type="password"
           v-model="formRole.pwd"
-          placeholder="请输入你的密码"
+          :placeholder="$t('component.addRole.pwd.placeholder')"
           show-password
         ></el-input>
       </el-form-item>
       <transition name="el-zoom-in-top">
-        <el-form-item label="所在组织" required v-if="showOrgSelector">
+        <el-form-item
+          :label="$t('component.addRole.orgId.label')"
+          required
+          v-if="showOrgSelector"
+        >
           <el-select
             v-model="formRole.orgId"
-            placeholder="请选择组织"
+            :placeholder="$t('component.addRole.orgId.placeholder')"
             :disabled="disableOrgSelector"
             @change="handleOrgSelectChanged"
           >
@@ -61,7 +65,7 @@
         </el-form-item>
       </transition>
       <div v-if="disableOrgSelector" class="form-tips">
-        验证通过后，才可选择组织！
+        {{ $t('component.addRole.orgId.disableOrgSelector') }}
       </div>
       <el-form-item class="footer">
         <el-button
@@ -73,7 +77,7 @@
           >{{ validateBtnText }}</el-button
         >
         <el-button size="medium" v-else type="primary" @click="handleAddRole">
-          {{ isCreate ? '添加角色' : '保存修改' }}
+          {{ isCreate ? buttonLabel.create : buttonLabel.save }}
         </el-button>
       </el-form-item>
     </el-form>
@@ -97,6 +101,9 @@ export default {
       type: Object,
       default: null,
     },
+    $t: {
+      type: Function,
+    },
   },
   data() {
     return {
@@ -109,45 +116,82 @@ export default {
 
       orgs: [],
 
+      buttonLabel: {
+        create: this.$t('component.addRole.button.create'),
+        save: this.$t('component.addRole.button.save'),
+      },
+
       rules: {
         name: [
-          { required: true, message: '角色名称不能为空', trigger: 'blur' },
-          { validator: nameValidater('角色名称'), trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addRole.rules.name.require'),
+            trigger: 'blur',
+          },
+          {
+            validator: nameValidater(this.$t('component.addRole.rules.name.validate')),
+            trigger: 'blur',
+          },
         ],
         domain: [
-          { required: true, message: '域 ID 不能为空', trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addRole.rules.domain.require'),
+            trigger: 'blur',
+          },
           {
             min: 1,
             max: 50,
-            message: '已超出最大字符数 50',
+            message: this.$t('component.addRole.rules.domain.validate', {
+              max: 50,
+            }),
             trigger: 'blur',
           },
         ],
         api: [
-          { required: true, message: 'API 地址不能为空', trigger: 'blur' },
-          { validator: urlValidater('请输入正确的 API 地址'), trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addRole.rules.api.require'),
+            trigger: 'blur',
+          },
+          {
+            validator: urlValidater(this.$t('component.addRole.rules.api.validate')),
+            trigger: 'blur',
+          },
           {
             min: 1,
             max: 100,
-            message: '已超出最大字符数 100',
+            message: this.$t('component.addRole.rules.api.max', { max: 100 }),
             trigger: 'blur',
           },
         ],
         user: [
-          { required: true, message: '账号不能为空', trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addRole.rules.user.require'),
+            trigger: 'blur',
+          },
           {
             min: 1,
             max: 30,
-            message: '已超出最大字符数 30',
+            message: this.$t('component.addRole.rules.user.validate', {
+              max: 30,
+            }),
             trigger: 'blur',
           },
         ],
         pwd: [
-          { required: true, message: '密码不能为空', trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('component.addRole.rules.pwd.require'),
+            trigger: 'blur',
+          },
           {
             min: 1,
             max: 30,
-            message: '已超出最大字符数 30',
+            message: this.$t('component.addRole.rules.pwd.validate', {
+              max: 30,
+            }),
             trigger: 'blur',
           },
         ],
@@ -160,7 +204,9 @@ export default {
       return this.role === null;
     },
     validateBtnText() {
-      return this.loading ? '验证中...' : '验证服务';
+      return this.loading
+        ? this.$t('component.addRole.button.validating')
+        : this.$t('component.addRole.button.validate');
     },
     showOrgSelector() {
       return (this.orgs.length > 0 && this.validation) || !this.isCreate;
@@ -169,38 +215,57 @@ export default {
       return !this.isCreate && this.orgs.length === 1 && !this.validation;
     },
   },
+  watch: {
+    formRole(newVal, oldVal) {
+      console.log(newVal, oldVal);
+      if (newVal.domain !== oldVal.domain
+        || newVal.api !== oldVal.api
+        || newVal.user !== oldVal.user
+        || newVal.pwd !== oldVal.pwd) {
+          this.validation = false;
+        }
+    },
+  },
   methods: {
     ...mapActions('Role', ['create', 'update']),
 
     async handleValidation() {
-      const valid = await this.$refs.roleForm.validate();
-      if (!valid) return;
+      try {
+        const valid = await this.$refs.roleForm.validate();
+        if (!valid) return;
 
-      this.loading = true;
-      const data = await DetailRequest.getToken(this.formRole);
-      this.loading = false;
+        this.loading = true;
+        const data = await DetailRequest.getToken(this.formRole);
+        this.loading = false;
 
-      const state = _.get(data, `data.status`, -1);
-      if (state !== 0) {
-        const message = _.get(data, `data.message`, '服务验证出错');
-        return this.$message.error(message);
+        const state = _.get(data, `data.status`, -1);
+        if (state !== 0) {
+          const message = _.get(
+            data,
+            `data.message`,
+            this.$t('component.addRole.response.validateError')
+          );
+          return this.$message.error(message);
+        }
+
+        const accessToken = _.get(data, `data.result.access_token`, '');
+
+        this.$message({
+          message: this.$t('component.addRole.response.validateSuccess'),
+          type: 'success',
+        });
+        this.validation = true;
+
+        this.initOrgSelector(accessToken, this.formRole.api);
+      } catch (error) {
+        console.log(error);
       }
-
-      const accessToken = _.get(data, `data.result.access_token`, '');
-
-      this.$message({
-        message: '服务验证成功',
-        type: 'success',
-      });
-      this.validation = true;
-
-      this.initOrgSelector(accessToken, this.formRole.api);
     },
 
     async initOrgSelector(token, api) {
       const orgs = await DetailRequest.getOrganization(token, api);
       if (!orgs || orgs.length === 0) {
-        return this.$message.error(`获取组织信息失败`);
+        return this.$message.error(this.$t('component.addRole.response.getOrgError'));
       }
 
       if (!this.isCreate && this.formRole.orgId) {
@@ -215,7 +280,10 @@ export default {
       this.orgs = orgs;
     },
 
-    handleAddRole() {
+    async handleAddRole() {
+      const valid = await this.$refs.roleForm.validate();
+      if (!valid) return;
+
       if (this.validation) {
         const role = {
           ...this.formRole,
@@ -225,7 +293,10 @@ export default {
         const storeRole = this.getRoleByName(this.formRole.name);
         if (storeRole) {
           if (this.isCreate || storeRole.id !== this.formRole.id) {
-            return this.$message.error(`角色 [${this.formRole.name}] 已存在！`);
+            const msg = this.$t('component.addRole.response.existed', {
+              name: this.formRole.name,
+            });
+            return this.$message.error(msg);
           }
         }
 
@@ -239,7 +310,9 @@ export default {
           this.update(role);
         }
 
-        const message = this.isCreate ? '角色创建成功！' : '角色资料已更新！';
+        const message = this.isCreate
+          ? this.$t('component.addRole.response.create')
+          : this.$t('component.addRole.response.save');
         this.$message.success(message);
       }
     },
@@ -259,7 +332,10 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      document.querySelector('.role-name-input').querySelector('.el-input__inner').focus();
+      document
+        .querySelector('.role-name-input')
+        .querySelector('.el-input__inner')
+        .focus();
     }, 300);
   },
 };

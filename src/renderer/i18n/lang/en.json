@@ -1,10 +1,166 @@
 {
   "appName": "dev-tools",
+  "util": {
+    "noEmpty": "cannot contain spaces"
+  },
+  "getUrlParamsLoading": {
+    "fetching": "Verifying service...",
+    "getAccessTokenFail": "Failed to obtain AccessToken",
+    "getTicket": "Get user Ticket",
+    "getTicketFail": "Failed to obtain user Ticket",
+    "getUserInfo": "Get user information details",
+    "getUserInofFail": "Failed to get user information details"
+  },
   "sidebar": {
     "app": "App",
     "role": "Role",
     "setting": "Setting",
-    "logout": "LogOut"
+    "logout": "LogOut",
+    "popconfirm": {
+      "del": "OK",
+      "cancel": "Cancel",
+      "title": "Are you sure to close the application?"
+    }
+  },
+  "tooltips": {
+    "del": "Delete",
+    "setTop": "Top",
+    "cancelTop": "Cancel Top",
+    "qrcode": "Display QR code",
+    "edit": "Edit",
+    "copy": "Copy"
+  },
+  "component": {
+    "app": {
+      "description": "Description: ",
+      "link": "Link: ",
+      "roleName": "Role: ",
+      "popconfirm": {
+        "del": "Delete",
+        "cancel": "Cancel",
+        "title": "Are you sure to delete this app?"
+      }
+    },
+    "addApp": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Please enter the application name"
+      },
+      "link": {
+        "label": "Link",
+        "placeholder": "Please enter the application link, which must start with http(s)://"
+      },
+      "role": {
+        "label": "Role",
+        "placeholder": "Please choose a role"
+      },
+      "startMode": {
+        "label": "Start Mode",
+        "externalOpen": "External browser opens",
+        "H5DevTool": "H5 simulator"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Not required, within {max} characters"
+      },
+      "button": {
+        "saveAndOpen": "Save and open",
+        "create": "Add app",
+        "save": "Save"
+      },
+      "rules": {
+        "name": {
+          "require": "Application name cannot be empty",
+          "validate": "Application Name"
+        },
+        "link": {
+          "require": "Link cannot be empty",
+          "validate": "Please enter the correct link"
+        },
+        "role": {
+          "require": "Please choose a role"
+        },
+        "description": {
+          "validate": "Maximum number of characters {max} exceeded"
+        }
+      },
+      "response": {
+        "create": "Application created successfully!",
+        "save": "Application information has been updated!",
+        "existed": "Application [{name}] already exists!"
+      }
+    },
+    "role": {
+      "popconfirm": {
+        "del": "Delete",
+        "cancel": "Cancel",
+        "title": "Are you sure to delete this role?"
+      }
+    },
+    "addRole": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Please enter the role name"
+      },
+      "domain": {
+        "label": "Domain ID",
+        "placeholder": "Please enter the domain ID, which is domain_id"
+      },
+      "api": {
+        "label": "API",
+        "placeholder": "Please enter the API, which must start with http(s)://"
+      },
+      "user": {
+        "label": "Account",
+        "placeholder": "Please enter your account"
+      },
+      "pwd": {
+        "label": "Password",
+        "placeholder": "Please enter your password"
+      },
+      "orgId": {
+        "label": "Organization",
+        "placeholder": "Please select an organization",
+        "disableOrgSelector": "The organization can be selected after verification!"
+      },
+      "button": {
+        "create": "Add role",
+        "save": "Save",
+        "validating": "Verifying...",
+        "validate": "Verification Service"
+      },
+      "rules": {
+        "name": {
+          "require": "Role name cannot be empty",
+          "validate": "Role name"
+        },
+        "domain": {
+          "require": "Domain ID cannot be empty",
+          "validate": "The maximum number of characters of {max} has been exceeded"
+        },
+        "api": {
+          "require": "API cannot be empty",
+          "validate": "Please enter the correct API address",
+          "max": "The maximum number of characters of {max} has been exceeded"
+        },
+        "user": {
+          "require": "Account cannot be empty",
+          "validate": "The maximum number of characters of {max} has been exceeded"
+        },
+        "pwd": {
+          "require": "Password can not be blank",
+          "validate": "The maximum number of characters of {max} has been exceeded"
+        }
+      },
+      "response": {
+        "validateError": "Service verification error",
+        "validateSuccess": "Service verification succeeded",
+        "getOrgError": "Failed to get organization information",
+        "create": "Successfully created the role!",
+        "save": "The role has been updated!",
+        "existed": "Role [{name}] already exists!"
+      }
+    }
   },
   "page": {
     "application": {
@@ -14,7 +170,13 @@
       "empty": {
         "message": "No application :)",
         "tips": "Click the \"+\" button in the upper right corner to add an application"
-      }
+      },
+      "message": {
+        "createRoleFirst": "Please create a role first!",
+        "editApp": "Edit App",
+        "createApp": "Create App"
+      },
+      "noSearchResult": "Nothing found! :)"
     },
     "role": {
       "title": "Role Management",
@@ -27,6 +189,13 @@
       "empty": {
         "message": "No role :)",
         "tips": "Click the \"+\" button in the upper right corner to add a role"
+      },
+      "new": "(New)",
+      "message": {
+        "edit": "Edit Role",
+        "create": "Create Role",
+        "cantDelete": "The current role has been used by multiple applications and cannot be deleted!",
+        "cantDelete2": "The current role has been used by the application [{name}] and cannot be deleted!"
       }
     },
     "setting": {
@@ -50,7 +219,6 @@
           "title": "About",
           "content": "The WorkPlusFE DevTools is to improve the efficiency of development and joint debugging based on the WorkPlus mobile platform. The tool focuses on the simulation of real environment data and interfaces during the development process. By creating roles and application portals, you can quickly switch environments and greatly improve development efficiency."
         }
-        
       }
     },
     "paramsSetting": {

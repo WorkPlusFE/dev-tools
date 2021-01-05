@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Loading, Message } from 'element-ui';
 import DetailRequest from './DetailRequest';
+import VueInstance from '../main';
 
 let loading;
 const showLoading = (text) => {
@@ -19,28 +20,30 @@ const closeLoading = () => {
   loading = null;
 };
 
+const $t = VueInstance.$t;
+
 export default async function getUrlParams(app, role) {
   try {
     const { api, domain, orgId } = role;
 
-    showLoading('正在验证服务..');
+    showLoading($t('getUrlParamsLoading.fetching'));
     const tokenResult = await DetailRequest.getToken(role);
 
     const accessToken = _.get(tokenResult, `data.result.access_token`, '');
     if (!accessToken) {
-      throw Error('获取 AccessToken 失败');
+      throw Error($t('getUrlParamsLoading.getAccessTokenFail'));
     }
 
-    changeLoadingText('获取用户票据 Ticket');
+    changeLoadingText($t('getUrlParamsLoading.getTicket'));
     const { ticket_id } = await DetailRequest.getUserTicket(accessToken, api, orgId);
     if (!ticket_id) {
-      throw Error('获取用户票据 Ticket 失败');
+      throw Error($t('getUrlParamsLoading.getTicketFail'));
     }
 
-    changeLoadingText('获取用户信息详情');
+    changeLoadingText($t('getUrlParamsLoading.getUserInfo'));
     const userinfo = await DetailRequest.getCurrentEmployeeInfo(accessToken, api);
     if (!userinfo) {
-      throw Error('获取用户信息详情失败');
+      throw Error($t('getUrlParamsLoading.getUserInofFail'));
     }
 
     closeLoading();
@@ -52,6 +55,7 @@ export default async function getUrlParams(app, role) {
     };
   } catch (error) {
     console.log(error);
+    closeLoading();
     Message.error(error.message);
   }
 }

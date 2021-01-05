@@ -10,9 +10,9 @@ export default new Vuex.Store({
   modules,
   plugins: [new VuexPersistence({
     reducer: state => ({
-      Application:state.Application,
-      Role:state.Role,
-      Setting:state.Setting
+      Application: state.Application,
+      Role: state.Role,
+      Setting: state.Setting
     })
   }).plugin],
   strict: process.env.NODE_ENV !== 'production',

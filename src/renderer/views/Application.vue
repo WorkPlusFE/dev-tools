@@ -39,7 +39,7 @@
       </div>
 
       <div class="search-result-empty" v-if="showSearchResultIsEmpty">
-        未搜索到任何内容！:)
+        {{ $t('page.application.noSearchResult') }}
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@ export default {
     ...mapActions('Setting', ['changeCreateRoleFirst']),
     handleCreateApp(app) {
       if (this.roles.length === 0) {
-        this.$message.info('请先创建角色！');
+        this.$message.info(this.$t('page.application.message.createRoleFirst'));
         this.changeCreateRoleFirst(true);
         setTimeout(() => {
           this.$router.push('role');
@@ -84,13 +84,16 @@ export default {
 
       const h = this.$createElement;
       const _this = this;
-      const title = app ? '编辑应用' : '创建应用';
+      const title = app
+        ? this.$t('page.application.message.editApp')
+        : this.$t('page.application.message.createApp');
       this.$msgbox({
         title,
         message: h(AddApp, {
           key: Date.now(),
           props: {
             app: app || null,
+            $t: _this.$t.bind(_this),
           },
         }),
         showCancelButton: false,

@@ -11,26 +11,25 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-    name:'Avatar',
+    name: 'Avatar',
     props: {
-        src:{
-            type:String
+        src: {
+            type: String
         }
     },
     computed: {
-        ...mapState('Contact',['token','role']),
+        ...mapState('Contact', ['token', 'role']),
         getSrc() {
-            if(this.src){
+            if (this.src) {
                 return this.getImg();
-            }else{
-                return 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
             }
+                return 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
         }
     },
     components: {},
     methods: {
         getImg(src) {
-             const url = this.role.api + '/medias/' + this.src + '?access_token=' + this.token + '&domain_id=' + this.role.domain;
+             const url = `${this.role.api}/medias/${this.src}?access_token=${this.token}&domain_id=${this.role.domain}`;
              return url;
         }
     }
