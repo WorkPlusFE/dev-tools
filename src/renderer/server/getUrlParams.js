@@ -16,15 +16,14 @@ const changeLoadingText = (text) => {
 };
 
 const closeLoading = () => {
-  loading.close();
+  loading && loading.close();
   loading = null;
 };
-
-const $t = VueInstance.$t;
 
 export default async function getUrlParams(app, role) {
   try {
     const { api, domain, orgId } = role;
+    const $t = VueInstance.$t.bind(VueInstance);
 
     showLoading($t('getUrlParamsLoading.fetching'));
     const tokenResult = await DetailRequest.getToken(role);
