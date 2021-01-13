@@ -12,6 +12,7 @@
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "preload": "webpack --config .electron-vue/webpack.preload.config.js",
     "dev": "node .electron-vue/dev-runner.js",
+    "dev-cjl": "npm run preload && npm run dev",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src",
     "pack": "npm run pack:main && npm run pack:renderer",

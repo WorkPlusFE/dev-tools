@@ -1,8 +1,11 @@
 import { app, BrowserWindow, ipcMain, screen, remote } from 'electron'
 const path = require('path');
 const url = require('url');
+const contactURL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:9080/#/selectcontact'
+  : `file://${__dirname}/index.html/#/selectcontact`;
 export const ContactWindow = (link, role) => {
-   const contactWindow = new BrowserWindow({
+   let contactWindow = new BrowserWindow({
         height: 600,
         useContentSize: true,
         width: 400,
@@ -20,12 +23,12 @@ export const ContactWindow = (link, role) => {
 
     });
     contactWindow.on('closed', () => {
-         otherWindow = null;
+        contactWindow = null;
     });
 
     contactWindow.once('ready-to-show', () => {
-        this.imageWin.hide();
-        this.imageWin.center();
+        contactWindow.hide();
+        contactWindow.center();
     })
 
     const loadUrl = url.format({
@@ -33,7 +36,8 @@ export const ContactWindow = (link, role) => {
         protocol: 'file:',
         slashes: true
       });
-    contactWindow.loadURL(`file://${__dirname}/index.html` + "/selectcontact");
+    contactWindow.loadURL(contactURL);
+    contactWindow.hide();
     return contactWindow;
 }
 

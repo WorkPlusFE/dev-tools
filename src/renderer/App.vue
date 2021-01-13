@@ -1,8 +1,14 @@
 <template>
-  <div id="app">
-    <Sidebar/>
+  <div id='app'>
     <router-view></router-view>
   </div>
+  <!-- <router-view>
+    <div id="app">
+    <Sidebar/>
+    <router-view></router-view>
+    </div>
+  </router-view> -->
+  
 </template>
 
 <script>
@@ -36,7 +42,7 @@ export default {
     } else {
         document.getElementsByTagName("body")[0].setAttribute('data-theme', 'light');
     }
-    this.rendererListen();
+    // this.rendererListen();
   }
 };
 </script>

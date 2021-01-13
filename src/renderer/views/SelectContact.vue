@@ -44,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('Contact', ['orgs', 'random', 'selectContact']),
+    ...mapState('Contact', ['orgs', 'random', 'selectContact','role']),
     ...mapGetters('Role', ['roles']),
     orgWatch() {
       return this.orgs;
@@ -74,19 +74,11 @@ export default {
       'setRole',
       'delectSelectContact',
     ]),
-    getRole() {
-      const key = `role${this.getParams()}`;
+    getRole(winid) {
+      const key = `role${winid}`;
       const role = remote.getGlobal('shareRole')[key];
       // return role;
       return this.roles[0];
-    },
-    getParams() {
-      const winId = this.$route.query.winId;
-      return winId;
-    },
-    getContactType() {
-      const type = this.$route.query.type;
-      this.contactType = type;
     },
     refreshDatas(orgs) {
       const datas = [];
@@ -114,21 +106,27 @@ export default {
       this.delectSelectContact();
       this.$router.push('/');
     },
+    rendererListen() {
+      ipcRenderer.on('open-select-contact',async (event, arg, type) => {
+        console.log('open-select-contact');
+        this.contactType = type;
+        const role = this.getRole(arg);
+        this.setRole(role);
+        const TokenObject = await DetailRequest.getToken(role);
+        const token = _.get(TokenObject, 'data.result.access_token', '');
+        console.log({token,role,arg,type});
+        ContactRequest.fetchOrgs(role, token).then((data) => {
+          console.log(data);
+          this.setOrgs(data);
+          this.setToken(token);
+        });
+      })
+    }
   },
 
   created() {},
   async mounted() {
-    const role = this.getRole();
-    this.getContactType();
-    this.setRole(role);
-    const TokenObject = await DetailRequest.getToken(role);
-    const token = _.get(TokenObject, 'data.result.access_token', '');
-    ContactRequest.fetchOrgs(role, token).then((data) => {
-      console.log(data);
-      this.setOrgs(data);
-      this.setToken(token);
-      // this.refreshDatas(data);
-    });
+    this.rendererListen();
   },
 };
 </script>

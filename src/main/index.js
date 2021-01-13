@@ -13,16 +13,17 @@ const { ContactWindow, contactWinShow, contactWinHide } = require('./ContactWind
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
-export const bus = new EventEmitter();
 global.shareRole = {
 
 }
-
+export const bus = new EventEmitter();
+global.shareRole.bus = bus;
+// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 let mainWindow,
 contactWindow,
   appWin;
 const winURL = process.env.NODE_ENV === 'development'
-  ? 'http://172.16.1.66:9080'
+  ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
 
 function createWindow() {
@@ -94,10 +95,20 @@ function listen() {
   })
 }
 
+/**监听联系人窗口事件 */
+function busListen() {
+  bus.on('contact-show',()=> {
+    console.log('--------show');
+    contactWinShow();
+  })
+}
+
 app.on('ready', () => {
   createWindow();
-  // contactWindow = ContactWindow();
+  contactWindow = ContactWindow();
+  global.shareRole.contactWin = contactWindow;
   listen();
+
 });
 
 app.on('window-all-closed', () => {

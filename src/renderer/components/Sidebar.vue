@@ -37,15 +37,6 @@
           exact
           :to="'setting'"
         ></router-link>
-        <router-link
-          :class="{
-            icon: true,
-            'el-icon-s-tools': true
-          }"
-          title="选择联系人"
-          exact
-          :to="'selectcontact'"
-        ></router-link>
       </div>
       <div class="menus__base">
         <el-popconfirm
