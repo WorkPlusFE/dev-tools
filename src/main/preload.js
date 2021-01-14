@@ -50,12 +50,17 @@ window.cordova = {
                 break;
             }
             case 'getWifiInfo': {
-                Cordova.getWifiInfo(function(data){
+                Cordova.getWifiInfo((data) => {
                     success(data)
-                },function(err){
+                }, (err) => {
                     error(err);
                 });
                 break;
+            }
+
+            case 'getIpAddress': {
+                const result = await Cordova.getIpAddress();
+                success(result);
             }
             default:
         }
