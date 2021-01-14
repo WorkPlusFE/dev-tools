@@ -18,7 +18,6 @@ export const ContactWindow = (link, role) => {
             enableRemoteModule: true,
         },
     });
-
     contactWindow.webContents.once('dom-ready', () => {
 
     });

@@ -44,6 +44,9 @@ function createWindow() {
     },
   });
 
+  const currentUserAgent = mainWindow.webContents.userAgent;
+  mainWindow.webContents.setUserAgent(`${currentUserAgent} workplus workplus-devtools`);
+
   mainWindow.loadURL(winURL);
   if (process.env.NODE_ENV === "development") {
     mainWindow.webContents.on("did-frame-finish-load", () => {

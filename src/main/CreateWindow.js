@@ -6,7 +6,7 @@ export const createOtherWindow = (link, role) => {
         height,
         useContentSize: true,
         width,
-        // frame: false, // 无边框窗口
+        frame: true, // 无边框窗口
         movable: true, // 可拖动
         resizable: false, //
         webPreferences: {
@@ -17,6 +17,9 @@ export const createOtherWindow = (link, role) => {
             preload: path.join(process.cwd(), './dist/electron/preload.js')
         },
     });
+    const currentUserAgent = otherWindow.webContents.userAgent;
+    otherWindow.webContents.setUserAgent(`${currentUserAgent} workplus workplus-devtools`);
+
     otherWindow.loadURL(link);
     otherWindow.webContents.once('dom-ready', () => {
         otherWindow.webContents.openDevTools({ mode: 'right' });
