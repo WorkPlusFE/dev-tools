@@ -35,8 +35,8 @@ export default class Cordova {
     static async getCurrentUserInfo() {
         const preInfo = await Cordova.preInfo();
         const {
- api, domain, orgId, user, pwd
-} = preInfo.role;
+            api, domain, orgId, user, pwd
+        } = preInfo.role;
         const userInfo = await CordovaRequest.getCurrentUserInfo(preInfo.token, api, user);
         return {
             result: {
@@ -48,8 +48,8 @@ export default class Cordova {
     static async getCurrentEmployeeInfo() {
         const preInfo = await Cordova.preInfo();
         const {
- api, domain, orgId, user, pwd
-} = preInfo.role;
+            api, domain, orgId, user, pwd
+        } = preInfo.role;
         const employeeInfo = await CordovaRequest.getCurrentEmployeeInfo(preInfo.token, api, user, orgId);
         return {
             result: {
@@ -58,6 +58,7 @@ export default class Cordova {
         }
     }
 
+    /** 获取wifi信息 */
     static async getWifiInfo(callback, errorback) {
         wifi.init({
             iface: null
@@ -73,6 +74,7 @@ export default class Cordova {
         });
     }
 
+    /**获取ip地址 */
     static async getIpAddress() {
         function getIpAddress() {
             const ifaces = os.networkInterfaces()
@@ -95,6 +97,75 @@ export default class Cordova {
         return {
             result:'Ok',
             ipAddress:ip
+        }
+    }
+
+    /**获取地理定位 */
+    static async getLocation() {
+        function getPosition () {
+            return new Promise((resolve, reject) => {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                  let latitude = position.coords.latitude
+                  let longitude = position.coords.longitude
+                  let data = {
+                    latitude: latitude,
+                    longitude: longitude
+                  }
+                  resolve(data)
+                }, function (err) {
+                    console.log('错误');
+                  reject(err)
+                })
+              } else {
+                reject('你的浏览器不支持当前地理位置信息获取')
+              }
+            })
+          }
+          getPosition().then(result => {
+              console.log(result);
+          })
+        
+    }
+
+    /**获取位置信息 */
+    static async getDeviceInfo(callback) {
+        const preInfo = await Cordova.preInfo();
+        wifi.init({
+            iface: null
+        });
+        wifi.getCurrentConnections((error, currentConnections) => {
+        if (error) {
+            errorback(error);
+        } else {
+            const device_id = _.get(currentConnections, `[0].mac`, '');
+            const domain_id = preInfo.role.domain;
+            callback({
+                result: {
+                    device_id:device_id,
+                    platform:'devtools',
+                    domain_id:domain_id,
+                    product_version:'4.9.4',
+                    system_version:'10',
+                    system_model:'MI 9',
+                    channel_verdor:'XiaoMi',
+                    channel_id:preInfo.role.api,
+                    device_name:'XiaoMi Mi 9',
+                    device_system_info:'devtools'
+                }
+            });
+        }
+        });
+    }
+
+    /**获取app信息 */
+    static async getAppInfo() {
+        return {
+            app_icon:'',
+            app_name:'workplus',
+            bundle_id:'com.foreverht.workplus.v4',
+            version_code:2879,
+            version_name:'4.9.4'
         }
     }
 }

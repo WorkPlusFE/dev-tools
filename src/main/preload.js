@@ -61,8 +61,27 @@ window.cordova = {
             case 'getIpAddress': {
                 const result = await Cordova.getIpAddress();
                 success(result);
+                break;
             }
-            default:
+            case 'getLocation': {
+                // const result = await Cordova.getLocation();
+                success('暂时不支持定位地址');
+                break;
+            }
+            case 'getDeviceInfo': {
+                Cordova.getDeviceInfo(function(data) {
+                    success(data);
+                });
+                break;
+            }
+            case 'getAppInfo': {
+                const result = await Cordova.getAppInfo();
+                success(result);
+                break;
+            }
+            default:{
+                success('暂时不支持该查询');
+            }
         }
     }
 }
