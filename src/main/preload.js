@@ -49,6 +49,14 @@ window.cordova = {
                 })
                 break;
             }
+            case 'getWifiInfo': {
+                Cordova.getWifiInfo(function(data){
+                    success(data)
+                },function(err){
+                    error(err);
+                });
+                break;
+            }
             default:
         }
     }

@@ -21,7 +21,7 @@ export const createOtherWindow = (link, role) => {
     otherWindow.webContents.once('dom-ready', () => {
         otherWindow.webContents.openDevTools({ mode: 'right' });
     });
- 
+
     const key = `role${otherWindow.id}`;
     global.shareRole[key] = role;
     otherWindow.on('closed', () => {

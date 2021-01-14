@@ -123,9 +123,7 @@ export default {
             trigger: 'blur',
           },
           {
-            validator: nameValidater(
-              this.$t('component.addApp.rules.name.validate')
-            ),
+            validator: nameValidater(this.$t('component.addApp.rules.name.validate')),
             trigger: 'blur',
           },
         ],
@@ -136,9 +134,7 @@ export default {
             trigger: 'blur',
           },
           {
-            validator: urlValidater(
-              this.$t('component.addApp.rules.link.validate')
-            ),
+            validator: urlValidater(this.$t('component.addApp.rules.link.validate')),
             trigger: 'blur',
           },
         ],

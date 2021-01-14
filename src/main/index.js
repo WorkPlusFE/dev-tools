@@ -95,9 +95,9 @@ function listen() {
   })
 }
 
-/**监听联系人窗口事件 */
+/** 监听联系人窗口事件 */
 function busListen() {
-  bus.on('contact-show',()=> {
+  bus.on('contact-show', () => {
     console.log('--------show');
     contactWinShow();
   })
@@ -108,7 +108,6 @@ app.on('ready', () => {
   contactWindow = ContactWindow();
   global.shareRole.contactWin = contactWindow;
   listen();
-
 });
 
 app.on('window-all-closed', () => {

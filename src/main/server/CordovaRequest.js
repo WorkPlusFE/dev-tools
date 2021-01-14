@@ -48,8 +48,8 @@ export default class CordovaRequest {
       return results;
     })
   }
-  /**获取用户详情 */
-  static getCurrentUserInfo(token,api,user) {
+  /** 获取用户详情 */
+  static getCurrentUserInfo(token, api, user) {
     const url = `${api}/users?access_token=${token}&query=${user}&matching=true&type=username`;
     return CordovaRequest.baseRequest.requestForGet(url).then(data => {
       const results = _.get(data, `data.result.users[0]`, {});
@@ -57,8 +57,8 @@ export default class CordovaRequest {
     })
   }
 
-  /**获取雇员信息 */
-  static getCurrentEmployeeInfo(token,api,user,orgId) {
+  /** 获取雇员信息 */
+  static getCurrentEmployeeInfo(token, api, user, orgId) {
     const url = `${api}/admin/organizations/${orgId}/employees?access_token=${token}&matching=true&type=username&query=${user}`;
     return CordovaRequest.baseRequest.requestForGet(url).then(data => {
       const results = _.get(data, `data.result`, {});

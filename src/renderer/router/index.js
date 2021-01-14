@@ -4,12 +4,12 @@ Vue.use(Router);
 
 export default new Router({
   base: '/',
-  mode:'hash',
+  mode: 'hash',
   routes: [
     {
       path: '/',
       component: require('@/views/Home').default,
-      children:[
+      children: [
         {
           path: '/',
           name: 'application',
