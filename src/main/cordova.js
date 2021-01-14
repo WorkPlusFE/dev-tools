@@ -1,5 +1,9 @@
+import { ok } from 'assert';
 import { getRole, getMainWin, openContact } from './preload.js';
 const CordovaRequest = require('./server/CordovaRequest').default
+const wifi = require('node-wifi');
+const os = require('os');
+const ip = require('ip');
 export default class Cordova {
     /** 获取角色信息和token */
     static async preInfo() {
@@ -51,6 +55,46 @@ export default class Cordova {
             result: {
                 employeeInfo
             }
+        }
+    }
+
+    static async getWifiInfo(callback, errorback) {
+        wifi.init({
+            iface: null
+        });
+        wifi.getCurrentConnections((error, currentConnections) => {
+        if (error) {
+            errorback(error);
+        } else {
+            callback({
+                result: _.get(currentConnections, [0], {})
+            });
+        }
+        });
+    }
+
+    static async getIpAddress() {
+        function getIpAddress() {
+            const ifaces = os.networkInterfaces()
+
+            for (const dev in ifaces) {
+              const iface = ifaces[dev]
+            //  console.log(iface);
+              for (let i = 0; i < iface.length; i++) {
+                const { family, address, internal } = iface[i]
+
+                if (family === 'IPv4' && address !== '127.0.0.1' && !internal) {
+                //   console.log(family,address,internal)
+                  return address
+                }
+              }
+            }
+        }
+        const ip = getIpAddress();
+        console.log(ip)
+        return {
+            result:'Ok',
+            ipAddress:ip
         }
     }
 }

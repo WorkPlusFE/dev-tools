@@ -49,6 +49,19 @@ window.cordova = {
                 })
                 break;
             }
+            case 'getWifiInfo': {
+                Cordova.getWifiInfo((data) => {
+                    success(data)
+                }, (err) => {
+                    error(err);
+                });
+                break;
+            }
+
+            case 'getIpAddress': {
+                const result = await Cordova.getIpAddress();
+                success(result);
+            }
             default:
         }
     }
