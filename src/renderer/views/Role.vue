@@ -63,7 +63,7 @@ export default {
         title,
         message: h(AddRole, {
           key: Date.now(),
-          props: { 
+          props: {
             role: roleProps,
             $t: _this.$t.bind(_this),
           },

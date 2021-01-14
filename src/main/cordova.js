@@ -1,7 +1,7 @@
 import { getRole, getMainWin, openContact } from './preload.js';
 const CordovaRequest = require('./server/CordovaRequest').default
 export default class Cordova {
-    /**获取角色信息和token */
+    /** 获取角色信息和token */
     static async preInfo() {
         const role = getRole();
         const TokenObject = await CordovaRequest.getToken(role);
@@ -11,7 +11,7 @@ export default class Cordova {
             token
         }
     }
-    /**获取ticket */
+    /** 获取ticket */
     static async getUserTicket() {
         const role = getRole();
         const {
@@ -27,22 +27,26 @@ export default class Cordova {
             }
         }
     }
-    /**获取用户登录信息 */
+    /** 获取用户登录信息 */
     static async getCurrentUserInfo() {
         const preInfo = await Cordova.preInfo();
-        const { api, domain, orgId, user, pwd } = preInfo.role;
-        const userInfo = await CordovaRequest.getCurrentUserInfo(preInfo.token,api,user);
+        const {
+ api, domain, orgId, user, pwd
+} = preInfo.role;
+        const userInfo = await CordovaRequest.getCurrentUserInfo(preInfo.token, api, user);
         return {
             result: {
                 userInfo
             }
         }
     }
-    /**获取雇员信息 */
+    /** 获取雇员信息 */
     static async getCurrentEmployeeInfo() {
         const preInfo = await Cordova.preInfo();
-        const { api, domain, orgId, user, pwd } = preInfo.role;
-        const employeeInfo = await CordovaRequest.getCurrentEmployeeInfo(preInfo.token,api,user,orgId);
+        const {
+ api, domain, orgId, user, pwd
+} = preInfo.role;
+        const employeeInfo = await CordovaRequest.getCurrentEmployeeInfo(preInfo.token, api, user, orgId);
         return {
             result: {
                 employeeInfo
