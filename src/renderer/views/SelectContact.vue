@@ -1,6 +1,16 @@
 <template>
-  <div class="main_view">
-    <div class="select-content">
+  <div class="select-cntact ">
+    <div class="contact-orglist">
+       <Contact
+      v-for="org of orgsData"
+      :key="org.id"
+      :department="org.isOrg"
+      :org="org"
+      :selectType="contactType"
+    />
+    </div>
+   
+    <div class="select-content" v-show="butShow">
       <div class="avatar-content">
         <Avatar
           v-for="org of selectContact"
@@ -8,15 +18,8 @@
           :src="org.avatar"
         />
       </div>
-      <div class="select-btn">确定({{ selectContactSize }})</div>
+      <div class="select-btn" @click="handleClickSelect">确定({{ selectContactSize }})</div>
     </div>
-    <Contact
-      v-for="org of orgsData"
-      :key="org.id"
-      :department="org.isOrg"
-      :org="org"
-      :selectType="contactType"
-    />
   </div>
 </template>
 
@@ -40,7 +43,7 @@ export default {
     return {
       orgsData: [],
       searchInpub: '',
-      contactType: '',
+      contactType: 'contact',
     };
   },
   computed: {
@@ -58,6 +61,9 @@ export default {
     selectContactSize() {
       return _.size(this.selectContact);
     },
+    butShow() {
+      return this.contactType != 'contact' && _.size(this.selectContact) > 0
+    }
   },
   watch: {
     orgWatch(newOrgs, oldOrgs) {
@@ -104,7 +110,6 @@ export default {
         ipcRenderer.send('render-reload-getContacts', this.selectContact);
       }
       this.delectSelectContact();
-      this.$router.push('/');
     },
     rendererListen() {
       ipcRenderer.on('open-select-contact', async (event, arg, type) => {
@@ -115,27 +120,61 @@ export default {
         const TokenObject = await DetailRequest.getToken(role);
         const token = _.get(TokenObject, 'data.result.access_token', '');
         console.log({
- token, role, arg, type
-});
+           token, role, arg, type
+        });
         ContactRequest.fetchOrgs(role, token).then((data) => {
           console.log(data);
-          this.setOrgs(data);
+          const filterData = _.filter(data,(o)=> o.orgCode == role.orgId);
+          this.setOrgs(filterData);
           this.setToken(token);
         });
       })
+    },
+    async testLister() {
+      const role = {
+        api: "https://api4.workplus.io/v1",
+        domain: "workplus",
+        id: "94babd68-7a04-4dd2-8246-296e08491d90",
+        lastUpdateTime: 1610420562767,
+        name: "cjl_生产",
+        orgId: "c8522121-c038-4de1-8e8e-cb8ab6a6d32f",
+        orgName: "深圳恒拓高科信息技术有限公司",
+        pwd: "Log123456",
+        user: "13750004979"
+      }
+      this.setRole(role);
+      const TokenObject = await DetailRequest.getToken(role);
+      const token = _.get(TokenObject, 'data.result.access_token', '');
+      ContactRequest.fetchOrgs(role, token).then((data) => {
+          console.log(data);
+          const filterData = _.filter(data,(o)=> o.orgCode == role.orgId);
+          this.setOrgs(filterData);
+          this.setToken(token);
+        });
     }
   },
 
   created() {},
   async mounted() {
-    this.rendererListen();
+    this.rendererListen(); 
+    // this.testLister();
   },
 };
 </script>
 
 <style lang='less' scoped>
-.main_view {
+.select-cntact {
+  margin-top:10px;
   overflow: auto;
+  flex: 1;
+  /* height: 100vh; */
+  background: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  .contact-orglist{
+    flex:1;
+    overflow: auto;
+  }
   .search {
     margin: 10px;
     display: flex;

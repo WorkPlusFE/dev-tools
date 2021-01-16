@@ -14,6 +14,7 @@ export const getBus = () => remote.getGlobal('shareRole').bus;
 export const getContactWin = () => remote.getGlobal('shareRole').contactWin
 export const openContact = (type) => {
     const mainwin = getMainWin();
+    mainwin.show();
     mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id, type);
 }
 console.log('注入成功');
@@ -37,15 +38,20 @@ window.cordova = {
             case 'getContact':
                 const contactWin = getContactWin();
                 contactWin.show();
+                contactWin.webContents.closeDevTools();
                 contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contact');
                 ipcMain.on('render-reload', (event, arg) => {
                     success(arg);
                 })
                 break;
             case 'getContacts': {
-                openContact('contacts');
+                const contactWin = getContactWin();
+                contactWin.show();
+                contactWin.webContents.closeDevTools();
+                contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contacts');
                 ipcMain.on('render-reload-getContacts', (event, arg) => {
                     success(arg);
+                    contactWin.hide();
                 })
                 break;
             }

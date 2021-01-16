@@ -53,7 +53,7 @@ function createWindow() {
       mainWindow.webContents.once("devtools-opened", () => {
         mainWindow.focus();
       });
-      mainWindow.webContents.openDevTools();
+      // mainWindow.webContents.openDevTools();
     });
   }
   mainWindow.webContents.once('dom-ready', () => {
