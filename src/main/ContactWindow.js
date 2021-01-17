@@ -19,7 +19,7 @@ export const ContactWindow = (link, role) => {
         },
     });
     contactWindow.webContents.once('dom-ready', () => {
-
+        contactWindow.webContents.closeDevTools();
     });
     contactWindow.on('closed', () => {
         contactWindow = null;

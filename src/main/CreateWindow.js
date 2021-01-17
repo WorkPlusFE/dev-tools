@@ -22,8 +22,8 @@ export const createOtherWindow = (link, role) => {
 
     otherWindow.loadURL(link);
     otherWindow.webContents.once('dom-ready', () => {
-        // otherWindow.webContents.openDevTools({ mode: 'right' });
-        otherWindow.webContents.closeDevTools();
+        otherWindow.webContents.openDevTools({ mode: 'right' });
+        // otherWindow.webContents.closeDevTools();
     });
 
     const key = `role${otherWindow.id}`;

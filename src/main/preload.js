@@ -1,6 +1,6 @@
 import { remote } from 'electron'
 import _ from 'lodash';
-const { ipcMain } = remote;
+const { ipcMain,dialog } = remote;
 
 const Cordova = require('./cordova').default
 const { contactWinShow, contactWinHide } = require('./ContactWindow')
@@ -83,6 +83,14 @@ window.cordova = {
             case 'getAppInfo': {
                 const result = await Cordova.getAppInfo();
                 success(result);
+                break;
+            }
+            case 'selectImage': {
+                dialog.showOpenDialog( { properties: ['openFile'] }, {filters: [ { name: 'Images', extensions: ['jpg', 'png', 'gif'] },]})   
+                  .then(result => {
+                    console.log(result);
+                    success({path: _.get(result,`filePaths[0]`,'')})
+                })
                 break;
             }
             default:{

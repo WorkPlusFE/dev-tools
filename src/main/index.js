@@ -53,12 +53,14 @@ function createWindow() {
       mainWindow.webContents.once("devtools-opened", () => {
         mainWindow.focus();
       });
-      // mainWindow.webContents.openDevTools();
+      mainWindow.webContents.openDevTools();
     });
   }
   mainWindow.webContents.once('dom-ready', () => {
-    if (process.env.NODE_ENV !== 'production') {
-      // mainWindow.webContents.openDevTools({ mode: 'detach' });
+    if (process.env.NODE_ENV == 'production') {
+      mainWindow.webContents.closeDevTools();
+    }else{
+      mainWindow.webContents.openDevTools({mode:'detach'});
     }
   });
 
