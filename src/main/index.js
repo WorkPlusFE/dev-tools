@@ -86,7 +86,9 @@ function listen() {
   })
   ipcMain.on('OPEN', (event, url, role) => {
     console.log(url);
-    createOtherWindow(url, role)
+    const otherWindow = createOtherWindow(url, role);
+    const key = 'otherWindow'+otherWindow.id;
+    global.shareRole[key] = otherWindow;
   })
   ipcMain.on('show-contact-win', (event, args) => {
     contactWinShow(contactWindow);

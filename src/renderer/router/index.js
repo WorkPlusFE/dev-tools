@@ -44,6 +44,11 @@ export default new Router({
       component: require('@/views/SelectContact').default,
     },
     {
+      path: '/navigation',
+      name: 'navigation',
+      component: require('@/views/Navigation').default
+    },
+    {
       path: '*',
       redirect: '/',
     },

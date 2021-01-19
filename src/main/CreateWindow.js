@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen, remote, globalShortcut } from 'electron'
+import { app, BrowserWindow, ipcMain, screen, remote, globalShortcut, BrowserView } from 'electron'
 const path = require('path');
 export const createOtherWindow = (link, role) => {
    const { width, height } = screen.getPrimaryDisplay().workAreaSize;// 获取到屏幕的宽度和高度
@@ -22,8 +22,8 @@ export const createOtherWindow = (link, role) => {
 
     otherWindow.loadURL(link);
     otherWindow.webContents.once('dom-ready', () => {
-        otherWindow.webContents.openDevTools({ mode: 'right' });
-        // otherWindow.webContents.closeDevTools();
+        // otherWindow.webContents.openDevTools({ mode: 'right' });
+        otherWindow.webContents.closeDevTools();
     });
 
     const key = `role${otherWindow.id}`;
@@ -31,4 +31,22 @@ export const createOtherWindow = (link, role) => {
     otherWindow.on('closed', () => {
          otherWindow = null;
     });
+
+    const viewURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080/#/navigation'  : `file://${__dirname}/index.html/#/navigation`;
+  
+    const view = new BrowserView({
+        show:true,
+        transparent: true,
+        webPreferences: {
+          nodeIntegration: true,
+          nodeIntegrationInWorker: true,
+          enableRemoteModule: true
+        }
+    })
+    otherWindow.setBrowserView(view)
+    view.setBounds({ x: 0, y: 0, width: 300, height: 50 })
+    view.webContents.closeDevTools();
+    view.webContents.loadURL(viewURL)
+
+    return otherWindow;
 }

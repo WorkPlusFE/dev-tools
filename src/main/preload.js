@@ -17,7 +17,27 @@ export const openContact = (type) => {
     mainwin.show();
     mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id, type);
 }
+const key = 'otherWindow'+ remote.getCurrentWindow().id;
+export const getOtherWin = () => remote.getGlobal('shareRole')[key];
 console.log('注入成功');
+const listenNavition = () => {
+    console.log('监听事件');
+    ipcMain.on('route-back', (event, arg) => {
+        console.log('监听事件 route-back');
+        window.history.go(-1)
+    })
+    ipcMain.on('close-devtools', (event, arg) => {
+        console.log('监听事件 close-devtools');
+        const otherWin = getOtherWin();
+        otherWin.webContents.closeDevTools();
+    })
+    ipcMain.on('open-devtools', (event, arg) => {
+        console.log('监听事件 open-devtools');
+        const otherWin = getOtherWin();
+        otherWin.webContents.openDevTools();
+    })
+}
+listenNavition();
 window.cordova = {
    async exec(success, error, WorkPlusType, methodType, otherArgs) {
         switch (methodType) {
@@ -42,6 +62,7 @@ window.cordova = {
                 contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contact');
                 ipcMain.on('render-reload', (event, arg) => {
                     success(arg);
+                    contactWin.hide();
                 })
                 break;
             case 'getContacts': {
