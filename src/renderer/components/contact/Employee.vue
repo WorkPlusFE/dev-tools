@@ -35,7 +35,7 @@ export default {
     computed: {
         ...mapState('Contact', ['selectContact', 'role', 'token']),
         getStyle() {
-            const left = `${(this.org.level * 20) +5}px`;
+            const left = `${(this.org.level * 20) + 5}px`;
             const style = {
                 paddingLeft: left
             }

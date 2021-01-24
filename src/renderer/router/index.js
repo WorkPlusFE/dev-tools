@@ -49,6 +49,11 @@ export default new Router({
       component: require('@/views/Navigation').default
     },
     {
+      path: '/imageshow',
+      name: 'imageshow',
+      component: require('@/views/ImageShow').default
+    },
+    {
       path: '*',
       redirect: '/',
     },

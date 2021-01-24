@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import BaseRequest from './BaseRequest.js';
+import Request from './Request.js';
 import { v4 as uuidv4 } from 'uuid';
 export default class CordovaRequest {
-    static baseRequest = new BaseRequest();
+    // static baseRequest = new BaseRequest();
+    static baseRequest = new Request();
 
     /** 获取token */
     static getToken(obj) {
@@ -19,6 +21,7 @@ export default class CordovaRequest {
             };
             const api = `${obj.api}/token`;
             CordovaRequest.baseRequest.requestForPost(api, param).then(data => {
+                // console.log('getToken:',data);
                 const results = _.get(data, `data.result`, []);
                 relove(results);
             }).catch(err => {
@@ -52,6 +55,7 @@ export default class CordovaRequest {
   static getCurrentUserInfo(token, api, user) {
     const url = `${api}/users?access_token=${token}&query=${user}&matching=true&type=username`;
     return CordovaRequest.baseRequest.requestForGet(url).then(data => {
+      // console.log('用户详情：',data);
       const results = _.get(data, `data.result.users[0]`, {});
       return results;
     })

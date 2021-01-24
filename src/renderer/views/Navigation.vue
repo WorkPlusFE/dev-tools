@@ -14,7 +14,7 @@ export default {
     name: 'navigation',
     data() {
         return {
-            opendevtools:true,
+            opendevtools: true,
         }
     },
     methods: {
@@ -23,9 +23,9 @@ export default {
         },
         handledevTools() {
             this.opendevtools = !this.opendevtools
-            if(this.opendevtools){
+            if (this.opendevtools) {
                 ipcRenderer.send('close-devtools');
-            }else{
+            } else {
                 ipcRenderer.send('open-devtools');
             }
         }

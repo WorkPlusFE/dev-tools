@@ -6,6 +6,7 @@ const i18n = require('./i18next/i18n');
 const menuFactoryService = require('./menus/menuFactory');
 const { createOtherWindow } = require('./CreateWindow');
 const { ContactWindow, contactWinShow, contactWinHide } = require('./ContactWindow')
+const {ImageShowWindow, imageShowWindowShow,imageShowWindowHide} = require('./ImageShowWindow');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -21,6 +22,7 @@ global.shareRole.bus = bus;
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 let mainWindow,
 contactWindow,
+imageShowWindow,
   appWin;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
@@ -59,8 +61,8 @@ function createWindow() {
   mainWindow.webContents.once('dom-ready', () => {
     if (process.env.NODE_ENV == 'production') {
       mainWindow.webContents.closeDevTools();
-    }else{
-      mainWindow.webContents.openDevTools({mode:'detach'});
+    } else {
+      mainWindow.webContents.openDevTools({ mode: 'detach' });
     }
   });
 
@@ -87,7 +89,7 @@ function listen() {
   ipcMain.on('OPEN', (event, url, role) => {
     console.log(url);
     const otherWindow = createOtherWindow(url, role);
-    const key = 'otherWindow'+otherWindow.id;
+    const key = `otherWindow${otherWindow.id}`;
     global.shareRole[key] = otherWindow;
   })
   ipcMain.on('show-contact-win', (event, args) => {
@@ -114,6 +116,8 @@ app.on('ready', () => {
   createWindow();
   contactWindow = ContactWindow();
   global.shareRole.contactWin = contactWindow;
+  imageShowWindow = ImageShowWindow();
+  global.shareRole.imageShowWindow = imageShowWindow;
   listen();
 });
 

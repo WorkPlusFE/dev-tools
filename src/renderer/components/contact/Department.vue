@@ -30,7 +30,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('Contact', ['role', 'token','selectContact']),
+        ...mapState('Contact', ['role', 'token', 'selectContact']),
         getStyle() {
             const left = `${(this.org.level * 20) + 5}px`;
             const style = {
@@ -38,11 +38,11 @@ export default {
             }
             return style;
         }
-        
+
     },
     components: {},
     methods: {
-        ...mapActions('Contact', ['changeOrgs', 'setOrgs', 'changeSelectContact','changeRandom']),
+        ...mapActions('Contact', ['changeOrgs', 'setOrgs', 'changeSelectContact', 'changeRandom']),
         handleClick() {
             this.isOpen = !this.isOpen;
             if (this.org.loading) return;

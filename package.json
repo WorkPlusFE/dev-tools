@@ -79,6 +79,7 @@
     "lodash": "^4.17.20",
     "node-wifi": "^2.0.14",
     "qrcode.vue": "^1.7.0",
+    "request": "^2.88.2",
     "uuid": "^8.3.1",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",

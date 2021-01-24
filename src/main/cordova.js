@@ -4,6 +4,9 @@ const CordovaRequest = require('./server/CordovaRequest').default
 const wifi = require('node-wifi');
 const os = require('os');
 const ip = require('ip');
+
+const request = require('request');
+
 export default class Cordova {
     /** 获取角色信息和token */
     static async preInfo() {
@@ -22,6 +25,7 @@ export default class Cordova {
             api, domain, orgId, user, pwd
         } = role;
         const TokenObject = await CordovaRequest.getToken(role);
+        // console.log('tokenObject:',TokenObject);
         const token = _.get(TokenObject, 'access_token', '');
         const TickObject = await CordovaRequest.getUserTicket(token, api, orgId);
         const user_ticket = _.get(TickObject, `ticket_id`);
@@ -30,6 +34,26 @@ export default class Cordova {
                 user_ticket
             }
         }
+    }
+
+    static async getUserTicket2() {
+        const role = getRole();
+        const {
+            api, domain, orgId, user, pwd
+        } = role;
+        const TokenObject = await CordovaRequest.getToken(role);
+        const token = _.get(TokenObject, 'access_token', '');
+        const url = `${api}/organizations?access_token=${token}`;
+        const options = {
+            url,
+            method: 'GET'
+        };
+        request(options, (err, res, body) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(JSON.parse(body));
+        });
     }
     /** 获取用户登录信息 */
     static async getCurrentUserInfo() {
@@ -74,7 +98,7 @@ export default class Cordova {
         });
     }
 
-    /**获取ip地址 */
+    /** 获取ip地址 */
     static async getIpAddress() {
         function getIpAddress() {
             const ifaces = os.networkInterfaces()
@@ -95,25 +119,25 @@ export default class Cordova {
         const ip = getIpAddress();
         console.log(ip)
         return {
-            result:'Ok',
-            ipAddress:ip
+            result: 'Ok',
+            ipAddress: ip
         }
     }
 
-    /**获取地理定位 */
+    /** 获取地理定位 */
     static async getLocation() {
-        function getPosition () {
+        function getPosition() {
             return new Promise((resolve, reject) => {
               if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                  let latitude = position.coords.latitude
-                  let longitude = position.coords.longitude
-                  let data = {
-                    latitude: latitude,
-                    longitude: longitude
+                navigator.geolocation.getCurrentPosition((position) => {
+                  const latitude = position.coords.latitude
+                  const longitude = position.coords.longitude
+                  const data = {
+                    latitude,
+                    longitude
                   }
                   resolve(data)
-                }, function (err) {
+                }, (err) => {
                     console.log('错误');
                   reject(err)
                 })
@@ -125,10 +149,9 @@ export default class Cordova {
           getPosition().then(result => {
               console.log(result);
           })
-        
     }
 
-    /**获取位置信息 */
+    /** 获取位置信息 */
     static async getDeviceInfo(callback) {
         const preInfo = await Cordova.preInfo();
         wifi.init({
@@ -142,30 +165,30 @@ export default class Cordova {
             const domain_id = preInfo.role.domain;
             callback({
                 result: {
-                    device_id:device_id,
-                    platform:'devtools',
-                    domain_id:domain_id,
-                    product_version:'4.9.4',
-                    system_version:'10',
-                    system_model:'MI 9',
-                    channel_verdor:'XiaoMi',
-                    channel_id:preInfo.role.api,
-                    device_name:'XiaoMi Mi 9',
-                    device_system_info:'devtools'
+                    device_id,
+                    platform: 'devtools',
+                    domain_id,
+                    product_version: '4.9.4',
+                    system_version: '10',
+                    system_model: 'MI 9',
+                    channel_verdor: 'XiaoMi',
+                    channel_id: preInfo.role.api,
+                    device_name: 'XiaoMi Mi 9',
+                    device_system_info: 'devtools'
                 }
             });
         }
         });
     }
 
-    /**获取app信息 */
+    /** 获取app信息 */
     static async getAppInfo() {
         return {
-            app_icon:'',
-            app_name:'workplus',
-            bundle_id:'com.foreverht.workplus.v4',
-            version_code:2879,
-            version_name:'4.9.4'
+            app_icon: '',
+            app_name: 'workplus',
+            bundle_id: 'com.foreverht.workplus.v4',
+            version_code: 2879,
+            version_name: '4.9.4'
         }
     }
 }

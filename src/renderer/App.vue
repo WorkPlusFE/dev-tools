@@ -44,11 +44,11 @@ export default {
     }
     // this.rendererListen();
     console.log(this.$router)
-    if(this.$router.history.current.name == 'navigation'){
+    if (this.$router.history.current.name == 'navigation') {
       console.log('aa');
-      document.getElementsByTagName("body")[0].setAttribute('style','background:transparent')
-      document.getElementsByTagName("html")[0].setAttribute('style','background:transparent')
-      document.getElementById('app').setAttribute('style','background:transparent');
+      document.getElementsByTagName("body")[0].setAttribute('style', 'background:transparent')
+      document.getElementsByTagName("html")[0].setAttribute('style', 'background:transparent')
+      document.getElementById('app').setAttribute('style', 'background:transparent');
     }
   }
 };

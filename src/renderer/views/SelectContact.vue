@@ -124,7 +124,7 @@ export default {
         });
         ContactRequest.fetchOrgs(role, token).then((data) => {
           console.log(data);
-          const filterData = _.filter(data,(o)=> o.orgCode == role.orgId);
+          const filterData = _.filter(data, (o) => o.orgCode == role.orgId);
           this.setOrgs(filterData);
           this.setToken(token);
         });
@@ -147,7 +147,7 @@ export default {
       const token = _.get(TokenObject, 'data.result.access_token', '');
       ContactRequest.fetchOrgs(role, token).then((data) => {
           console.log(data);
-          const filterData = _.filter(data,(o)=> o.orgCode == role.orgId);
+          const filterData = _.filter(data, (o) => o.orgCode == role.orgId);
           this.setOrgs(filterData);
           this.setToken(token);
         });
@@ -156,7 +156,7 @@ export default {
 
   created() {},
   async mounted() {
-    this.rendererListen(); 
+    this.rendererListen();
     // this.testLister();
   },
 };

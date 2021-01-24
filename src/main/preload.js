@@ -1,6 +1,6 @@
 import { remote } from 'electron'
 import _ from 'lodash';
-const { ipcMain,dialog } = remote;
+const { ipcMain, dialog } = remote;
 
 const Cordova = require('./cordova').default
 const { contactWinShow, contactWinHide } = require('./ContactWindow')
@@ -17,8 +17,9 @@ export const openContact = (type) => {
     mainwin.show();
     mainwin.webContents.send('open-select-contact', remote.getCurrentWindow().id, type);
 }
-const key = 'otherWindow'+ remote.getCurrentWindow().id;
+const key = `otherWindow${remote.getCurrentWindow().id}`;
 export const getOtherWin = () => remote.getGlobal('shareRole')[key];
+export const getImageShowWin = () => remote.getGlobal('shareRole').imageShowWindow;
 console.log('注入成功');
 const listenNavition = () => {
     console.log('监听事件');
@@ -51,8 +52,14 @@ window.cordova = {
                 success(data);
                 break;
             }
+            case 'getLoginUserInfo': {
+                const data = await Cordova.getCurrentUserInfo();
+                success(data);
+                break; 
+            }
             case 'getCurrentEmployeeInfo': {
                 const data = await Cordova.getCurrentEmployeeInfo();
+                success(data);
                 break;
             }
             case 'getContact':
@@ -65,6 +72,8 @@ window.cordova = {
                     contactWin.hide();
                 })
                 break;
+            case 'selectContacts':
+            case 'getEmployeesFromCurrentOrg':
             case 'getContacts': {
                 const contactWin = getContactWin();
                 contactWin.show();
@@ -96,7 +105,7 @@ window.cordova = {
                 break;
             }
             case 'getDeviceInfo': {
-                Cordova.getDeviceInfo(function(data) {
+                Cordova.getDeviceInfo((data) => {
                     success(data);
                 });
                 break;
@@ -107,14 +116,28 @@ window.cordova = {
                 break;
             }
             case 'selectImage': {
-                dialog.showOpenDialog( { properties: ['openFile'] }, {filters: [ { name: 'Images', extensions: ['jpg', 'png', 'gif'] },]})   
+                dialog.showOpenDialog({ properties: ['openFile'] }, { filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },] })
                   .then(result => {
                     console.log(result);
-                    success({path: _.get(result,`filePaths[0]`,'')})
+                    success({ path: _.get(result, `filePaths[0]`, '') })
                 })
                 break;
             }
-            default:{
+            case 'showImages': {
+                dialog.showOpenDialog({ properties: ['multiSelections'] }, { filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },] })
+                .then(result => {
+                  console.log(result);
+                  const imageShowWin = getImageShowWin();
+                  imageShowWin.show();
+                  imageShowWin.webContents.openDevTools();
+                  imageShowWin.webContents.send('image-show', _.get(result, `filePaths`, ''));
+                  ipcMain.on('render-image-show', (event, arg) => {
+                    imageShowWin.hide();
+                  })
+              })
+              break;
+            }
+            default: {
                 success('暂时不支持该查询');
             }
         }

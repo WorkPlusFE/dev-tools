@@ -32,11 +32,12 @@ export const createOtherWindow = (link, role) => {
          otherWindow = null;
     });
 
-    const viewURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080/#/navigation'  : `file://${__dirname}/index.html/#/navigation`;
-  
+    const viewURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080/#/navigation' : `file://${__dirname}/index.html/#/navigation`;
+
     const view = new BrowserView({
-        show:true,
+        show: true,
         transparent: true,
+        movable: true, // 可拖动
         webPreferences: {
           nodeIntegration: true,
           nodeIntegrationInWorker: true,
@@ -44,7 +45,9 @@ export const createOtherWindow = (link, role) => {
         }
     })
     otherWindow.setBrowserView(view)
-    view.setBounds({ x: 0, y: 0, width: 300, height: 50 })
+    view.setBounds({
+ x: 0, y: 0, width: 300, height: 50
+})
     view.webContents.closeDevTools();
     view.webContents.loadURL(viewURL)
 
