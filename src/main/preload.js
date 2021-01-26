@@ -1,5 +1,6 @@
 import {
-  remote
+  remote,
+  clipboard
 } from 'electron'
 import _ from 'lodash';
 const {
@@ -30,20 +31,18 @@ export const getOtherWin = () => remote.getGlobal('shareRole')[key];
 export const getImageShowWin = () => remote.getGlobal('shareRole').imageShowWindow;
 console.log('注入成功');
 const listenNavition = () => {
-  console.log('监听事件');
   ipcMain.on('route-back', (event, arg) => {
-    console.log('监听事件 route-back');
     window.history.go(-1)
   })
   ipcMain.on('close-devtools', (event, arg) => {
-    console.log('监听事件 close-devtools');
     const otherWin = getOtherWin();
     otherWin.webContents.closeDevTools();
   })
   ipcMain.on('open-devtools', (event, arg) => {
-    console.log('监听事件 open-devtools');
     const otherWin = getOtherWin();
-    otherWin.webContents.openDevTools();
+    otherWin.webContents.openDevTools({
+      mode: 'right'
+    });
   })
 }
 listenNavition();
@@ -71,26 +70,12 @@ window.cordova = {
         break;
       }
       case 'getContact':
-        const contactWin = getContactWin();
-        contactWin.show();
-        contactWin.webContents.closeDevTools();
-        contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contact');
-        ipcMain.on('render-reload', (event, arg) => {
-          success(arg);
-          contactWin.hide();
-        })
+        await Cordova.getContact(success);
         break;
       case 'selectContacts':
       case 'getEmployeesFromCurrentOrg':
       case 'getContacts': {
-        const contactWin = getContactWin();
-        contactWin.show();
-        contactWin.webContents.closeDevTools();
-        contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contacts');
-        ipcMain.on('render-reload-getContacts', (event, arg) => {
-          success(arg);
-          contactWin.hide();
-        })
+        await Cordova.getContacts(success);
         break;
       }
       case 'getWifiInfo': {
@@ -124,41 +109,15 @@ window.cordova = {
         break;
       }
       case 'selectImage': {
-        dialog.showOpenDialog({
-            properties: ['openFile']
-          }, {
-            filters: [{
-              name: 'Images',
-              extensions: ['jpg', 'png', 'gif']
-            }, ]
-          })
-          .then(result => {
-            console.log(result);
-            success({
-              path: _.get(result, `filePaths[0]`, '')
-            })
-          })
+        await Cordova.selectImage(success);
         break;
       }
       case 'showImages': {
-        dialog.showOpenDialog({
-            properties: ['multiSelections']
-          }, {
-            filters: [{
-              name: 'Images',
-              extensions: ['jpg', 'png', 'gif']
-            }, ]
-          })
-          .then(result => {
-            console.log(result);
-            const imageShowWin = getImageShowWin();
-            imageShowWin.show();
-            imageShowWin.webContents.openDevTools();
-            imageShowWin.webContents.send('image-show', _.get(result, `filePaths`, ''));
-            ipcMain.on('render-image-show', (event, arg) => {
-              imageShowWin.hide();
-            })
-          })
+        Cordova.showImages();
+        break;
+      }
+      case 'copyText': {
+        Cordova.copyText(otherArgs, clipboard);
         break;
       }
       default: {
@@ -166,4 +125,5 @@ window.cordova = {
       }
     }
   }
+}
 }

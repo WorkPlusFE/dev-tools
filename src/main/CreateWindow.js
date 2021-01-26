@@ -39,6 +39,7 @@ export const createOtherWindow = (link, role) => {
         transparent: true,
         movable: true, // 可拖动
         webPreferences: {
+          devTools:false,
           nodeIntegration: true,
           nodeIntegrationInWorker: true,
           enableRemoteModule: true

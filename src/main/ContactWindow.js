@@ -13,6 +13,7 @@ export const ContactWindow = (link, role) => {
         movable: true, // 可拖动
         resizable: false, //
         webPreferences: {
+            devTools:false,
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
             enableRemoteModule: true,
@@ -26,7 +27,6 @@ export const ContactWindow = (link, role) => {
     });
 
     contactWindow.once('ready-to-show', () => {
-        contactWindow.hide();
         contactWindow.center();
     })
 
