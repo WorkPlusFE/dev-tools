@@ -29,7 +29,7 @@ export const openContact = (type) => {
 const key = `otherWindow${remote.getCurrentWindow().id}`;
 export const getOtherWin = () => remote.getGlobal('shareRole')[key];
 export const getImageShowWin = () => remote.getGlobal('shareRole').imageShowWindow;
-console.log('注入成功');
+
 const listenNavition = () => {
   ipcMain.on('route-back', (event, arg) => {
     window.history.go(-1)
@@ -44,8 +44,9 @@ const listenNavition = () => {
       mode: 'right'
     });
   })
-}
+};
 listenNavition();
+
 window.cordova = {
   async exec(success, error, WorkPlusType, methodType, otherArgs) {
     switch (methodType) {
