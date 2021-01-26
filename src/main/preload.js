@@ -126,4 +126,3 @@ window.cordova = {
     }
   }
 }
-}

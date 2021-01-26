@@ -1,11 +1,9 @@
 import _ from 'lodash';
-import BaseRequest from './BaseRequest.js';
 import Request from './Request.js';
 import {
   v4 as uuidv4
 } from 'uuid';
 export default class CordovaRequest {
-  // static baseRequest = new BaseRequest();
   static baseRequest = new Request();
 
   /** 获取token */

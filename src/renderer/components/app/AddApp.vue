@@ -78,8 +78,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BaseRequest from '@/server/BaseRequest.js';
-import DetailRequest from '@/server/DetailRequest.js';
 import { v4 as uuidv4 } from 'uuid';
 import { OpenApp } from '@/application/OpenApp.js';
 import { defaultAppInfo } from '@/constants/initialData';

@@ -86,10 +86,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BaseRequest from '@/server/BaseRequest.js';
 import DetailRequest from '@/server/DetailRequest.js';
 import _ from 'lodash';
-import { Loading } from 'element-ui';
 import { v4 as uuidv4 } from 'uuid';
 import { defaultRoleInfo } from '@/constants/initialData';
 import { nameValidater, urlValidater } from '@/utils/validate';
@@ -268,8 +266,8 @@ export default {
         return this.$message.error(this.$t('component.addRole.response.getOrgError'));
       }
 
-      if (!this.isCreate && this.formRole.orgId) {
-        const selected = orgs.find((org) => org.org_code === this.formRole.orgId);
+      const selected = orgs.find((org) => org.org_code === this.formRole.orgId);    
+      if (!this.isCreate && this.formRole.orgId && selected) {
         this.formRole.orgId = selected.org_code;
         this.formRole.orgName = selected.name;
       } else {

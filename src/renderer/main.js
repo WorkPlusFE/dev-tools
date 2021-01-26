@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import axios from 'axios';
 import VueI18n from 'vue-i18n';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -12,7 +11,6 @@ Vue.prototype.$store = store;
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
 
-Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
