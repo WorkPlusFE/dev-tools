@@ -199,8 +199,11 @@ export default {
         : this.$t('component.addApp.response.save');
       this.$message.success(message);
     },
-    openApp() {
-      OpenApp.open(this.formLabel);
+    async openApp() {
+      await this.saveApp();
+      
+      const role = this.roles.find((role) => role.id === this.formLabel.role);
+      OpenApp.open(this.formLabel, role);
     },
     handleRoleChanged(val) {
       const role = this.roles.find((role) => role.id === val);
