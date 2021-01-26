@@ -6,7 +6,7 @@ export default class Request {
 
     /**get */
     async requestForGet(url) {
-        return new Promise((resolove)=>{
+        return new Promise((resolove, reject)=>{
             const options = {
                 url: url,
                 timeout: TIMEOUT,
@@ -20,7 +20,7 @@ export default class Request {
             };
             request(options, (err, res, body) => {
                 if (err) {
-                    return console.log(err);
+                    return reject(err);
                 }
                 resolove(this.status200Response(JSON.parse(body)));
             });
@@ -28,7 +28,7 @@ export default class Request {
     }
     /**post */
     async requestForPost(url,data) {
-        return new Promise((resolove)=>{
+        return new Promise((resolove, reject)=>{
             const options = {
                 url: url,
                 timeout: TIMEOUT,
@@ -44,7 +44,7 @@ export default class Request {
             };
             request(options, (err, res, body) => {
                 if (err) {
-                    return console.log(err);
+                    return reject(err);
                 }
                 resolove(this.status200Response(body));
             });
