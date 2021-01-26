@@ -1,5 +1,7 @@
 const request = require('request');
 
+const TIMEOUT = 60 * 1000;
+
 export default class Request {
 
     /**get */
@@ -7,7 +9,7 @@ export default class Request {
         return new Promise((resolove)=>{
             const options = {
                 url: url,
-                timeout: 15000,
+                timeout: TIMEOUT,
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -29,6 +31,7 @@ export default class Request {
         return new Promise((resolove)=>{
             const options = {
                 url: url,
+                timeout: TIMEOUT,
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
