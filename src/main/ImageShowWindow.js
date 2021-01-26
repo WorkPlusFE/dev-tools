@@ -13,6 +13,7 @@ export const ImageShowWindow = (link, role) => {
         movable: true, // 可拖动
         resizable: false, //
         webPreferences: {
+            devTools:false,
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
             enableRemoteModule: true,
@@ -22,15 +23,15 @@ export const ImageShowWindow = (link, role) => {
         fullscreenable: false,
     });
     imageShowWindow.webContents.once('dom-ready', () => {
-        imageShowWindow.webContents.closeDevTools();
+        
     });
     imageShowWindow.on('closed', () => {
         imageShowWindow = null;
     });
 
     imageShowWindow.once('ready-to-show', () => {
-        imageShowWindow.hide();
-        imageShowWindow.center();
+        // imageShowWindow.hide();
+        // imageShowWindow.center();
     })
 
     const loadUrl = url.format({
@@ -50,6 +51,3 @@ export const imageShowWindowShow = (win) => {
     win.setAlwaysOnTop();
 }
 
-export const imageShowWindowHide = () => {
-    win.hide();
-}

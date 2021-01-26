@@ -34,7 +34,6 @@ export default {
     methods: {
        rendererLister() {
            ipcRenderer.on('image-show', async (event, arg) => {
-               console.log(arg);
                _.forEach(arg,async (item,index)=>{
                    if(this.isImage(item)) {
                        const imagecontent = await this.getImageContent(item);
@@ -45,7 +44,7 @@ export default {
        },
        handleClose() {
            this.imageData = [];
-          ipcRenderer.send('render-image-show');
+           ipcRenderer.send('render-image-show');
        },
        getImageContent(path) {
            return new Promise((resolve,reject) => {

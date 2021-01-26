@@ -1,11 +1,13 @@
-import { ok } from 'assert';
-import { getRole, getMainWin, openContact } from './preload.js';
+
+import { getRole, getMainWin, openContact, getImageShowWin,getContactWin } from './preload.js';
 const CordovaRequest = require('./server/CordovaRequest').default
 const wifi = require('node-wifi');
 const os = require('os');
 const ip = require('ip');
-
+import { remote,clipboard  } from 'electron';
+const { ipcMain, dialog } = remote;
 const request = require('request');
+import _ from 'lodash';
 
 export default class Cordova {
     /** 获取角色信息和token */
@@ -151,7 +153,7 @@ export default class Cordova {
           })
     }
 
-    /** 获取位置信息 */
+    /** 获取设备信息 */
     static async getDeviceInfo(callback) {
         const preInfo = await Cordova.preInfo();
         wifi.init({
@@ -190,5 +192,66 @@ export default class Cordova {
             version_code: 2879,
             version_name: '4.9.4'
         }
+    }
+
+    /**复制文本 */
+    static copyText(args,clipboard) {
+        let text = '';
+        _.forEach(args,(item,index) => {
+            for(var key in item) {
+               if(key == 'text') {
+                 text = item[key]
+               }
+            }
+        })
+        clipboard.writeText(text);
+    }
+    /**图片预览 */
+    static showImages() {
+        dialog.showOpenDialog({ properties: ['multiSelections'] }, { filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },] })
+            .then(result => {
+                console.log(result);
+                const imageShowWin = getImageShowWin();
+                imageShowWin.show();
+                imageShowWin.webContents.openDevTools();
+                imageShowWin.webContents.send('image-show', _.get(result, `filePaths`, ''));
+                ipcMain.on('render-image-show', (event, arg) => {
+                    imageShowWin.hide();
+                })
+            })
+    }
+    /**选择图片 */
+    static async selectImage(success) {
+        return new Promise((resolve,reject) => {
+            dialog.showOpenDialog({ properties: ['openFile'] }, { filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },] })
+                  .then(result => {
+                    console.log('result:',result);
+                    success(_.get(result, `filePaths[0]`, ''));
+                })
+        })
+    }
+
+    /**单选联系人 */
+    static async getContact(success) {
+        const contactWin = getContactWin();
+        contactWin.show();
+        contactWin.webContents.closeDevTools();
+        contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contact');
+        ipcMain.on('render-reload', (event, arg) => {
+            success(arg);
+            contactWin.hide();
+        })
+    }
+
+    /**多选联系人 */
+    static async getContacts(success) {
+        const contactWin = getContactWin();
+        contactWin.show();
+        contactWin.webContents.closeDevTools();
+        contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contacts');
+        ipcMain.on('render-reload-getContacts', (event, arg) => {
+            success(arg);
+            contactWin.hide();
+        })
     }
 }
