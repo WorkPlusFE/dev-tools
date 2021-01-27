@@ -22,8 +22,12 @@ export const ContactWindow = (link, role) => {
     contactWindow.webContents.once('dom-ready', () => {
     });
     contactWindow.on('closed', () => {
-        contactWindow = null;
+
     });
+    contactWindow.on('close', (event) => {
+        contactWindow.hide();
+        event.preventDefault()
+    })
 
     contactWindow.once('ready-to-show', () => {
         contactWindow.center();

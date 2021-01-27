@@ -26,7 +26,11 @@ export const ImageShowWindow = (link, role) => {
 
     });
     imageShowWindow.on('closed', () => {
-        imageShowWindow = null;
+        
+    });
+    imageShowWindow.on('close', (event) => {
+        imageShowWindow.hide();
+        event.preventDefault();
     });
 
     imageShowWindow.once('ready-to-show', () => {

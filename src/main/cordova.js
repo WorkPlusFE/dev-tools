@@ -232,8 +232,6 @@ export default class Cordova {
     static async getContact(success) {
         const contactWin = getContactWin();
         contactWin.show();
-        console.log('contactWin',contactWin);
-        console.log('contactWin-webContents',contactWin.webContents);
         contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contact');
         ipcMain.on('render-reload', (event, arg) => {
             success(arg);

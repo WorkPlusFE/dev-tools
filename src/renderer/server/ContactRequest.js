@@ -10,7 +10,7 @@ export default class ContactRequest {
         const orgs = [];
         const results = _.get(response, `data.result`, []);
         const status = _.get(response, `status`, -1);
-        if (status == 200) {
+        if (status == 0) {
             results.forEach((org) => {
                 orgs.push({
                     id: org.id,
