@@ -6,7 +6,7 @@ const i18n = require('./i18next/i18n');
 const menuFactoryService = require('./menus/menuFactory');
 const { createOtherWindow } = require('./CreateWindow');
 const { ContactWindow, contactWinShow, contactWinHide } = require('./ContactWindow')
-const {ImageShowWindow, imageShowWindowShow} = require('./ImageShowWindow');
+const { ImageShowWindow, imageShowWindowShow } = require('./ImageShowWindow');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html

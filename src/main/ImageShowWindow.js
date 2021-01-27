@@ -13,7 +13,7 @@ export const ImageShowWindow = (link, role) => {
         movable: true, // 可拖动
         resizable: false, //
         webPreferences: {
-            devTools:false,
+            devTools: false,
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
             enableRemoteModule: true,
@@ -23,7 +23,7 @@ export const ImageShowWindow = (link, role) => {
         fullscreenable: false,
     });
     imageShowWindow.webContents.once('dom-ready', () => {
-        
+
     });
     imageShowWindow.on('closed', () => {
         imageShowWindow = null;

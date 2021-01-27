@@ -1,5 +1,9 @@
 <template>
   <div class="select-cntact ">
+    <div class="contact-title drag" >
+      <span class="title-span no_dray" @dblclick="handledbClick">选择联系人</span>
+      <i class="title-icon el-icon-close no_dray" @click="winHide"></i>
+    </div>
     <div class="contact-orglist">
        <Contact
       v-for="org of orgsData"
@@ -44,6 +48,7 @@ export default {
       orgsData: [],
       searchInpub: '',
       contactType: 'contact',
+      win:null,
     };
   },
   computed: {
@@ -83,8 +88,7 @@ export default {
     getRole(winid) {
       const key = `role${winid}`;
       const role = remote.getGlobal('shareRole')[key];
-      // return role;
-      return this.roles[0];
+      return role;
     },
     refreshDatas(orgs) {
       const datas = [];
@@ -113,7 +117,6 @@ export default {
     },
     rendererListen() {
       ipcRenderer.on('open-select-contact', async (event, arg, type) => {
-        console.log('open-select-contact');
         this.contactType = type;
         const role = this.getRole(arg);
         this.setRole(role);
@@ -151,6 +154,12 @@ export default {
           this.setOrgs(filterData);
           this.setToken(token);
         });
+    },
+    handledbClick() {
+      ipcRenderer.send('render-reload-contacts-opendevtools');
+    },
+    winHide() {
+     ipcRenderer.send('render-reload-contacts-hide');
     }
   },
 
@@ -164,13 +173,31 @@ export default {
 
 <style lang='less' scoped>
 .select-cntact {
-  margin-top:10px;
   overflow: auto;
   flex: 1;
-  /* height: 100vh; */
   background: var(--bg-color);
   display: flex;
   flex-direction: column;
+  .contact-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    height: 40px;
+    line-height: 50px;
+    text-align: center;
+    background: #efebeb;
+    .title-span{
+      line-height: 40px;
+    }
+    .title-icon {
+      position: absolute;
+      right:5px;
+      top:12px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
   .contact-orglist{
     flex:1;
     overflow: auto;
@@ -188,7 +215,6 @@ export default {
     color: #3a8ee6;
   }
   .select-content {
-    // height: 40px;
     display: flex;
     justify-content: space-between;
     margin: 10px 0px;
@@ -196,7 +222,6 @@ export default {
       flex: 1;
       display: flex;
       padding: 0 5px;
-      // flex-wrap: wrap;
       overflow-x: auto;
     }
   }

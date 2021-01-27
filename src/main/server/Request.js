@@ -1,16 +1,15 @@
 const request = require('request');
 
 export default class Request {
-
-    /**get */
+    /** get */
     async requestForGet(url) {
-        return new Promise((resolove)=>{
+        return new Promise((resolove) => {
             const options = {
-                url: url,
+                url,
                 timeout: 15000,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+                    Accept: 'application/json',
                     'User-Agent': 'Request',
                     'X-platform': 'Node'
                 },
@@ -24,14 +23,14 @@ export default class Request {
             });
         })
     }
-    /**post */
-    async requestForPost(url,data) {
-        return new Promise((resolove)=>{
+    /** post */
+    async requestForPost(url, data) {
+        return new Promise((resolove) => {
             const options = {
-                url: url,
+                url,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+                    Accept: 'application/json',
                     'User-Agent': 'Request',
                     'X-platform': 'Node'
                 },

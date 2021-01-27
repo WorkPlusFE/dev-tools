@@ -1,4 +1,4 @@
-import { remote,clipboard  } from 'electron'
+import { remote, clipboard } from 'electron'
 import _ from 'lodash';
 const { ipcMain, dialog } = remote;
 
@@ -33,6 +33,14 @@ const listenNavition = () => {
         const otherWin = getOtherWin();
         otherWin.webContents.openDevTools({ mode: 'right' });
     })
+    ipcMain.on('render-reload-contacts-opendevtools', (event) => {
+        const contactWin = getContactWin();
+        contactWin.webContents.openDevTools();
+    })
+    ipcMain.on('render-reload-contacts-hide', (event) => {
+        const contactWin = getContactWin();
+        contactWin.hide();
+    })
 }
 listenNavition();
 window.cordova = {
@@ -51,7 +59,7 @@ window.cordova = {
             case 'getLoginUserInfo': {
                 const data = await Cordova.getCurrentUserInfo();
                 success(data);
-                break; 
+                break;
             }
             case 'getCurrentEmployeeInfo': {
                 const data = await Cordova.getCurrentEmployeeInfo();
@@ -59,7 +67,7 @@ window.cordova = {
                 break;
             }
             case 'getContact':
-                await Cordova.getContact(success);
+               await Cordova.getContact(success);
                 break;
             case 'selectContacts':
             case 'getEmployeesFromCurrentOrg':
@@ -106,7 +114,7 @@ window.cordova = {
               break;
             }
             case 'copyText': {
-               Cordova.copyText(otherArgs,clipboard);
+               Cordova.copyText(otherArgs, clipboard);
                break;
             }
             default: {

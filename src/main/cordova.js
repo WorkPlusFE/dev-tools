@@ -1,13 +1,14 @@
 
-import { getRole, getMainWin, openContact, getImageShowWin,getContactWin } from './preload.js';
+import { getRole, getMainWin, openContact, getImageShowWin, getContactWin } from './preload.js';
+import { remote, clipboard } from 'electron';
+import _ from 'lodash';
+import { contactWinHide } from './ContactWindow.js';
 const CordovaRequest = require('./server/CordovaRequest').default
 const wifi = require('node-wifi');
 const os = require('os');
 const ip = require('ip');
-import { remote,clipboard  } from 'electron';
 const { ipcMain, dialog } = remote;
 const request = require('request');
-import _ from 'lodash';
 
 export default class Cordova {
     /** 获取角色信息和token */
@@ -27,7 +28,7 @@ export default class Cordova {
             api, domain, orgId, user, pwd
         } = role;
         const TokenObject = await CordovaRequest.getToken(role);
-        // console.log('tokenObject:',TokenObject);
+
         const token = _.get(TokenObject, 'access_token', '');
         const TickObject = await CordovaRequest.getUserTicket(token, api, orgId);
         const user_ticket = _.get(TickObject, `ticket_id`);
@@ -107,19 +108,18 @@ export default class Cordova {
 
             for (const dev in ifaces) {
               const iface = ifaces[dev]
-            //  console.log(iface);
+
               for (let i = 0; i < iface.length; i++) {
                 const { family, address, internal } = iface[i]
 
                 if (family === 'IPv4' && address !== '127.0.0.1' && !internal) {
-                //   console.log(family,address,internal)
                   return address
                 }
               }
             }
         }
         const ip = getIpAddress();
-        console.log(ip)
+
         return {
             result: 'Ok',
             ipAddress: ip
@@ -140,7 +140,6 @@ export default class Cordova {
                   }
                   resolve(data)
                 }, (err) => {
-                    console.log('错误');
                   reject(err)
                 })
               } else {
@@ -149,7 +148,7 @@ export default class Cordova {
             })
           }
           getPosition().then(result => {
-              console.log(result);
+
           })
     }
 
@@ -194,23 +193,22 @@ export default class Cordova {
         }
     }
 
-    /**复制文本 */
-    static copyText(args,clipboard) {
+    /** 复制文本 */
+    static copyText(args, clipboard) {
         let text = '';
-        _.forEach(args,(item,index) => {
-            for(var key in item) {
-               if(key == 'text') {
+        _.forEach(args, (item, index) => {
+            for (const key in item) {
+               if (key == 'text') {
                  text = item[key]
                }
             }
         })
         clipboard.writeText(text);
     }
-    /**图片预览 */
+    /** 图片预览 */
     static showImages() {
         dialog.showOpenDialog({ properties: ['multiSelections'] }, { filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },] })
             .then(result => {
-                console.log(result);
                 const imageShowWin = getImageShowWin();
                 imageShowWin.show();
                 imageShowWin.webContents.openDevTools();
@@ -220,22 +218,22 @@ export default class Cordova {
                 })
             })
     }
-    /**选择图片 */
+    /** 选择图片 */
     static async selectImage(success) {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             dialog.showOpenDialog({ properties: ['openFile'] }, { filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },] })
                   .then(result => {
-                    console.log('result:',result);
                     success(_.get(result, `filePaths[0]`, ''));
                 })
         })
     }
 
-    /**单选联系人 */
+    /** 单选联系人 */
     static async getContact(success) {
         const contactWin = getContactWin();
         contactWin.show();
-        contactWin.webContents.closeDevTools();
+        console.log('contactWin',contactWin);
+        console.log('contactWin-webContents',contactWin.webContents);
         contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contact');
         ipcMain.on('render-reload', (event, arg) => {
             success(arg);
@@ -243,11 +241,10 @@ export default class Cordova {
         })
     }
 
-    /**多选联系人 */
+    /** 多选联系人 */
     static async getContacts(success) {
         const contactWin = getContactWin();
         contactWin.show();
-        contactWin.webContents.closeDevTools();
         contactWin.webContents.send('open-select-contact', remote.getCurrentWindow().id, 'contacts');
         ipcMain.on('render-reload-getContacts', (event, arg) => {
             success(arg);

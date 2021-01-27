@@ -13,14 +13,13 @@ export const ContactWindow = (link, role) => {
         movable: true, // 可拖动
         resizable: false, //
         webPreferences: {
-            devTools:false,
+            devTools: true,
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
             enableRemoteModule: true,
         },
     });
     contactWindow.webContents.once('dom-ready', () => {
-        contactWindow.webContents.closeDevTools();
     });
     contactWindow.on('closed', () => {
         contactWindow = null;
@@ -29,14 +28,9 @@ export const ContactWindow = (link, role) => {
     contactWindow.once('ready-to-show', () => {
         contactWindow.center();
     })
-
-    const loadUrl = url.format({
-        pathname: path.resolve(app.getAppPath(), 'dist/electron', 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      });
     contactWindow.loadURL(contactURL);
     contactWindow.hide();
+    contactWindow.webContents.closeDevTools();
     return contactWindow;
 }
 

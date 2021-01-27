@@ -39,17 +39,17 @@ export const createOtherWindow = (link, role) => {
         transparent: true,
         movable: true, // 可拖动
         webPreferences: {
-          devTools:false,
+          devTools: false,
           nodeIntegration: true,
           nodeIntegrationInWorker: true,
           enableRemoteModule: true
         }
     })
     otherWindow.setBrowserView(view)
+    const x = width/2 - 150;
     view.setBounds({
- x: 0, y: 0, width: 300, height: 50
+ x: x, y: 0, width: 120, height: 50
 })
-    view.webContents.closeDevTools();
     view.webContents.loadURL(viewURL)
 
     return otherWindow;

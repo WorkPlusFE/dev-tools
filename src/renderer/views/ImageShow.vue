@@ -16,16 +16,16 @@
 </template>
 
 <script>
+import _ from 'lodash';
 const { remote, ipcRenderer, shell } = window.require('electron');
 const fs = window.require("fs");
-import _ from 'lodash';
 export default {
     name: 'imageshow',
     data() {
         return {
             opendevtools: true,
-            imageContent:'',
-            imageData:[]
+            imageContent: '',
+            imageData: []
         }
     },
     mounted() {
@@ -34,8 +34,8 @@ export default {
     methods: {
        rendererLister() {
            ipcRenderer.on('image-show', async (event, arg) => {
-               _.forEach(arg,async (item,index)=>{
-                   if(this.isImage(item)) {
+               _.forEach(arg, async (item, index) => {
+                   if (this.isImage(item)) {
                        const imagecontent = await this.getImageContent(item);
                        this.imageData.push(imagecontent);
                    }
@@ -47,13 +47,13 @@ export default {
            ipcRenderer.send('render-image-show');
        },
        getImageContent(path) {
-           return new Promise((resolve,reject) => {
-               fs.readFile(path, function read(err, data) {
-                   var file = new File([data], 'AnyName.jpg', { type: 'image/jpg' });
-                    var reader = new FileReader();
+           return new Promise((resolve, reject) => {
+               fs.readFile(path, (err, data) => {
+                   const file = new File([data], 'AnyName.jpg', { type: 'image/jpg' });
+                    const reader = new FileReader();
                     reader.readAsDataURL(file);
-                    reader.onload = function(e) {
-                        var newUrl = e.currentTarget.result;
+                    reader.onload = function (e) {
+                        const newUrl = e.currentTarget.result;
                         console.log(newUrl);
                         resolve(newUrl)
                     };
@@ -61,7 +61,7 @@ export default {
            })
        },
        isImage(path) {
-           var reg = /\.(png|jpg|gif|jpeg|webp)$/;
+           const reg = /\.(png|jpg|gif|jpeg|webp)$/;
            return reg.test(path);
        }
     }
