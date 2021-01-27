@@ -32,7 +32,7 @@ export const createOtherWindow = (link, role) => {
          otherWindow = null;
     });
 
-    const viewURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080/#/navigation' : `file://${__dirname}/index.html/#/navigation`;
+    const viewURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080/#/navigation?winId=${otherWindow.id}` : `file://${__dirname}/index.html/#/navigation?winId=${otherWindow.id}`;
 
     const view = new BrowserView({
         show: true,

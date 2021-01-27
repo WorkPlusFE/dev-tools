@@ -12,6 +12,7 @@
 
 <script>
 const { remote, ipcRenderer, shell } = window.require('electron');
+import _ from 'lodash';
 export default {
     name: 'navigation',
     data() {
@@ -22,14 +23,16 @@ export default {
     },
     methods: {
         handleBack() {
-            ipcRenderer.send('route-back');
+             const winId = this.getCurrentWinId();
+            ipcRenderer.send('route-back',winId);
         },
         handledevTools() {
             this.opendevtools = !this.opendevtools
+            const winId = this.getCurrentWinId();
             if (this.opendevtools) {
-                ipcRenderer.send('close-devtools');
+                ipcRenderer.send('close-devtools',winId);
             } else {
-                ipcRenderer.send('open-devtools');
+                ipcRenderer.send('open-devtools',winId);
             }
         },
         handleOver() {
@@ -37,6 +40,10 @@ export default {
         },
         handleLeave() {
             this.navigationShow = false;
+        },
+        getCurrentWinId() {
+            const winId = _.get(this.$router,`history.current.query.winId`);
+            return winId;
         }
     }
 }

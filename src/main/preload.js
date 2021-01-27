@@ -1,9 +1,7 @@
 import { remote, clipboard } from 'electron'
 import _ from 'lodash';
 const { ipcMain, dialog } = remote;
-
 const Cordova = require('./cordova').default
-const { contactWinShow, contactWinHide } = require('./ContactWindow')
 export const getRole = () => {
     const key = `role${remote.getCurrentWindow().id}`
     const role = remote.getGlobal('shareRole')[key];
@@ -21,17 +19,25 @@ const key = `otherWindow${remote.getCurrentWindow().id}`;
 export const getOtherWin = () => remote.getGlobal('shareRole')[key];
 export const getImageShowWin = () => remote.getGlobal('shareRole').imageShowWindow;
 console.log('注入成功');
+export const isCurrentWin = (winId) =>  remote.getCurrentWindow().id == winId;
 const listenNavition = () => {
     ipcMain.on('route-back', (event, arg) => {
-        window.history.go(-1)
+        if(isCurrentWin(arg)){
+            window.history.go(-1)
+        }
     })
     ipcMain.on('close-devtools', (event, arg) => {
-        const otherWin = getOtherWin();
-        otherWin.webContents.closeDevTools();
+        if(isCurrentWin(arg)){
+            const otherWin = getOtherWin();
+            otherWin.webContents.closeDevTools();
+        }
+        
     })
     ipcMain.on('open-devtools', (event, arg) => {
-        const otherWin = getOtherWin();
-        otherWin.webContents.openDevTools({ mode: 'right' });
+        if(isCurrentWin(arg)) {
+            const otherWin = getOtherWin();
+            otherWin.webContents.openDevTools({ mode: 'right' });
+        }
     })
     ipcMain.on('render-reload-contacts-opendevtools', (event) => {
         const contactWin = getContactWin();
