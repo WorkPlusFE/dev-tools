@@ -78,8 +78,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BaseRequest from '@/server/BaseRequest.js';
-import DetailRequest from '@/server/DetailRequest.js';
 import { v4 as uuidv4 } from 'uuid';
 import { OpenApp } from '@/application/OpenApp.js';
 import { defaultAppInfo } from '@/constants/initialData';
@@ -201,8 +199,11 @@ export default {
         : this.$t('component.addApp.response.save');
       this.$message.success(message);
     },
-    openApp() {
-      OpenApp.open(this.formLabel);
+    async openApp() {
+      await this.saveApp();
+      
+      const role = this.roles.find((role) => role.id === this.formLabel.role);
+      OpenApp.open(this.formLabel, role);
     },
     handleRoleChanged(val) {
       const role = this.roles.find((role) => role.id === val);

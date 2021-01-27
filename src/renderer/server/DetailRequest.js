@@ -1,6 +1,6 @@
 
 import _ from 'lodash';
-import BaseRequest from '@/server/BaseRequest.js';
+import BaseRequest from '@/server/Request.js';
 import { v4 as uuidv4 } from 'uuid';
 export default class DetailRequest {
   static baseRequest = new BaseRequest();

@@ -1,5 +1,8 @@
+import { Message } from 'element-ui';
+
 import getUrlParams from '../server/getUrlParams';
-import store from '../store'
+import store from '../store';
+import VueInstance from '../main';
 
 const { remote, ipcRenderer, shell } = window.require('electron');
 
@@ -58,17 +61,27 @@ export class OpenApp {
 
   /** 外部浏览器打开 */
   static async externalOpen(app, role) {
-    const urlParams = await getUrlParams(app, role);
-    const appLink = completeAppUrl(app, urlParams);
+    try {
+      const urlParams = await getUrlParams(app, role);
+      if (!urlParams) return;
 
-    shell.openExternal(appLink);
+      const appLink = completeAppUrl(app, urlParams);
+      shell.openExternal(appLink);
+    } catch (error) {
+      Message.error(error.message);
+    }
   }
 
   /** 手机调试模式 */
   static async H5DevTool(app, role) {
-    const urlParams = await getUrlParams(app, role);
-    const appLink = completeAppUrl(app, urlParams);
+    try {
+      const urlParams = await getUrlParams(app, role);
+      if (!urlParams) return;
 
-    ipcRenderer.send('OPEN', appLink, role);
+      const appLink = completeAppUrl(app, urlParams);
+      ipcRenderer.send('OPEN', appLink, role);
+    } catch (error) {
+      Message.error(error.message);
+    }
   }
 }

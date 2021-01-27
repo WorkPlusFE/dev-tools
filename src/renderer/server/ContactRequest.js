@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import BaseRequest from '@/server/BaseRequest.js';
+import BaseRequest from '@/server/Request.js';
 import { v4 as uuidv4 } from 'uuid';
 export default class ContactRequest {
      /** 初始化获取全部组织架构 */

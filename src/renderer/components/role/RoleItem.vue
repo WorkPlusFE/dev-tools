@@ -1,5 +1,5 @@
 <template>
-  <div class="role-item">
+  <div class="role-item" @dblclick="handleEditRole">
     <div class="role-item__container">
       <div class="role-name">
         <i class="icon el-icon-s-custom"></i> <h3>{{ role.name }}</h3>

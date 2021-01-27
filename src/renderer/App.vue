@@ -2,13 +2,6 @@
   <div id='app'>
     <router-view></router-view>
   </div>
-  <!-- <router-view>
-    <div id="app">
-    <Sidebar/>
-    <router-view></router-view>
-    </div>
-  </router-view> -->
-  
 </template>
 
 <script>
