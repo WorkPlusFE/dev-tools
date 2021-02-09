@@ -1,7 +1,7 @@
 import VueInstance from '../main';
 
 export const isValidateUrl = (url) => {
-  const regexp = /^https?:\/\/([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+/;
+  const regexp = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
   return regexp.test(url);
 };
 
