@@ -29,16 +29,42 @@ export const isCurrentWin = (winId) => remote.getCurrentWindow().id == winId;
 const listenNavition = () => {
   ipcMain.on('route-back', (event, arg) => {
     if (isCurrentWin(arg)) {
-      window.history.go(-1)
+      window.history.go(-1);
     }
-  })
+  });
+
+  ipcMain.on('route-forward', (event, arg) => {
+    if (isCurrentWin(arg)) {
+      window.history.forward();
+    }
+  });
+
+  ipcMain.on('page-refresh', (event, arg) => {
+    if (isCurrentWin(arg)) {
+      window.location.reload();
+    }
+  });
+
+  ipcMain.on('toggle-bar', (event, winId, toggle) => {
+    if (isCurrentWin(winId)) {
+      const browserView = remote.getGlobal('BROWSER_VIEW')[winId];
+      if (browserView) {
+        browserView.setBounds({ 
+          x: 2, y: 2, 
+          height: 30,
+          width: toggle ? 150 : 30
+        });
+      }
+    }
+  });
+
   ipcMain.on('close-devtools', (event, arg) => {
     if (isCurrentWin(arg)) {
       const otherWin = getOtherWin();
       otherWin.webContents.closeDevTools();
     }
+  });
 
-  })
   ipcMain.on('open-devtools', (event, arg) => {
     if (isCurrentWin(arg)) {
       const otherWin = getOtherWin();
@@ -46,15 +72,16 @@ const listenNavition = () => {
         mode: 'right'
       });
     }
-  })
+  });
+
   ipcMain.on('render-reload-contacts-opendevtools', (event) => {
     const contactWin = getContactWin();
     contactWin.webContents.openDevTools();
-  })
+  });
   ipcMain.on('render-reload-contacts-hide', (event) => {
     const contactWin = getContactWin();
     contactWin.hide();
-  })
+  });
 }
 listenNavition();
 

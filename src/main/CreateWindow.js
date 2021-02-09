@@ -31,9 +31,7 @@ export const createOtherWindow = (link, role) => {
     otherWindow.on('closed', () => {
          otherWindow = null;
     });
-
-    const viewURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080/#/navigation?winId=${otherWindow.id}` : `file://${__dirname}/index.html/#/navigation?winId=${otherWindow.id}`;
-
+    
     const view = new BrowserView({
         show: true,
         transparent: true,
@@ -44,13 +42,20 @@ export const createOtherWindow = (link, role) => {
           nodeIntegrationInWorker: true,
           enableRemoteModule: true
         }
-    })
-    otherWindow.setBrowserView(view)
-    const x = width/2 - 150;
+    });
+    otherWindow.setBrowserView(view);
     view.setBounds({
- x: x, y: 0, width: 120, height: 50
-})
-    view.webContents.loadURL(viewURL)
+      x: 2, y: 2, 
+      width: 150, 
+      height: 30
+    });
+
+    const viewURL = process.env.NODE_ENV === 'development' 
+      ? `http://localhost:9080/#/navigation?winId=${otherWindow.id}` 
+      : `file://${__dirname}/index.html/#/navigation?winId=${otherWindow.id}`;
+
+    global.BROWSER_VIEW[otherWindow.id] = view;
+    view.webContents.loadURL(viewURL);
 
     return otherWindow;
 }

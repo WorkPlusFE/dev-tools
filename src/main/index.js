@@ -14,9 +14,11 @@ const { ImageShowWindow, imageShowWindowShow } = require('./ImageShowWindow');
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
-global.shareRole = {
+global.shareRole = {};
 
-}
+// 存储 browserView（导航）
+global.BROWSER_VIEW = {};
+
 export const bus = new EventEmitter();
 global.shareRole.bus = bus;
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
