@@ -78,7 +78,6 @@ function listen() {
     mainWindow.setSize(x, y);
   });
   ipcMain.on('CLOSEAPP', () => {
-    console.log('closeapp');
     mainWindow.close()
   })
   ipcMain.on('CENTER', () => {
@@ -109,7 +108,6 @@ function listen() {
 /** 监听联系人窗口事件 */
 function busListen() {
   bus.on('contact-show', () => {
-    console.log('--------show');
     contactWinShow();
   })
 }

@@ -148,7 +148,7 @@ window.cordova = {
       }
       case 'getLocation': {
         // const result = await Cordova.getLocation();
-        success('暂时不支持定位地址');
+        success('暂不支持定位地址');
         break;
       }
       case 'getDeviceInfo': {
@@ -175,7 +175,7 @@ window.cordova = {
         break;
       }
       default: {
-        success('暂时不支持该查询');
+        success('该接口暂不支持');
       }
     }
   }

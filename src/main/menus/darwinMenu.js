@@ -32,7 +32,7 @@ module.exports = (app, mainWindow, i18n) => {
           label: i18n.t('Quit'),
           accelerator: 'Command+Q',
           click: () => {
-            app.quit();
+            app.exit();
           }
         }
       ]

@@ -3,7 +3,9 @@
 process.env.BABEL_ENV = 'main'
 
 const path = require('path')
-const { dependencies } = require('../package.json')
+const {
+  dependencies
+} = require('../package.json')
 const webpack = require('webpack')
 
 const MinifyPlugin = require("babel-minify-webpack-plugin")
@@ -16,19 +18,7 @@ let mainConfig = {
     ...Object.keys(dependencies || {})
   ],
   module: {
-    rules: [
-      // {
-      //   test: /\.(js)$/,
-      //   enforce: 'pre',
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: 'eslint-loader',
-      //     options: {
-      //       formatter: require('eslint-friendly-formatter')
-      //     }
-      //   }
-      // },
-      {
+    rules: [{
         test: /\.js$/,
         use: 'babel-loader',
         exclude: /node_modules/
@@ -79,13 +69,5 @@ if (process.env.NODE_ENV === 'production') {
     })
   )
 }
-// mainConfig.plugins.push(
-//   new CopyWebpackPlugin([
-//     {
-//       from: path.join(__dirname, '../src/main/preload.js'),
-//       to: path.join(__dirname, '../dist/electron'),
-//     }
-//   ])
-// )
 
 module.exports = mainConfig
